@@ -1814,3 +1814,124 @@ b {
   transform: translateY(-2px);
   background: var(--rp);
 }
+
+/* ========================================
+   RESPONSIVIDADE DO HERO COM 4 CÍRCULOS
+======================================== */
+
+@media (max-width: 1020px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: 45px;
+  }
+
+  .hero-copy {
+    text-align: center;
+  }
+
+  .hero .lead {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-actions,
+  .hero-proof {
+    justify-content: center;
+  }
+
+  .hero-circle-grid {
+    grid-template-columns: repeat(2, 170px);
+    column-gap: 55px;
+    row-gap: 45px;
+
+    width: 100%;
+    min-height: auto;
+    justify-content: center;
+    align-content: center;
+
+    margin: 0 auto;
+    padding: 20px 0 40px;
+  }
+
+  .hero-circle {
+    width: 170px;
+    height: 170px;
+  }
+
+  .hero-circle img {
+    width: 140px;
+    height: 140px;
+    object-fit: contain;
+    object-position: center;
+  }
+}
+
+@media (max-width: 680px) {
+  .hero {
+    padding: 40px 0 45px;
+  }
+
+  .hero-grid {
+    gap: 30px;
+  }
+
+  .hero-copy {
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: clamp(2.5rem, 14vw, 3.8rem);
+    line-height: 0.98;
+  }
+
+  .hero-circle-grid {
+    grid-template-columns: repeat(2, 125px);
+
+    column-gap: 25px;
+    row-gap: 28px;
+
+    width: 100%;
+    min-height: auto;
+    padding: 10px 0 25px;
+  }
+
+  .hero-circle {
+    width: 125px;
+    height: 125px;
+    border-width: 2px;
+  }
+
+  .hero-circle img {
+    width: 105px;
+    height: 105px;
+    max-width: none;
+
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .hero-proof {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 12px;
+  }
+}
+
+@media (max-width: 380px) {
+  .hero-circle-grid {
+    grid-template-columns: repeat(2, 110px);
+    column-gap: 18px;
+    row-gap: 22px;
+  }
+
+  .hero-circle {
+    width: 110px;
+    height: 110px;
+  }
+
+  .hero-circle img {
+    width: 92px;
+    height: 92px;
+  }
+}
