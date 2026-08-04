@@ -1855,8 +1855,8 @@ b {
   display: grid;
   place-items: center;
 
-  border-radius: 50%;
-  background: #000000;
+  border-radius: 50%;/*
+  background: #000000;*/
   color: #ffffff;
 
   font-size: 16px;
@@ -2205,4 +2205,393 @@ b {
       rgba(7, 28, 53, 0.12) 100%
     ),
     url("../img/segmentos/filiais.png");
+}
+
+.feature-visual-image {
+  position: relative;
+  width: 100%;
+  min-height: auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+  overflow: visible;
+
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.feature-visual-image::before,
+.feature-visual-image::after {
+  display: none;
+  content: none;
+}
+
+.feature-visual-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 530px;
+
+  object-fit: contain;
+  object-position: center;
+
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.feature-visual-image::before,
+.feature-visual-image::after {
+  display: none;
+  content: none;
+}
+
+.feature-visual-image img {
+  display: block;
+  width: 100%;
+  height: 530px;
+
+  object-fit: contain;
+  object-position: center;
+
+  border-radius: 34px;
+}
+
+@media (max-width: 680px) {
+  .feature-visual-image {
+    min-height: auto;
+    border-radius: 24px;
+  }
+
+  .feature-visual-image img {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    border-radius: 24px;
+  }
+}
+
+.trust-badges {
+  display: grid;
+  grid-template-columns: repeat(2, 240px);
+  gap: 14px;
+
+  justify-content: center;
+  margin-top: 28px;
+}
+
+.trust-badge-image {
+  position: relative;
+
+  width: 240px;
+  height: 85px;
+
+  overflow: hidden;
+  border-radius: 16px;
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.trust-badge-image img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  object-position: center;
+
+  transition: transform 0.35s ease;
+}
+
+/* Escurece a imagem para preservar a leitura */
+.trust-badge-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    to right,
+    rgba(7, 28, 53, 0.88),
+    rgba(7, 28, 53, 0.35)
+  );
+}
+
+.trust-badge-image span {
+  position: absolute;
+  left: 16px;
+  right: 12px;
+  top: 50%;
+  z-index: 2;
+
+  transform: translateY(-50%);
+
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.2;
+
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
+}
+
+.trust-badge-image:hover img {
+  transform: scale(1.08);
+}
+
+@media (max-width: 680px) {
+  .trust-badges {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .trust-badge-image {
+    width: min(100%, 320px);
+    height: 100px;
+  }
+}
+
+/* =========================================================
+   CARDS DE SOLUÇÕES COM FOTOS + PÁGINAS INTERNAS
+   Arquivo complementar: mantenha também o css/style.css original.
+========================================================= */
+
+.cards-five {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.cards-five .solution-card {
+  grid-column: span 2;
+  min-height: 330px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  isolation: isolate;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.18);
+  background-color: #071c35;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 18px 42px rgba(7, 28, 53, 0.16);
+}
+
+.cards-five .solution-card:nth-child(4) {
+  grid-column: 2 / span 2;
+}
+
+.cards-five .solution-card:nth-child(5) {
+  grid-column: 4 / span 2;
+}
+
+.cards-five .solution-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    to bottom,
+    rgba(7, 28, 53, 0.16) 0%,
+    rgba(7, 28, 53, 0.55) 48%,
+    rgba(7, 28, 53, 0.96) 100%
+  );
+}
+
+/* Remove o círculo decorativo original dos cards somente nesta grade. */
+.cards-five .solution-card::after {
+  display: none;
+  content: none;
+}
+
+.cards-five .solution-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.cards-five .solution-card .icon {
+  margin-bottom: auto;
+  background: rgba(255, 255, 255, 0.92);
+  color: #1233b3;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.cards-five .solution-card h3 {
+  color: #ffffff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+}
+
+.cards-five .solution-card p {
+  color: rgba(255, 255, 255, 0.9);
+  min-height: 0;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
+}
+
+.cards-five .solution-card .card-link {
+  color: #ffffff;
+}
+
+.cards-five .solution-card:hover {
+  border-color: rgba(255, 255, 255, 0.28);
+}
+
+/* Coloque as cinco fotos nestes caminhos. Se uma foto ainda não existir,
+   o card continuará aparecendo com o fundo azul de segurança. */
+.solution-card-ponto {
+  background-image: url("../img/solucoes/controle-de-ponto.jpg");
+}
+
+.solution-card-seguranca {
+  background-image: url("../img/solucoes/seguranca-eletronica.jpg");
+}
+
+.solution-card-nuvem {
+  background-image: url("../img/solucoes/sistemas-em-nuvem.jpg");
+}
+
+.solution-card-assistencia {
+  background-image: url("../img/solucoes/assistencia-tecnica.jpg");
+}
+
+.solution-card-identidade {
+  background-image: url("../img/solucoes/identidade-visual.jpg");
+}
+
+/* Cabeçalho legível nas páginas internas, que não têm carrossel atrás. */
+.internal-page .header {
+  background: rgba(255, 255, 255, 0.82) !important;
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border-bottom: 1px solid rgba(223, 231, 240, 0.7);
+  box-shadow: 0 8px 25px rgba(7, 28, 53, 0.08);
+}
+
+.internal-page .header .nav-links a,
+.internal-page .header .menu-btn {
+  color: var(--ink) !important;
+}
+
+.internal-page .header .nav-links a::after {
+  background: var(--rp) !important;
+}
+
+.internal-page .logo-top {
+  display: none !important;
+}
+
+.internal-page .logo-scrolled {
+  display: block !important;
+}
+
+.internal-page .header .nav-actions .btn-primary {
+  background: linear-gradient(135deg, var(--blue), var(--rp));
+  color: #ffffff;
+  border-color: transparent;
+}
+
+.internal-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 100px 0 72px;
+  background:
+    radial-gradient(circle at 85% 15%, rgba(30, 182, 217, 0.18), transparent 28%),
+    radial-gradient(circle at 100% 80%, rgba(233, 52, 76, 0.1), transparent 24%),
+    linear-gradient(180deg, #f4f8fc 0%, #ffffff 100%);
+}
+
+.internal-hero .eyebrow {
+  margin-bottom: 16px;
+}
+
+.internal-hero h1 {
+  max-width: 900px;
+  margin-bottom: 18px;
+}
+
+.internal-hero .lead {
+  max-width: 760px;
+}
+
+.internal-page-content {
+  min-height: 420px;
+}
+
+.internal-empty-area {
+  min-height: 300px;
+  padding: 40px;
+  border: 1px dashed var(--line);
+  border-radius: 24px;
+  background: #ffffff;
+}
+
+@media (max-width: 1020px) {
+  .cards-five {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cards-five .solution-card,
+  .cards-five .solution-card:nth-child(4),
+  .cards-five .solution-card:nth-child(5) {
+    grid-column: auto;
+  }
+
+  .cards-five .solution-card:last-child {
+    grid-column: 1 / -1;
+    width: min(100%, 570px);
+    justify-self: center;
+  }
+}
+
+@media (max-width: 680px) {
+  .cards-five {
+    grid-template-columns: 1fr;
+  }
+
+  .cards-five .solution-card,
+  .cards-five .solution-card:last-child {
+    grid-column: auto;
+    width: 100%;
+    min-height: 300px;
+  }
+
+  .internal-hero {
+    padding: 72px 0 54px;
+    text-align: center;
+  }
+
+  .internal-hero .lead {
+    margin-inline: auto;
+  }
+
+  .internal-empty-area {
+    min-height: 220px;
+    padding: 24px;
+  }
+}
+
+/* MENU NO TOPO: totalmente transparente */
+.header:not(.header-scrolled) {
+  background: transparent !important;
+
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+
+  border: 0 !important;
+  border-bottom: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Garante que a área interna também não tenha fundo */
+.header:not(.header-scrolled) .nav {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
 }
