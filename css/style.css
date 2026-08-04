@@ -1872,7 +1872,7 @@ b {
    RESPONSIVIDADE DO HERO COM 4 CÍRCULOS
 ======================================== */
 
-@media (max-width: 1020px) {
+@media (max-width: 1200px) {
   .hero-grid {
     grid-template-columns: 1fr;
     gap: 45px;
@@ -2531,7 +2531,7 @@ b {
   background: #ffffff;
 }
 
-@media (max-width: 1020px) {
+@media (max-width: 1200px) {
   .cards-five {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -2594,4 +2594,170 @@ b {
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
+}
+
+/* ========================================
+   MENU RESPONSIVO
+======================================== */
+
+.header .nav {
+  position: relative;
+  width: min(calc(100% - 40px), var(--container));
+  margin-inline: auto;
+}
+
+/* Evita quebra dos textos no desktop */
+.nav-links {
+  flex-wrap: nowrap;
+}
+
+.nav-links a {
+  white-space: nowrap;
+}
+
+/* Tablet e telas menores */
+@media (max-width: 1200px) {
+  .header .nav {
+    min-height: 76px;
+    gap: 20px;
+  }
+
+  .brand {
+    width: 200px;
+    height: auto;
+    flex-shrink: 0;
+  }
+
+  .brand img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .nav-links {
+    display: none;
+
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    z-index: 100;
+
+    width: 100%;
+    padding: 20px;
+
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+
+    background: rgba(255, 255, 255, 0.98);
+    border: 1px solid rgba(223, 231, 240, 0.8);
+    border-radius: 18px;
+    box-shadow: 0 20px 50px rgba(7, 28, 53, 0.18);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links a {
+    width: 100%;
+    padding: 14px 12px;
+
+    color: var(--ink) !important;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav-links a:last-child {
+    border-bottom: 0;
+  }
+
+  .nav-links a::after {
+    display: none;
+  }
+
+  .menu-btn {
+    display: grid;
+    place-items: center;
+
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+
+    color: var(--ink);
+    background: rgba(255, 255, 255, 0.95);
+  }
+
+  .nav-actions {
+    margin-left: auto;
+  }
+
+  .nav-actions .btn-primary {
+    display: none;
+  }
+}
+
+@media (max-width: 680px) {
+  .header .nav {
+    width: min(calc(100% - 28px), var(--container));
+    min-height: 68px;
+  }
+
+  .brand {
+    width: 165px;
+    height: auto;
+  }
+
+  .menu-btn {
+    width: 42px;
+    height: 42px;
+  }
+
+  .nav-links {
+    top: calc(100% + 5px);
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .nav-links a {
+    padding: 13px 10px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .brand {
+    width: 145px;
+  }
+
+  .header .nav {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 900px) {
+  .topbar .container {
+    justify-content: center;
+  }
+
+  .topbar-list:first-child {
+    display: none;
+  }
+
+  .topbar-socials {
+    margin: 0;
+  }
+}
+
+@media (max-width: 680px) {
+  .topbar-list a[href^="mailto:"] {
+    display: none;
+  }
+
+  .topbar-socials {
+    gap: 12px;
+  }
 }
