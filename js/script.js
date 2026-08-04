@@ -143,3 +143,18 @@ if (voltarAoTopo) {
     });
   });
 }
+
+const header = document.querySelector(".header");
+
+function atualizarMenuAoRolar() {
+  if (!header) return;
+
+  if (window.scrollY > 60) {
+    header.classList.add("header-scrolled");
+  } else {
+    header.classList.remove("header-scrolled");
+  }
+}
+
+window.addEventListener("scroll", atualizarMenuAoRolar);
+window.addEventListener("load", atualizarMenuAoRolar);
