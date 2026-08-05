@@ -257,7 +257,7 @@ b {
     .lead {
   font-size:clamp(1.05rem,1.8vw,1.25rem);
   color:var(--muted);
-  max-width:700px
+  max-width:1050px
 }
 
     .section {
@@ -2555,7 +2555,8 @@ b {
 }
 
 .internal-hero .lead {
-  max-width: 760px;
+  max-width: 1050x;
+  width: 100%;
 }
 
 .internal-page-content {
@@ -2606,7 +2607,8 @@ b {
   }
 
   .internal-hero .lead {
-    margin-inline: auto;
+    max-width: 1050x;
+    width: 100%;
   }
 
   .internal-empty-area {
