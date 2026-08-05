@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="../css/solucoes-paginas.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-<body id="topo" class="internal-page">
+<body id="topo" class="internal-page relogio-page">
   <div class="topbar">
     <div class="container">
       <div class="topbar-list"><span>📍 São Bernardo do Campo — SP</span></div>
@@ -52,8 +52,9 @@
           </div>
           <div class="submenu" id="submenuSolucoes">
             <a href="../relogio-de-ponto.html">Relógios de ponto</a>
-            <a href="../seguranca-eletronica.html">Segurança eletrônica</a>
             <a href="../sistemas-em-nuvem.html">Sistemas de ponto</a>
+            <a href="../modulos.html">Módulo de comunicação</a>
+            <a href="../seguranca-eletronica.html">Segurança eletrônica</a>
             <a href="../suporte-tecnico.html">Suporte técnico</a>
             <a href="../assistencia-tecnica.html">Assistência técnica</a>
             <a href="../identidade-visual.html">Identidade visual</a>
@@ -84,10 +85,72 @@
 
     <section class="section internal-page-content">
       <div class="container">
-        <div class="internal-empty-area">
-          <span class="eyebrow">Conteúdo da página</span>
-          <h2>Área preparada para as informações do Relógio IDClass 671</h2>
-          <p class="lead">Este espaço pode receber fotos, características, formas de identificação, diferenciais, especificações e opções comerciais do equipamento.</p>
+        
+          
+          <div class="produto-carousel" data-produto-carousel>
+
+  <div class="produto-carousel-track">
+
+    <div class="produto-slide active">
+      <img
+        src="../img/relogios/idclass2.png"
+        alt="Relógio de ponto IDClass visto de frente"
+      >
+    </div>
+
+    <div class="produto-slide">
+      <img
+        src="../img/relogios/idclass-671.jpg"
+        alt="Relógio de ponto IDClass visto de lado"
+      >
+    </div>
+
+    <div class="produto-slide">
+      <img
+        src="../img/relogios/idclass-detalhe.png"
+        alt="Detalhes do relógio de ponto IDClass"
+      >
+    </div>
+
+  </div>
+
+  <button
+    class="produto-carousel-arrow produto-prev"
+    type="button"
+    aria-label="Imagem anterior"
+  ></button>
+
+  <button
+    class="produto-carousel-arrow produto-next"
+    type="button"
+    aria-label="Próxima imagem"
+  ></button>
+
+  <div class="produto-carousel-dots">
+    <button class="produto-dot active" type="button" aria-label="Mostrar imagem 1"></button>
+    <button class="produto-dot" type="button" aria-label="Mostrar imagem 2"></button>
+    <button class="produto-dot" type="button" aria-label="Mostrar imagem 3"></button>
+  </div>
+
+</div>
+          <div class="internal-empty-area">
+          <p class="lead">Seu display touch screen possibilita uma interface amigável e intuitiva com o usuário. Além disso, seu design inovador, tamanho reduzido e 
+            robustez demonstram a dedicação e a excelência.
+            Certificado pelo Inmetro e em total conformidade com a Portaria 671/2021, o iDClass chega para transformar o segmento de Registradores Eletrônicos de Ponto (REPs).
+            A Control iD reuniu no equipamento tecnologias avançadas e seguras para o registro de jornada, disponibilizando identificação por biometria digital, além de leitores para código de barras 
+            e cartão de proximidade.
+          </p>
+          <div class="especificacoes-relogio">
+          <p class="lead">Identificação biométrica, cartão de proximidade, código de barras e senha</p>
+          <p class="lead">Mecanismo impressor térmico de alta velocidade e robustez com guilhotina</p>
+          <p class="lead">Até 5 digitais por funcionario</p>
+          <p class="lead">Até 15 mil digitais totais cadastros em sua memória</p>
+          <p class="lead">Capacidade para bobina de até 400m (10.000+ tickets por bobina)</p>
+          <p class="lead">Comunicação TCP/IP, web server embarcado e duas portas USB.</p>
+          <p class="lead">Display colorido touchscreen de 2.4"</p>
+          <p class="lead">Homologado pelo Ministério do Trabalho e Emprego</p>
+          <p class="lead">Certificado pelo Inmetro</p>
+          </div>
         </div>
       </div>
     </section>
@@ -148,6 +211,7 @@
   <a class="wa-float" href="https://wa.me/551141262929?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20o%20Rel%C3%B3gio%20IDClass%20671." aria-label="Falar pelo WhatsApp" target="_blank" rel="noopener noreferrer"><img src="../img/wa.png" alt="Fale conosco pelo WhatsApp"></a>
 
   <script src="../js/script.js" defer></script>
+  <script src="../js/produto-carousel.js" defer></script>
   <script>
     document.querySelectorAll('.current-year').forEach(function (elemento) {
       elemento.textContent = new Date().getFullYear();

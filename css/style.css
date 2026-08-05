@@ -3225,3 +3225,282 @@ b {
 .header .submenu a::after {
   display: none !important;
 }
+
+/* ========================================
+   MENU ESCURO NAS PÁGINAS DOS RELÓGIOS
+======================================== */
+
+body.relogio-page .header,
+body.relogio-page .header:not(.header-scrolled),
+body.relogio-page .header.header-scrolled {
+  background: rgba(7, 28, 53, 0.95) !important;
+
+  backdrop-filter: blur(14px) saturate(130%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(130%) !important;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 8px 25px rgba(7, 28, 53, 0.2) !important;
+}
+
+/* Textos do menu em branco */
+body.relogio-page .header .nav-links a {
+  color: #ffffff !important;
+}
+
+/* Linha do efeito hover */
+body.relogio-page .header .nav-links a::after {
+  background: #ffffff !important;
+}
+
+/* Mostra o logo branco */
+body.relogio-page .logo-top {
+  display: block !important;
+}
+
+body.relogio-page .logo-scrolled {
+  display: none !important;
+}
+
+/* Botão de orçamento */
+body.relogio-page .header .nav-actions .btn-primary {
+  background: #ffffff !important;
+  color: #25237b !important;
+  border-color: #ffffff !important;
+}
+
+/* Botão do menu mobile */
+body.relogio-page .header .menu-btn {
+  color: #25237b !important;
+  background: #ffffff !important;
+}
+
+/* Mantém o submenu claro e legível */
+body.relogio-page .header .submenu {
+  background: rgba(255, 255, 255, 0.98);
+}
+
+body.relogio-page .header .submenu a {
+  color: var(--ink) !important;
+}
+
+body.relogio-page .header .submenu a:hover {
+  color: var(--rp) !important;
+  background: var(--soft);
+}
+
+/* ========================================
+   CARROSSEL DAS PÁGINAS DE RELÓGIOS
+======================================== */
+
+.produto-carousel {
+  position: relative;
+
+  width: min(100%, 620px);
+  height: 440px;
+
+  margin: 35px auto 55px;
+  overflow: hidden;
+
+  background: #ffffff;
+  border-radius: 28px;
+  border: 1px solid var(--line);
+
+  box-shadow: 0 18px 45px rgba(7, 28, 53, 0.1);
+}
+
+.produto-carousel-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.produto-slide {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 35px;
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition:
+    opacity 0.45s ease,
+    visibility 0.45s ease;
+}
+
+.produto-slide.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.produto-slide img {
+  display: block;
+
+  width: auto;
+  height: auto;
+
+  max-width: 88%;
+  max-height: 350px;
+
+  object-fit: contain;
+  object-position: center;
+}
+
+/* Botões laterais */
+
+.produto-carousel-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 10;
+
+  width: 46px;
+  height: 46px;
+  padding: 0;
+
+  display: grid;
+  place-items: center;
+
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+
+  background: rgba(7, 28, 53, 0.8);
+  cursor: pointer;
+
+  transform: translateY(-50%);
+}
+
+.produto-carousel-arrow::before {
+  content: "";
+
+  width: 11px;
+  height: 11px;
+
+  border-top: 3px solid #ffffff;
+  border-right: 3px solid #ffffff;
+}
+
+.produto-prev {
+  left: 18px;
+}
+
+.produto-next {
+  right: 18px;
+}
+
+.produto-prev::before {
+  transform: rotate(-135deg);
+  margin-left: 4px;
+}
+
+.produto-next::before {
+  transform: rotate(45deg);
+  margin-right: 4px;
+}
+
+.produto-carousel-arrow:hover {
+  background: var(--rp);
+}
+
+/* Indicadores */
+
+.produto-carousel-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  z-index: 10;
+
+  display: flex;
+  gap: 8px;
+
+  transform: translateX(-50%);
+}
+
+.produto-dot {
+  width: 11px;
+  height: 11px;
+  padding: 0;
+
+  border: 2px solid var(--rp);
+  border-radius: 50%;
+
+  background: transparent;
+  cursor: pointer;
+}
+
+.produto-dot.active {
+  width: 28px;
+  border-radius: 999px;
+  background: var(--rp);
+}
+
+@media (max-width: 680px) {
+  .produto-carousel {
+    width: 100%;
+    height: 340px;
+    margin: 25px auto 40px;
+    border-radius: 22px;
+  }
+
+  .produto-slide {
+    padding: 25px;
+  }
+
+  .produto-slide img {
+    max-width: 82%;
+    max-height: 260px;
+  }
+
+  .produto-carousel-arrow {
+    width: 40px;
+    height: 40px;
+  }
+
+  .produto-prev {
+    left: 10px;
+  }
+
+  .produto-next {
+    right: 10px;
+  }
+}
+
+.relogio-page .internal-page-content {
+  padding: 30px 0 65px;
+  padding-top: 0;
+}
+
+
+
+.relogio-page .produto-carousel {
+  margin: 0 auto 35px;
+}
+
+.especificacoes-relogio {
+  display: grid;
+  gap: 0px;
+}
+
+.especificacoes-relogio p {
+  margin: 0;
+  line-height: 1.45;
+}
+
+.produto-carousel-arrow,
+.produto-carousel-dots,
+.produto-dot {
+  pointer-events: auto;
+}
+
+.produto-carousel-arrow {
+  z-index: 20;
+}
+
+.produto-carousel-dots {
+  z-index: 20;
+}
