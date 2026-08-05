@@ -158,3 +158,30 @@ function atualizarMenuAoRolar() {
 
 window.addEventListener("scroll", atualizarMenuAoRolar);
 window.addEventListener("load", atualizarMenuAoRolar);
+
+const submenuToggle = document.querySelector(".submenu-toggle");
+const navDropdown = document.querySelector(".nav-dropdown");
+
+if (submenuToggle && navDropdown) {
+  submenuToggle.addEventListener("click", (event) => {
+    event.stopPropagation();
+
+    const aberto = navDropdown.classList.toggle("open");
+
+    submenuToggle.setAttribute("aria-expanded", String(aberto));
+  });
+
+  document.addEventListener("click", (event) => {
+    if (!navDropdown.contains(event.target)) {
+      navDropdown.classList.remove("open");
+      submenuToggle.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  navDropdown.querySelectorAll(".submenu a").forEach((link) => {
+    link.addEventListener("click", () => {
+      navDropdown.classList.remove("open");
+      submenuToggle.setAttribute("aria-expanded", "false");
+    });
+  });
+}
