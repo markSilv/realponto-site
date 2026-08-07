@@ -1659,7 +1659,7 @@ b {
   width: 100%;
   overflow: hidden;
   background: #f4f8fc;
-  min-height: clamp(350px, 40vw, 700px);
+  min-height: clamp(100%);
   margin-top: -82px;
   padding-top: 82;
 }
@@ -1667,7 +1667,7 @@ b {
 .carousel-track {
   position: relative;
   width: 100%;
-  min-height: clamp(350px, 40vw, 700px);
+  min-height: clamp(100%);
   margin-top: 0;
   padding-top: 0;
 }
@@ -1675,7 +1675,6 @@ b {
 .carousel-slide {
   position: absolute;
   inset: 0;
-
   display: block;
   width: 100%;
 
@@ -1701,7 +1700,7 @@ b {
 .carousel-slide img {
   display: block;
   width: 100%;
-  height: clamp(350px, 40vw, 700px);
+  height: clamp(100%);
   object-fit: contain;
   object-position: center;
 }
