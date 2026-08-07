@@ -3516,3 +3516,64 @@ body.relogio-page .header .submenu a:hover {
   overflow: hidden;
   margin-top: 0;
 }
+
+/* ========================================
+   LAYOUT INTERNO DAS PÁGINAS DE RELÓGIOS
+======================================== */
+
+.relogio-page .internal-page-content > .container {
+  display: flex;
+  align-items: center;
+  gap: 55px;
+}
+
+/* Lado da imagem / carrossel */
+.relogio-page .produto-carousel,
+.relogio-page .fotos-relogios {
+  flex: 0 0 48%;
+  width: 48%;
+  margin: 0;
+}
+
+/* Lado das informações */
+.relogio-page .internal-empty-area {
+  flex: 1;
+  min-width: 0;
+  min-height: auto;
+
+  padding: 35px;
+
+  border: none;
+  border-radius: 0;
+  background: transparent;
+}
+@media (max-width: 900px) {
+
+  .relogio-page .internal-page-content > .container {
+    flex-direction: column;
+    gap: 35px;
+  }
+
+  .relogio-page .produto-carousel,
+  .relogio-page .fotos-relogios,
+  .relogio-page .internal-empty-area {
+    width: 100%;
+    flex: none;
+  }
+
+  .relogio-page .produto-carousel,
+  .relogio-page .fotos-relogios {
+    margin: 0 auto;
+  }
+
+  .relogio-page .internal-empty-area {
+    padding: 20px 5px;
+  }
+
+}
+
+.relogio-page .produto-carousel {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
