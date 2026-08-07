@@ -85,10 +85,75 @@
 
     <section class="section internal-page-content">
       <div class="container">
+
+
+        <div class="produto-carousel" data-produto-carousel>
+
+  <div class="produto-carousel-track">
+
+    <div class="produto-slide active">
+      <img
+        src="../img/relogios/idface.png"
+        alt="Relógio de ponto IDClass visto de frente"
+      >
+    </div>
+
+    <div class="produto-slide">
+      <img
+        src="../img/relogios/idface2.png"
+        alt="Relógio de ponto idface visto de lado"
+      >
+    </div>
+
+    <div class="produto-slide">
+      <img
+        src="../img/relogios/idface3.png"
+        alt="Relógio de ponto idface "
+      >
+    </div>
+
+
+  </div>
+
+  <button
+    class="produto-carousel-arrow produto-prev"
+    type="button"
+    aria-label="Imagem anterior"
+  ></button>
+
+  <button
+    class="produto-carousel-arrow produto-next"
+    type="button"
+    aria-label="Próxima imagem"
+  ></button>
+
+  <div class="produto-carousel-dots">
+    <button class="produto-dot active" type="button" aria-label="Mostrar imagem 1"></button>
+    <button class="produto-dot" type="button" aria-label="Mostrar imagem 2"></button>
+    <button class="produto-dot" type="button" aria-label="Mostrar imagem 3"></button>
+  </div>
+
+</div>
+
         <div class="internal-empty-area">
-          <span class="eyebrow">Conteúdo da página</span>
-          <h2>Área preparada para as informações do iDFace</h2>
-          <p class="lead">Este espaço pode receber fotos, características, formas de identificação, diferenciais, especificações e opções comerciais do equipamento.</p>
+
+          <p class="lead">Com design moderno e tecnologia de reconhecimento facial, o iDFace 
+            é uma solução prática e eficiente para o registro de ponto no modelo REP-A.
+            Seu avançado algoritmo permite identificar até 10.000 faces, realizar detecção de 
+            rosto vivo e reconhecer usuários mesmo utilizando máscara, proporcionando registros 
+            rápidos, seguros e confiáveis.
+            O equipamento conta ainda com display touchscreen de 3,5” e diferentes opções de 
+            conectividade, facilitando sua integração e utilização no controle da jornada dos 
+            colaboradores.identificação, diferenciais, especificações e opções comerciais do 
+            equipamento.
+          </p>
+          <div class="especificacoes-relogio">
+          <p class="lead">Grau de Proteção IP65</p>
+          <p class="lead">Display touchscreen de 3,5”</p>
+          <p class="lead">Comunicação TCP/IP, USB</p>
+          <p class="lead">Identificação de até 30.000 faces com detecção de rosto vivo*</p>
+          </div>
+
         </div>
       </div>
     </section>
@@ -118,8 +183,10 @@
           <div class="footer-title">Soluções</div>
           <div class="footer-links">
             <a href="../relogio-de-ponto.html">Relógios de ponto</a>
-            <a href="../seguranca-eletronica.html">Segurança eletrônica</a>
             <a href="../sistemas-em-nuvem.html">Sistemas de ponto</a>
+            <a href="../modulos.html">Módulo de comunicação</a>
+            <a href="../seguranca-eletronica.html">Segurança eletrônica</a>
+            <a href="../suporte-tecnico.html">Suporte técnico</a>
             <a href="../assistencia-tecnica.html">Assistência técnica</a>
             <a href="../identidade-visual.html">Identidade visual</a>
           </div>
@@ -149,6 +216,7 @@
   <a class="wa-float" href="https://wa.me/551141262929?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20o%20iDFace." aria-label="Falar pelo WhatsApp" target="_blank" rel="noopener noreferrer"><img src="../img/wa.png" alt="Fale conosco pelo WhatsApp"></a>
 
   <script src="../js/script.js" defer></script>
+  <script src="../js/produto-carousel.js" defer></script>
   <script>
     document.querySelectorAll('.current-year').forEach(function (elemento) {
       elemento.textContent = new Date().getFullYear();
