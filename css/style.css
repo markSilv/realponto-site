@@ -107,6 +107,7 @@ textarea {
          --shadow:0 20px 60px rgba(7,28,53,.12);
          --radius:24px;
          --container:1180px;
+         --dark-site:#06172c;
 
 }
 
@@ -1310,7 +1311,7 @@ b {
 }
 
     .cta {
-  padding:0 0 96px
+  padding:70px 0 70px
 }
 
     .cta-box {
@@ -1339,7 +1340,7 @@ b {
 }
 
     footer {
-  background:#06172c;
+  background: var(--dark-site);
   color:#c8d5e3;
   padding:70px 0 24px
 }
@@ -1661,7 +1662,7 @@ b {
   background: #f4f8fc;
   min-height: clamp(100%);
   margin-top: -82px;
-  padding-top: 82;
+  
 }
 
 .carousel-track {
@@ -3575,4 +3576,352 @@ body.relogio-page .header .submenu a:hover {
   background: transparent;
   border: none;
   box-shadow: none;
+}
+
+/* =====================================================
+   MENU ESCURO - PÁGINAS INTERNAS
+===================================================== */
+
+body.produto-page .header,
+body.produto-page .header:not(.header-scrolled),
+body.produto-page .header.header-scrolled {
+  background: rgba(7, 28, 53, 0.95) !important;
+
+  backdrop-filter: blur(14px) saturate(130%) !important;
+  -webkit-backdrop-filter: blur(14px) saturate(130%) !important;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+
+  box-shadow:
+    0 8px 25px rgba(7, 28, 53, 0.20) !important;
+}
+
+
+/* LINKS PRINCIPAIS DO MENU */
+
+body.produto-page .header .nav-links > a,
+body.produto-page .header .nav-main-link {
+  color: #ffffff !important;
+}
+
+
+/* LINHA DE HOVER */
+
+body.produto-page .header .nav-links > a::after,
+body.produto-page .header .nav-main-link::after {
+  background: #ffffff !important;
+}
+
+
+/* LOGO BRANCO SEMPRE */
+
+body.produto-page .logo-top,
+body.produto-page .header.header-scrolled .logo-top {
+  display: block !important;
+}
+
+body.produto-page .logo-scrolled,
+body.produto-page .header.header-scrolled .logo-scrolled {
+  display: none !important;
+}
+
+
+/* BOTÃO SOLICITAR ORÇAMENTO */
+
+body.produto-page .header .nav-actions .btn-primary,
+body.produto-page .header.header-scrolled .nav-actions .btn-primary {
+  background: #ffffff !important;
+  color: #25237b !important;
+  border-color: #ffffff !important;
+
+  box-shadow: none;
+}
+
+
+/* HOVER DO BOTÃO */
+
+body.produto-page .header .nav-actions .btn-primary:hover,
+body.produto-page .header.header-scrolled .nav-actions .btn-primary:hover {
+  background: #f2f2f2 !important;
+  color: #25237b !important;
+  border-color: #ffffff !important;
+
+  box-shadow:
+    0 0 0 5px rgba(255,255,255,0.10),
+    0 12px 30px rgba(0,0,0,0.18);
+}
+
+
+/* BOTÃO MOBILE */
+
+body.produto-page .header .menu-btn {
+  color: #25237b !important;
+  background: #ffffff !important;
+}
+
+
+/* SUBMENU CONTINUA BRANCO */
+
+body.produto-page .header .submenu {
+  background: rgba(255, 255, 255, 0.98) !important;
+}
+
+body.produto-page .header .submenu a {
+  color: var(--ink) !important;
+}
+
+body.produto-page .header .submenu a:hover {
+  color: var(--rp) !important;
+  background: var(--soft) !important;
+}
+
+/* ========================================
+   TOPBAR + MENU SOBRE O CARROSSEL - HOME
+======================================== */
+
+/* Topbar sobre o banner */
+body.home-page .topbar {
+  position: relative;
+  z-index: 60;
+
+  background: transparent;
+
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+
+  border-bottom: 1px solid rgba(255,255,255,0.0);
+}
+
+/* Melhora leitura dos textos */
+body.home-page .topbar,
+body.home-page .topbar a {
+  color: #ffffff;
+}
+
+body.home-page .topbar a {
+  text-shadow: 0 1px 5px rgba(0,0,0,0.35);
+}
+
+
+/* Carrossel sobe por trás da topbar + menu */
+body.home-page .banner-carousel {
+  margin-top: -120px;
+}
+
+@media (max-width: 1200px) {
+
+  body.home-page .banner-carousel {
+    margin-top: -114px;
+  }
+
+}
+
+@media (max-width: 680px) {
+
+  body.home-page .banner-carousel {
+    margin-top: -106px;
+  }
+
+}
+
+/* ========================================
+   TOPBAR DAS PÁGINAS INTERNAS
+======================================== */
+
+body.relogio-page .header,
+body.relogio-page .header:not(.header-scrolled),
+body.relogio-page .header.header-scrolled,
+body.produto-page .header,
+body.produto-page .header:not(.header-scrolled),
+body.produto-page .header.header-scrolled {
+  background: var(--dark-site) !important;
+}
+
+body.relogio-page .topbar,
+body.produto-page .topbar {
+  background: var(--dark-site) !important;
+}
+
+/* ========================================
+   PÁGINA SISTEMAS EM NUVEM
+======================================== */
+
+.sistemas-section {
+  padding-top: 65px;
+  padding-bottom: 80px;
+}
+
+.sistemas-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+
+
+/* CARD */
+
+.sistema-card {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+
+  background: #ffffff;
+
+  border: 1px solid var(--line);
+  border-radius: 24px;
+
+  box-shadow: 0 16px 40px rgba(7, 28, 53, 0.08);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+
+.sistema-card:hover {
+  transform: translateY(-7px);
+
+  border-color: transparent;
+
+  box-shadow:
+    0 24px 55px rgba(7, 28, 53, 0.16);
+}
+
+
+/* ÁREA DA IMAGEM */
+
+.sistema-image {
+  width: 100%;
+  height: 280px;
+
+  padding: 35px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    radial-gradient(
+      circle at 75% 20%,
+      rgba(30, 182, 217, 0.15),
+      transparent 32%
+    ),
+    linear-gradient(
+      145deg,
+      #f8fbff,
+      #edf4fa
+    );
+}
+
+
+.sistema-image img {
+  display: block;
+
+  width: 100%;
+  height: 100%;
+
+  max-width: 270px;
+  max-height: 210px;
+
+  object-fit: contain;
+  object-position: center;
+
+  transition: transform 0.35s ease;
+}
+
+
+.sistema-card:hover .sistema-image img {
+  transform: scale(1.05);
+}
+
+
+/* CONTEÚDO */
+
+.sistema-content {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  padding: 26px 28px 30px;
+}
+
+
+.sistema-category {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: var(--blue);
+
+  font-size: 0.78rem;
+  font-weight: 500;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+.sistema-content h2 {
+  margin: 0 0 12px;
+
+  color: var(--navy);
+
+  font-size: 1.7rem;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+
+.sistema-content p {
+  margin-bottom: 22px;
+
+  color: var(--muted);
+
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+
+.sistema-content .card-link {
+  margin-top: auto;
+
+  color: var(--rp);
+
+  font-weight: 500;
+}
+
+@media (max-width: 1020px) {
+
+  .sistemas-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+}
+
+
+@media (max-width: 680px) {
+
+  .sistemas-section {
+    padding-top: 45px;
+  }
+
+  .sistemas-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .sistema-image {
+    height: 250px;
+  }
+
+  .sistema-content {
+    padding: 23px 24px 26px;
+    text-align: center;
+  }
+
 }
