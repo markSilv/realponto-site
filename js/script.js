@@ -186,3 +186,30 @@ if (submenuToggle && navDropdown) {
   });
 }
 
+/* ========================================
+   CARROSSEL AUTOMÁTICO - SEGURANÇA
+======================================== */
+
+document.querySelectorAll(".seguranca-carousel").forEach((carousel) => {
+
+  const slides = carousel.querySelectorAll(".seguranca-slide");
+
+  if (slides.length <= 1) return;
+
+  let atual = 0;
+
+  setInterval(() => {
+
+    slides[atual].classList.remove("active");
+
+    atual++;
+
+    if (atual >= slides.length) {
+      atual = 0;
+    }
+
+    slides[atual].classList.add("active");
+
+  }, 3500);
+
+});
