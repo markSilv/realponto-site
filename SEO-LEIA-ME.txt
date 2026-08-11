@@ -1,0 +1,52 @@
+REALPONTO — IMPLEMENTAÇÃO SEO
+Atualizado em 11/08/2026
+
+DOMÍNIO CANÔNICO CONFIGURADO
+https://www.realponto.com.br
+
+O domínio acima já aparecia no robots.txt, sitemap.xml e em canonicals do projeto original.
+Se o domínio definitivo for outro, substitua TODAS as ocorrências de:
+https://www.realponto.com.br
+antes da publicação.
+
+PRINCIPAIS AJUSTES REALIZADOS
+- Titles exclusivos e descritivos em todas as 16 páginas.
+- Meta descriptions exclusivas em todas as páginas.
+- Canonical absoluto e consistente em todas as páginas.
+- Open Graph e Twitter metadata.
+- Dados estruturados WebSite + LocalBusiness na Home.
+- BreadcrumbList nas páginas internas.
+- Dados estruturados do serviço de manutenção na página de assistência.
+- Um único H1 descritivo por página.
+- Conteúdo da assistência técnica ampliado para manutenção/conserto de relógio de ponto.
+- Seções de defeitos comuns, preventiva/corretiva, marcas, equipamentos, processo, laboratório, região e FAQ.
+- Links internos de páginas de equipamentos para a assistência técnica.
+- Links internos alinhados às URLs canônicas sem .html.
+- Sitemap.xml com as 16 URLs indexáveis.
+- robots.txt revisado.
+- Redirecionamentos 301 de URLs .html no arquivo _redirects (Netlify).
+- Alt text corrigido nas imagens referenciadas.
+- Telefone do rodapé padronizado para (11) 4126-2929.
+- Textos de protótipo removidos.
+- Referência quebrada ao arquivo css/solucoes-paginas.css removida.
+- CSS da nova página de assistência incorporado ao css/style.css.
+
+ANTES DE PUBLICAR
+1. Adicione a pasta img original ao projeto.
+2. Confirme se o domínio final é https://www.realponto.com.br.
+3. Publique o projeto.
+4. Confirme que as URLs sem .html abrem normalmente.
+5. No Google Search Console, envie /sitemap.xml.
+6. Teste Home e Assistência Técnica no Teste de Pesquisa Aprimorada/Inspeção de URL.
+7. Se houver mudança de domínio antigo para novo, mantenha redirecionamentos 301 URL a URL sempre que possível.
+8. Evite manter uma cópia indexável no endereço temporário do Netlify.
+
+OBSERVAÇÃO
+O arquivo _redirects é utilizado pelo Netlify. Em outro servidor, configure os equivalentes no servidor/webserver.
+
+
+IMPORTANTE SOBRE URLs
+---------------------
+Este projeto utiliza arquivos HTML explícitos nos links internos (ex.: assistencia-tecnica.html).
+Os canonicals e o sitemap também usam as URLs com .html para manter consistência com a estrutura real do site.
+Não remova a extensão .html sem configurar e testar regras de rewrite/redirect no servidor definitivo.
