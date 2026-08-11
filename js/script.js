@@ -213,3 +213,41 @@ document.querySelectorAll(".seguranca-carousel").forEach((carousel) => {
   }, 3500);
 
 });
+
+/* ========================================
+   CARROSSEL AUTOMÁTICO - IDENTIDADE VISUAL
+======================================== */
+
+document.querySelectorAll(".identidade-carousel").forEach((carousel, index) => {
+
+  const slides = carousel.querySelectorAll(".identidade-slide");
+
+  if (slides.length <= 1) return;
+
+  let atual = 0;
+
+  const trocarSlide = () => {
+
+    slides[atual].classList.remove("active");
+
+    atual++;
+
+    if (atual >= slides.length) {
+      atual = 0;
+    }
+
+    slides[atual].classList.add("active");
+
+  };
+
+
+  /* Faz cada card começar em um momento diferente */
+  setTimeout(() => {
+
+    trocarSlide();
+
+    setInterval(trocarSlide, 3500);
+
+  }, index * 650);
+
+});
