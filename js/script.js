@@ -40,27 +40,6 @@ document.querySelectorAll(".faq button").forEach((button) => {
 // Ano automático no rodapé
 document.getElementById("year").textContent = new Date().getFullYear();
 
-// Aviso básico de privacidade
-const cookieNotice = document.getElementById("cookie");
-const cookieStorageKey = "rp-cookie";
-
-if (!localStorage.getItem(cookieStorageKey)) {
-  window.setTimeout(() => cookieNotice.classList.add("show"), 900);
-}
-
-function closeCookieNotice() {
-  localStorage.setItem(cookieStorageKey, "ok");
-  cookieNotice.classList.remove("show");
-}
-
-document
-  .getElementById("acceptCookie")
-  .addEventListener("click", closeCookieNotice);
-
-document
-  .getElementById("closeCookie")
-  .addEventListener("click", closeCookieNotice);
-
 // Carrossel
 const carousel = {
   inner: document.querySelector(".carousel-inner"),

@@ -2629,7 +2629,7 @@ box-shadow: inset 0 -3px 0 #ffffff !important;
 }
 
 /* MENU NO TOPO: totalmente transparente */
-.header:not(.header-scrolled) {
+/*.header:not(.header-scrolled) {
   background: transparent !important;
 
   backdrop-filter: none !important;
@@ -2639,6 +2639,53 @@ box-shadow: inset 0 -3px 0 #ffffff !important;
   border-bottom: 0 !important;
   outline: 0 !important;
   box-shadow: none !important;
+}
+
+/*.header:not(.header-scrolled) {
+  background: rgba(7, 28, 53, 0.38) !important;
+
+  -webkit-backdrop-filter: blur(18px) saturate(150%) !important;
+  backdrop-filter: blur(18px) saturate(150%) !important;
+
+  border: 0 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10) !important;
+
+  outline: 0 !important;
+
+  box-shadow:
+    0 8px 30px rgba(7, 28, 53, 0.10) !important;
+}*/
+
+/* =========================
+   MENU NO TOPO
+   Transparente e sem blur
+========================= */
+
+.header:not(.header-scrolled) {
+  background: transparent !important;
+
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+
+  border: none !important;
+  box-shadow: none !important;
+}
+
+
+/* =========================
+   MENU APÓS ROLAR A PÁGINA
+   Branco + efeito blur
+========================= */
+
+.header.header-scrolled {
+  background: rgba(255, 255, 255, 0.72) !important;
+
+  -webkit-backdrop-filter: blur(20px) saturate(170%) !important;
+  backdrop-filter: blur(20px) saturate(170%) !important;
+
+  border-bottom: 1px solid rgba(220, 228, 238, 0.45) !important;
+
+  box-shadow: 0 8px 28px rgba(7, 28, 53, 0.08) !important;
 }
 
 /* Garante que a área interna também não tenha fundo */
