@@ -7123,3 +7123,111 @@ summary::after {
   }
 
 }
+
+/* =====================================================
+   RECLAME AQUI - SELO OFICIAL
+===================================================== */
+
+.ra-home-verificacao {
+  margin-top: 28px;
+  padding-top: 24px;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: center;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.ra-home-verificacao-copy strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #ffffff;
+  font-size: 1.06rem;
+  font-weight: 500;
+}
+
+.ra-home-verificacao-copy p {
+  max-width: 380px;
+  margin: 0;
+  color: #c9d8e8;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Não estilizamos internamente o selo oficial: o próprio Reclame Aqui controla o visual. */
+.ra-home-verificacao-selo {
+  min-width: 155px;
+  min-height: 58px;
+
+  display: grid;
+  place-items: center;
+
+  position: relative;
+}
+
+#ra-verified-seal {
+  display: block;
+  width: auto;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* Se o embed oficial renderizar, esta imagem de contingência é ocultada pelo JS. */
+.ra-seal-fallback {
+  display: block;
+  line-height: 0;
+}
+
+.ra-seal-fallback.is-hidden {
+  display: none;
+}
+
+.ra-seal-fallback img {
+  display: block;
+  width: 149px;
+  height: auto;
+  max-width: 100%;
+}
+
+/* Enquanto o embed está vazio, ele não reserva uma caixa branca artificial. */
+#ra-verified-seal.is-empty {
+  display: none;
+}
+
+.footer-ra-link {
+  display: inline-block;
+  width: 142px;
+  max-width: 100%;
+  margin-top: 18px;
+  line-height: 0;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.footer-ra-link img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.footer-ra-link:hover {
+  transform: translateY(-2px);
+  opacity: 0.92;
+}
+
+@media (max-width: 680px) {
+  .ra-home-verificacao {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .ra-home-verificacao-copy p {
+    max-width: none;
+  }
+
+  .ra-home-verificacao-selo {
+    width: 100%;
+    justify-items: start;
+  }
+}
