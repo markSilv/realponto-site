@@ -1,97 +1,137 @@
 "use strict";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const carousel = document.querySelector(".banner-carousel");
+  /**
+   * Inicia um carrossel de banner com navegação e autoplay.
+   * @param {string} selector - O seletor CSS para o container do carrossel.
+   */
+  function initBannerCarousel(selector) {
+    const carousel = document.querySelector(selector);
+    if (!carousel) return;
 
-  if (!carousel) {
-    console.error("Carrossel não encontrado no HTML.");
-    return;
-  }
+    const slides = carousel.querySelectorAll(".carousel-slide");
+    const dots = carousel.querySelectorAll(".carousel-dot");
+    const prevButton = carousel.querySelector(".carousel-prev");
+    const nextButton = carousel.querySelector(".carousel-next");
 
-  const slides = carousel.querySelectorAll(".carousel-slide");
-  const dots = carousel.querySelectorAll(".carousel-dot");
-  const previousButton = carousel.querySelector(".carousel-prev");
-  const nextButton = carousel.querySelector(".carousel-next");
+    if (slides.length === 0) return;
 
-  if (slides.length === 0) {
-    console.error("Nenhum slide foi encontrado.");
-    return;
-  }
+    let currentSlide = 0;
+    let autoPlayInterval;
 
-  let currentSlide = 0;
-  let automaticTimer;
+    function showSlide(index) {
+      currentSlide = (index + slides.length) % slides.length;
 
-  function showSlide(index) {
-    if (index >= slides.length) {
-      currentSlide = 0;
-    } else if (index < 0) {
-      currentSlide = slides.length - 1;
-    } else {
-      currentSlide = index;
+      slides.forEach((slide, i) => {
+        const isActive = i === currentSlide;
+        slide.classList.toggle("active", isActive);
+        slide.setAttribute("aria-hidden", String(!isActive));
+      });
+
+      if (dots.length > 0) {
+        dots.forEach((dot, i) => dot.classList.toggle("active", i === currentSlide));
+      }
     }
 
-    slides.forEach((slide, slideIndex) => {
-      const isActive = slideIndex === currentSlide;
-
-      slide.classList.toggle("active", isActive);
-      slide.setAttribute("aria-hidden", String(!isActive));
-    });
-
-    dots.forEach((dot, dotIndex) => {
-      dot.classList.toggle("active", dotIndex === currentSlide);
-    });
-  }
-
-  function nextSlide() {
-    showSlide(currentSlide + 1);
-  }
-
-  function previousSlide() {
-    showSlide(currentSlide - 1);
-  }
-
-  function stopAutomaticCarousel() {
-    if (automaticTimer) {
-      clearInterval(automaticTimer);
+    function next() {
+      showSlide(currentSlide + 1);
     }
+
+    function stopAutoPlay() {
+      clearInterval(autoPlayInterval);
+    }
+
+    function startAutoPlay() {
+      stopAutoPlay();
+      autoPlayInterval = setInterval(next, 5000);
+    }
+
+    if (nextButton) {
+      nextButton.addEventListener("click", () => {
+        next();
+        startAutoPlay();
+      });
+    }
+
+    if (prevButton) {
+      prevButton.addEventListener("click", () => {
+        showSlide(currentSlide - 1);
+        startAutoPlay();
+      });
+    }
+
+    if (dots.length > 0) {
+      dots.forEach((dot, i) => {
+        dot.addEventListener("click", () => {
+          showSlide(i);
+          startAutoPlay();
+        });
+      });
+    }
+
+    carousel.addEventListener("mouseenter", stopAutoPlay);
+    carousel.addEventListener("mouseleave", startAutoPlay);
+
+    showSlide(0);
+    startAutoPlay();
   }
 
-  function startAutomaticCarousel() {
-    stopAutomaticCarousel();
+  /**
+   * Inicia um carrossel simples de fade-in/fade-out para cards.
+   * @param {string} selector - O seletor CSS para os containers de carrossel.
+   */
+  function initSimpleFadeCarousel(selector) {
+    document.querySelectorAll(selector).forEach((carousel, index) => {
+      const slides = carousel.querySelectorAll(".seguranca-slide, .identidade-slide");
+      if (slides.length <= 1) return;
 
-    automaticTimer = setInterval(() => {
-      nextSlide();
-    }, 5000);
-  }
+      let current = 0;
 
-  if (nextButton) {
-    nextButton.addEventListener("click", (event) => {
-      event.preventDefault();
-      nextSlide();
-      startAutomaticCarousel();
+      const changeSlide = () => {
+        slides[current].classList.remove("active");
+        current = (current + 1) % slides.length;
+        slides[current].classList.add("active");
+      };
+
+      // Adiciona um atraso inicial escalonado para os carrosséis não trocarem todos ao mesmo tempo
+      setTimeout(() => {
+        changeSlide(); // Troca o primeiro slide
+        setInterval(changeSlide, 3500);
+      }, index * 650);
     });
   }
 
-  if (previousButton) {
-    previousButton.addEventListener("click", (event) => {
-      event.preventDefault();
-      previousSlide();
-      startAutomaticCarousel();
-    });
+  /**
+   * Inicia um carrossel para a página de produto com navegação.
+   * @param {string} selector - O seletor CSS para o container do carrossel.
+   */
+  function initProductCarousel(selector) {
+    const carousel = document.querySelector(selector);
+    if (!carousel) return;
+
+    const slides = carousel.querySelectorAll(".produto-slide");
+    const dots = carousel.querySelectorAll(".produto-dot");
+    const prevButton = carousel.querySelector(".produto-prev");
+    const nextButton = carousel.querySelector(".produto-next");
+
+    if (slides.length <= 1) return;
+
+    let current = 0;
+
+    function show(index) {
+        current = (index + slides.length) % slides.length;
+        slides.forEach((s, i) => s.classList.toggle("active", i === current));
+        dots.forEach((d, i) => d.classList.toggle("active", i === current));
+    }
+
+    prevButton.addEventListener("click", () => show(current - 1));
+    nextButton.addEventListener("click", () => show(current + 1));
+    dots.forEach((d, i) => d.addEventListener("click", () => show(i)));
   }
 
-  dots.forEach((dot, index) => {
-    dot.addEventListener("click", () => {
-      showSlide(index);
-      startAutomaticCarousel();
-    });
-  });
-
-  carousel.addEventListener("mouseenter", stopAutomaticCarousel);
-  carousel.addEventListener("mouseleave", startAutomaticCarousel);
-
-  showSlide(0);
-  startAutomaticCarousel();
-
-  console.log("Carrossel iniciado com sucesso.");
+  // Inicia todos os carrosséis encontrados na página
+  initBannerCarousel(".banner-carousel");
+  initSimpleFadeCarousel(".seguranca-carousel");
+  initSimpleFadeCarousel(".identidade-carousel");
+  initProductCarousel(".produto-carousel");
 });
