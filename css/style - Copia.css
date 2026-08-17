@@ -862,6 +862,9 @@ b {
 /* Garante que nenhum pixel da imagem apareça na base */
 box-shadow: inset 0 -3px 0 #ffffff !important;
 }
+.about-text::before,
+.about-text::after ,
+
 .about-text .stat {
   padding: 0;
   margin: 0 0 8px 0;
@@ -1191,7 +1194,7 @@ box-shadow: inset 0 -3px 0 #ffffff !important;
   color:#fff;
   position:relative;
   overflow:hidden;
-  background-color: #0a2648;
+  background-color: (#0a2648);
 }
 
 /*    .segment:nth-child(1),.segment:nth-child(3), .segment:nth-child(5) {
@@ -1418,6 +1421,40 @@ box-shadow: inset 0 -3px 0 #ffffff !important;
   transform: scale(1.1);     /* Opcional: faz o botão dar um pequeno zoom de 10% */
 }
 
+    .cookie {
+  position:fixed;
+  z-index:80;
+  left:22px;
+  bottom:22px;
+  width:min(420px,calc(100% - 44px));
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:20px;
+  box-shadow:var(--shadow);
+  display:none
+}
+
+    .cookie.show {
+  display:block
+}
+
+.cookie p {
+  font-size:.86rem;
+  color:var(--muted)
+}
+
+.cookie-actions {
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap
+}
+
+.cookie .btn {
+  padding:10px 16px;
+  font-size:.85rem
+}
+
     @media(max-width:1020px) {
          .nav-links {
     display:none;
@@ -1635,15 +1672,15 @@ box-shadow: inset 0 -3px 0 #ffffff !important;
   width: 100%;
   overflow: hidden;
   background: #f4f8fc;
-  min-height: 0;
+  min-height: clamp(100%);
   margin-top: -82px;
-
+  
 }
 
 .carousel-track {
   position: relative;
   width: 100%;
-  min-height: 0;
+  min-height: clamp(100%);
   margin-top: 0;
   padding-top: 0;
 }
@@ -1676,7 +1713,7 @@ box-shadow: inset 0 -3px 0 #ffffff !important;
 .carousel-slide img {
   display: block;
   width: 100%;
-  height: auto;
+  height: clamp(100%);
   object-fit: contain;
   object-position: center;
 }
@@ -2026,24 +2063,24 @@ box-shadow: inset 0 -3px 0 #ffffff !important;
   display: block;
 }
 
-/* Botão de orçamento enquanto o menu está no topo:
-   branco, sem anel/borda aparente e com glow branco no hover. */
+/* Botão do menu quando estiver no topo */
 .header:not(.header-scrolled) .nav-actions .btn-primary {
   background: #ffffff;
   color: #25237B;
-  border: 1px solid transparent;
-  box-shadow: none;
+  border: 2px solid #ffffff;
+
+  box-shadow: 0 10px 28px rgba(255, 255, 255, 0.25);
 }
 
+/* Efeito branco ao passar o mouse */
 .header:not(.header-scrolled) .nav-actions .btn-primary:hover {
   background: #ffffff;
   color: #25237B;
-  border-color: transparent;
+  border-color: #ffffff;
 
   box-shadow:
-    0 0 18px rgba(255, 255, 255, 0.95),
-    0 0 38px rgba(255, 255, 255, 0.55),
-    0 12px 30px rgba(0, 0, 0, 0.15);
+    0 0 0 5px rgba(255, 255, 255, 0.18),
+    0 14px 35px rgba(255, 255, 255, 0.45);
 
   transform: translateY(-2px);
 }
@@ -2087,7 +2124,7 @@ box-shadow: inset 0 -3px 0 #ffffff !important;
 
 
 /* Remove o círculo decorativo antigo */
-.segment::before {
+.segment .segment::before {
   display: none;
 }
 
@@ -2209,15 +2246,32 @@ box-shadow: inset 0 -3px 0 #ffffff !important;
 .feature-visual-image img {
   display: block;
   width: 100%;
-  height: 530px;
+  height: auto;
   max-height: 530px;
 
   object-fit: contain;
   object-position: center;
 
   border: 0;
-  border-radius: 34px;
+  border-radius: 0;
   box-shadow: none;
+}
+
+.feature-visual-image::before,
+.feature-visual-image::after {
+  display: none;
+  content: none;
+}
+
+.feature-visual-image img {
+  display: block;
+  width: 100%;
+  height: 530px;
+
+  object-fit: contain;
+  object-position: center;
+
+  border-radius: 34px;
 }
 
 @media (max-width: 680px) {
@@ -2230,7 +2284,6 @@ box-shadow: inset 0 -3px 0 #ffffff !important;
     width: 100%;
     height: auto;
     min-height: 0;
-    max-height: none;
     border-radius: 24px;
   }
 }
@@ -2513,7 +2566,7 @@ box-shadow: inset 0 -3px 0 #ffffff !important;
 }
 
 .internal-hero .lead {
-  max-width: 1050px;
+  max-width: 1050x;
   width: 100%;
 }
 
@@ -2564,7 +2617,7 @@ box-shadow: inset 0 -3px 0 #ffffff !important;
   }
 
   .internal-hero .lead {
-    max-width: 1050px;
+    max-width: 1050x;
     width: 100%;
   }
 
@@ -2573,6 +2626,34 @@ box-shadow: inset 0 -3px 0 #ffffff !important;
     padding: 24px;
   }
 }
+
+/* MENU NO TOPO: totalmente transparente */
+/*.header:not(.header-scrolled) {
+  background: transparent !important;
+
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+
+  border: 0 !important;
+  border-bottom: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+/*.header:not(.header-scrolled) {
+  background: rgba(7, 28, 53, 0.38) !important;
+
+  -webkit-backdrop-filter: blur(18px) saturate(150%) !important;
+  backdrop-filter: blur(18px) saturate(150%) !important;
+
+  border: 0 !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10) !important;
+
+  outline: 0 !important;
+
+  box-shadow:
+    0 8px 30px rgba(7, 28, 53, 0.10) !important;
+}*/
 
 /* =========================
    MENU NO TOPO
@@ -3022,6 +3103,110 @@ box-shadow: inset 0 -3px 0 #ffffff !important;
 
 .submenu {
   position: absolute;
+  top: calc(100% + 18px);
+  left: 0;
+  z-index: 300;
+
+  width: 245px;
+  padding: 10px;
+
+  display: grid;
+  gap: 2px;
+
+  background: rgba(255, 255, 255, 0.97);
+  border: 1px solid rgba(223, 231, 240, 0.9);
+  border-radius: 16px;
+
+  box-shadow: 0 20px 45px rgba(7, 28, 53, 0.18);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transform: translateY(8px);
+
+  transition:
+    opacity 0.25s ease,
+    visibility 0.25s ease,
+    transform 0.25s ease;
+}
+
+/* Mantém o submenu aberto com mouse ou teclado */
+.nav-dropdown:hover .submenu,
+.nav-dropdown:focus-within .submenu {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.header .submenu a {
+  display: block;
+  width: 100%;
+  padding: 12px 14px;
+
+  color: var(--ink) !important;
+  font-size: 0.98rem;
+  white-space: nowrap;
+
+  border-radius: 10px;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.header .submenu a:hover {
+  color: var(--rp) !important;
+  background: var(--soft);
+}
+
+/* Remove a linha animada dos links internos do submenu */
+.header .submenu a::after {
+  display: none !important;
+}
+
+/* ========================================
+   SUBMENU DE SOLUÇÕES
+======================================== */
+
+.nav-dropdown {
+  position: relative;
+}
+
+.nav-dropdown-trigger {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-main-link {
+  white-space: nowrap;
+}
+
+.submenu-toggle {
+  display: none;
+
+  width: 28px;
+  height: 28px;
+  padding: 0;
+
+  border: 0;
+  background: transparent;
+  color: inherit;
+
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+
+  transition: transform 0.25s ease;
+}
+
+.submenu {
+  position: absolute;
   top: calc(100% + 8px);
   left: 0;
   z-index: 300;
@@ -3137,8 +3322,7 @@ body.relogio-page .logo-scrolled {
 body.relogio-page .header .nav-actions .btn-primary {
   background: #ffffff !important;
   color: #25237b !important;
-  border: 1px solid transparent !important;
-  box-shadow: none;
+  border-color: #ffffff !important;
 }
 
 /* Botão do menu mobile */
@@ -3499,30 +3683,29 @@ body.produto-page .header.header-scrolled .logo-scrolled {
 }
 
 
-/* BOTÃO SOLICITAR ORÇAMENTO - PÁGINAS INTERNAS */
+/* BOTÃO SOLICITAR ORÇAMENTO */
 
 body.produto-page .header .nav-actions .btn-primary,
 body.produto-page .header.header-scrolled .nav-actions .btn-primary {
   background: #ffffff !important;
   color: #25237b !important;
-  border: 1px solid transparent !important;
+  border-color: #ffffff !important;
+
   box-shadow: none;
 }
 
 
-/* HOVER: glow branco suave, sem anel */
+/* HOVER DO BOTÃO */
+
 body.produto-page .header .nav-actions .btn-primary:hover,
 body.produto-page .header.header-scrolled .nav-actions .btn-primary:hover {
-  background: #ffffff !important;
+  background: #f2f2f2 !important;
   color: #25237b !important;
-  border-color: transparent !important;
+  border-color: #ffffff !important;
 
   box-shadow:
-    0 0 18px rgba(255, 255, 255, 0.95),
-    0 0 38px rgba(255, 255, 255, 0.55),
-    0 12px 30px rgba(0, 0, 0, 0.15) !important;
-
-  transform: translateY(-2px);
+    0 0 0 5px rgba(255,255,255,0.10),
+    0 12px 30px rgba(0,0,0,0.18);
 }
 
 
@@ -7429,65 +7612,28 @@ summary::after {
 }
 
 /* =====================================================
-   BOTÃO "SOLICITAR ORÇAMENTO" - REGRAS DEFINITIVAS
+   BOTÃO ORÇAMENTO - GLOW BRANCO NAS PÁGINAS INTERNAS
+   NÃO ALTERA A HOME
 ===================================================== */
 
-/* HOME NO TOPO:
-   branco, sem borda/anel aparente e glow branco no hover.
-   O estado .header-scrolled NÃO é alterado aqui, portanto
-   o glow azul que já existe após rolar a Home é preservado. */
-body.home-page .header:not(.header-scrolled) .nav-actions .btn-primary {
-  position: relative;
-  overflow: visible;
-
-  background: #ffffff !important;
-  color: #25237b !important;
-  border: 1px solid transparent !important;
-  box-shadow: none !important;
-
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease,
-    background 0.25s ease;
-}
-
-body.home-page .header:not(.header-scrolled) .nav-actions .btn-primary:hover {
-  background: #ffffff !important;
-  color: #25237b !important;
-  border-color: transparent !important;
-
-  transform: translateY(-2px);
-
-  box-shadow:
-    0 0 18px rgba(255, 255, 255, 0.95),
-    0 0 38px rgba(255, 255, 255, 0.55),
-    0 12px 30px rgba(0, 0, 0, 0.15) !important;
-}
-
-
-/* PÁGINAS INTERNAS:
-   botão branco e glow branco no hover em qualquer estado do header. */
 body.produto-page .header .nav-actions .btn-primary,
 body.relogio-page .header .nav-actions .btn-primary {
   position: relative;
   overflow: visible;
 
-  background: #ffffff !important;
-  color: #25237b !important;
-  border: 1px solid transparent !important;
-  box-shadow: none;
-
   transition:
     transform 0.25s ease,
     box-shadow 0.25s ease,
     background 0.25s ease;
 }
 
+
+/* HOVER - LUZ BRANCA SUAVE */
 body.produto-page .header .nav-actions .btn-primary:hover,
 body.relogio-page .header .nav-actions .btn-primary:hover {
   background: #ffffff !important;
   color: #25237b !important;
-  border-color: transparent !important;
+  border-color: #ffffff !important;
 
   transform: translateY(-2px);
 
