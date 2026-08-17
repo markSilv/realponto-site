@@ -6369,47 +6369,41 @@ body.produto-page .topbar {
 
 .locacao-beneficios-grid {
   display: grid;
-
   grid-template-columns:
     repeat(3, minmax(0, 1fr));
-
-  border-top:
-    1px solid var(--line);
+  gap: 25px;
 }
 
 
 .locacao-beneficio {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: start;
-  gap: 20px;
-  padding: 30px;
-  border-right:
-    1px solid var(--line);
-  border-bottom:
-    1px solid var(--line);
-}
-
-
-.locacao-beneficio:nth-child(3n) {
-  border-right: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 280px;
+  aspect-ratio: 1 / 1;
+  padding: 25px;
+  border-radius: 50%;
+  background: var(--success);
+  color: #ffffff;
+  margin: 0 auto;
 }
 
 
 .locacao-beneficio > span {
-  display: grid;
-  place-items: center;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: var(--success);
-  color: var(--white);
+  display: block;
+  margin-bottom: 12px;
+  color: #ffffff;
   font-size: 1rem;
   font-weight: 700;
 }
 
 .locacao-section-head.locacao-vantagens-head {
   max-width: none;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 40px;
 }
 
 .locacao-section-head.locacao-vantagens-head h2 {
@@ -6419,15 +6413,15 @@ body.produto-page .topbar {
 
 
 .locacao-beneficio h3 {
-  color: var(--navy);
+  color: #ffffff;
+  font-size: 1.1rem;
 }
 
 
 .locacao-beneficio p {
   margin: 0;
-
-  color: var(--muted);
-
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
   line-height: 1.65;
 }
 
@@ -6904,19 +6898,6 @@ summary::after {
       repeat(2, minmax(0, 1fr));
   }
 
-
-  .locacao-beneficio,
-  .locacao-beneficio:nth-child(3n) {
-    border-right:
-      1px solid var(--line);
-  }
-
-
-  .locacao-beneficio:nth-child(2n) {
-    border-right: 0;
-  }
-
-
   .locacao-processo-linha {
     grid-template-columns:
       repeat(2, minmax(0, 1fr));
@@ -6966,20 +6947,6 @@ summary::after {
   .locacao-processo-linha {
     grid-template-columns: 1fr;
   }
-
-
-  .locacao-beneficio,
-  .locacao-beneficio:nth-child(2n),
-  .locacao-beneficio:nth-child(3n) {
-    min-height: 0;
-
-    padding-left: 0;
-
-    padding-right: 0;
-
-    border-right: 0;
-  }
-
 
   .locacao-atencao-lista > div {
     grid-template-columns: 1fr;
@@ -7462,4 +7429,98 @@ summary::after {
     width: 100%;
     justify-items: start;
   }
+}
+
+/* =====================================================
+   IMAGEM DECORATIVA - VANTAGENS DA LOCAÇÃO
+===================================================== */
+
+.locacao-section-head.locacao-vantagens-head {
+  position: relative;
+
+  max-width: none;
+
+  min-height: 300px;
+
+  padding-right: 430px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  overflow: hidden;
+}
+
+
+/* Mantém texto na frente da imagem */
+.locacao-vantagens-head > * {
+  position: relative;
+  z-index: 2;
+}
+
+
+/* Equipamento no canto direito */
+.locacao-vantagens-head::after {
+  content: "";
+
+  position: absolute;
+
+  right: 20px;
+  top: 50%;
+
+  width: 390px;
+  height: 290px;
+
+  transform: translateY(-50%);
+
+  background-image: url("../img/idclass2.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+
+  opacity: 0.22;
+
+  z-index: 1;
+
+  pointer-events: none;
+}
+@media (max-width: 1020px) {
+
+  .locacao-section-head.locacao-vantagens-head {
+    padding-right: 300px;
+  }
+
+  .locacao-vantagens-head::after {
+    width: 290px;
+    height: 250px;
+    right: 0;
+    opacity: 0.18;
+  }
+
+}
+@media (max-width: 680px) {
+
+  .locacao-section-head.locacao-vantagens-head {
+    min-height: auto;
+    padding-right: 0;
+  }
+
+  .locacao-vantagens-head::after {
+    display: none;
+  }
+
+}
+
+.locacao-opcional-link-wrapper {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+}
+
+.locacao-opcional-link-wrapper .locacao-opcional-item {
+  width: 100%;
+}
+
+.locacao-opcional-info .card-link {
+  margin-top: auto;
 }
