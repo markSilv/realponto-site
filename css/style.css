@@ -7524,3 +7524,89 @@ summary::after {
 .locacao-opcional-info .card-link {
   margin-top: auto;
 }
+
+/* =====================================================
+   ASSISTÊNCIA TÉCNICA
+   MAIS ESPAÇO ENTRE OS CÍRCULOS - DESKTOP
+===================================================== */
+
+@media (min-width: 1021px) {
+
+  .assistencia-processo-linha {
+    /* primeiro valor = distância vertical
+       segundo valor = distância horizontal */
+    gap: 85px 70px;
+  }
+
+
+  /* =========================================
+     SETAS DA PRIMEIRA LINHA
+     01 → 02 → 03
+  ========================================= */
+
+  .assistencia-etapa:nth-child(1)::after,
+  .assistencia-etapa:nth-child(2)::after {
+    right: -52px;
+    left: auto;
+
+    font-size: 2.4rem;
+  }
+
+
+  /* =========================================
+     SETA DO 03 PARA O 04
+  ========================================= */
+
+  .assistencia-etapa:nth-child(3)::after {
+    content: "↓";
+
+    top: auto;
+    bottom: -64px;
+
+    left: 50%;
+    right: auto;
+
+    transform: translateX(-50%);
+
+    font-size: 2.4rem;
+  }
+
+
+  /* =========================================
+     SEGUNDA LINHA
+     06 ← 05 ← 04
+
+     nth-child(4) = 06
+     nth-child(5) = 05
+     nth-child(6) = 04
+  ========================================= */
+
+  /* 05 → aponta para o 06 */
+  .assistencia-etapa:nth-child(5)::after,
+
+  /* 04 → aponta para o 05 */
+  .assistencia-etapa:nth-child(6)::after {
+    content: "←";
+
+    left: -52px;
+    right: auto;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    font-size: 2.4rem;
+
+    color: var(--muted);
+
+    display: block !important;
+  }
+
+
+  /* 06 termina o processo */
+  .assistencia-etapa:nth-child(4)::after {
+    content: none !important;
+    display: none !important;
+  }
+
+}
