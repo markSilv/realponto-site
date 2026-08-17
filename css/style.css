@@ -5486,36 +5486,206 @@ body.produto-page .topbar {
 }
 
 .assistencia-processo-linha {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 50px 25px;
 }
 
-.assistencia-processo-linha article {
+.assistencia-etapa {
   position: relative;
-  padding-top: 24px;
-  border-top: 2px solid var(--navy);
+  flex: 0 1 300px;
+  width: 300px;
+  height: 300px;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border-radius: 50%;
+  background: var(--dark-site);
+  color: #ffffff;
 }
 
-.assistencia-processo-linha article > span {
-  display: inline-block;
-  margin-bottom: 18px;
-  color: var(--rp);
-  font-size: .82rem;
-  font-weight: 700;
-  letter-spacing: .06em;
+.assistencia-etapa-numero {
+  margin-bottom: 12px;
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 900;
 }
 
-.assistencia-processo-linha h3 {
+.assistencia-etapa-texto h3 {
   margin-bottom: 10px;
-  font-size: 1.04rem;
+  font-size: 1.2rem;
+  color: #ffffff;
 }
 
-.assistencia-processo-linha p {
+.assistencia-etapa-texto p {
   margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+  font-size: .92rem;
+}
+
+.assistencia-etapa::after {
+  position: absolute;
+  z-index: 5;
   color: var(--muted);
-  line-height: 1.6;
-  font-size: .95rem;
+  font-size: 2rem;
+  line-height: 1;
+  font-weight: 500;
+  pointer-events: none;
+}
+
+/* =====================================================
+   FLUXO DAS 6 ETAPAS - DESKTOP
+   Ordem visual:
+   01 → 02 → 03
+             ↓
+   06 ← 05 ← 04
+
+   IMPORTANTE:
+   No HTML, a segunda linha está na ordem 06, 05, 04.
+   Portanto:
+   nth-child(4) = etapa 06
+   nth-child(5) = etapa 05
+   nth-child(6) = etapa 04
+===================================================== */
+@media (min-width: 1021px) {
+
+  /* 01 → 02 e 02 → 03 */
+  .assistencia-etapa:nth-child(1)::after,
+  .assistencia-etapa:nth-child(2)::after {
+    content: "→";
+    display: block;
+    top: 50%;
+    right: -29px;
+    left: auto;
+    bottom: auto;
+    transform: translateY(-50%);
+  }
+
+  /* 03 desce para 04 */
+  .assistencia-etapa:nth-child(3)::after {
+    content: "↓";
+    display: block;
+    top: auto;
+    right: auto;
+    bottom: -43px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* 06 encerra o fluxo */
+  .assistencia-etapa:nth-child(4)::after {
+    content: none;
+    display: none;
+  }
+
+  /* 05 → 06 e 04 → 05, ambos apontando para a esquerda */
+  .assistencia-etapa:nth-child(5)::after,
+  .assistencia-etapa:nth-child(6)::after {
+    content: "←";
+    display: block;
+    top: 50%;
+    right: auto;
+    bottom: auto;
+    left: -29px;
+    transform: translateY(-50%);
+  }
+}
+
+
+/* =====================================================
+   TABLET - fluxo em 2 colunas
+   01 → 02
+        ↓
+   04 ← 03
+   ↓
+   05 → 06
+===================================================== */
+@media (min-width: 721px) and (max-width: 1020px) {
+
+  .assistencia-processo-linha {
+    column-gap: 55px;
+    row-gap: 55px;
+  }
+
+  /* Reorganiza apenas visualmente as etapas */
+  .assistencia-etapa:nth-child(1) { order: 1; }
+  .assistencia-etapa:nth-child(2) { order: 2; }
+  .assistencia-etapa:nth-child(6) { order: 3; } /* 04 */
+  .assistencia-etapa:nth-child(3) { order: 4; } /* 03 */
+  .assistencia-etapa:nth-child(5) { order: 5; } /* 05 */
+  .assistencia-etapa:nth-child(4) { order: 6; } /* 06 */
+
+  .assistencia-etapa::after {
+    content: none;
+    display: none;
+  }
+
+  /* 01 → 02 */
+  .assistencia-etapa:nth-child(1)::after {
+    content: "→";
+    display: block;
+    top: 50%;
+    right: -43px;
+    left: auto;
+    bottom: auto;
+    transform: translateY(-50%);
+  }
+
+  /* 02 ↓ 03 */
+  .assistencia-etapa:nth-child(2)::after {
+    content: "↓";
+    display: block;
+    top: auto;
+    right: auto;
+    bottom: -46px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* 03 ← 04 */
+  .assistencia-etapa:nth-child(3)::after {
+    content: "←";
+    display: block;
+    top: 50%;
+    right: auto;
+    bottom: auto;
+    left: -43px;
+    transform: translateY(-50%);
+  }
+
+  /* 04 ↓ 05 */
+  .assistencia-etapa:nth-child(6)::after {
+    content: "↓";
+    display: block;
+    top: auto;
+    right: auto;
+    bottom: -46px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* 05 → 06 */
+  .assistencia-etapa:nth-child(5)::after {
+    content: "→";
+    display: block;
+    top: 50%;
+    right: -43px;
+    left: auto;
+    bottom: auto;
+    transform: translateY(-50%);
+  }
+
+  /* 06 encerra */
+  .assistencia-etapa:nth-child(4)::after {
+    content: none;
+    display: none;
+  }
 }
 
 .assistencia-laboratorio {
@@ -5700,9 +5870,55 @@ body.produto-page .topbar {
     padding: 34px 24px;
   }
 
-  .assistencia-tipos-grid,
+  .assistencia-tipos-grid {
+    gap: 55px;
+  }
+
   .assistencia-processo-linha {
-    grid-template-columns: 1fr;
+    gap: 55px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+  }
+
+  /* No mobile, mostra as etapas em ordem lógica: 01, 02, 03, 04, 05, 06 */
+  .assistencia-etapa:nth-child(1) { order: 1; }
+  .assistencia-etapa:nth-child(2) { order: 2; }
+  .assistencia-etapa:nth-child(3) { order: 3; }
+  .assistencia-etapa:nth-child(6) { order: 4; } /* 04 */
+  .assistencia-etapa:nth-child(5) { order: 5; } /* 05 */
+  .assistencia-etapa:nth-child(4) { order: 6; } /* 06 */
+
+  .assistencia-etapa {
+    width: min(300px, 100%);
+    min-height: 300px;
+    height: auto;
+    flex: 0 0 auto;
+  }
+
+  .assistencia-etapa::after {
+    content: none;
+    display: none;
+  }
+
+  /* Setas verticais entre 01 → 02 → 03 → 04 → 05 → 06 */
+  .assistencia-etapa:nth-child(1)::after,
+  .assistencia-etapa:nth-child(2)::after,
+  .assistencia-etapa:nth-child(3)::after,
+  .assistencia-etapa:nth-child(6)::after,
+  .assistencia-etapa:nth-child(5)::after {
+    content: "↓";
+    display: block;
+    top: auto;
+    right: auto;
+    bottom: -45px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  /* 06 é a última etapa */
+  .assistencia-etapa:nth-child(4)::after {
+    content: none;
+    display: none;
   }
 
   .assistencia-tipo {
@@ -6884,6 +7100,16 @@ summary::after {
   }
 
 }
+
+.card-link-wrapper {
+  display: flex;
+  text-decoration: none;
+  color: inherit;
+}
+.card-link-wrapper .card {
+  width: 100%;
+}
+
 /* =====================================================
    RECURSOS OPCIONAIS - PÁGINA DE LOCAÇÃO
 ===================================================== */
