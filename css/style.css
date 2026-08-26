@@ -7818,3 +7818,346 @@ body.relogio-page .header .nav-actions .btn-primary:hover {
     width: 100%;
   }
 }
+/* =====================================================
+   REAL POWER - BENEFÍCIOS, COMPATIBILIDADE E FAQ
+   Adicione este bloco ao FINAL do css/style.css
+===================================================== */
+
+
+/* =========================================
+   CABEÇALHO DAS NOVAS SEÇÕES
+========================================= */
+
+.real-power-section-head {
+  max-width: 880px;
+  margin-bottom: 46px;
+}
+
+.real-power-section-head h2 {
+  margin-top: 10px;
+}
+
+.real-power-section-head .lead {
+  margin-bottom: 0;
+}
+
+
+/* =========================================
+   BENEFÍCIOS
+========================================= */
+
+.real-power-benefits-grid-completo {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.real-power-benefits-grid-completo article {
+  min-height: 235px;
+  padding: 28px;
+
+  display: flex;
+  flex-direction: column;
+
+  border: 1px solid var(--line);
+  border-radius: 22px;
+
+  background: #ffffff;
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+.real-power-benefits-grid-completo article:hover {
+  transform: translateY(-5px);
+  border-color: transparent;
+  box-shadow: 0 20px 45px rgba(7, 28, 53, 0.10);
+}
+
+.real-power-benefits-grid-completo article > span {
+  width: 42px;
+  height: 42px;
+
+  margin-bottom: 22px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 13px;
+
+  background: var(--dark-site);
+  color: #ffffff;
+
+  font-size: .78rem;
+  font-weight: 700;
+}
+
+.real-power-benefits-grid-completo h3 {
+  margin-bottom: 10px;
+  color: var(--navy);
+  font-size: 1.08rem;
+}
+
+.real-power-benefits-grid-completo p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+  font-size: .94rem;
+}
+
+
+/* =========================================
+   COMPATIBILIDADE
+========================================= */
+
+.real-power-compat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.real-power-compat-card {
+  overflow: hidden;
+
+  border: 1px solid var(--line);
+  border-radius: 26px;
+
+  background: #ffffff;
+
+  box-shadow: 0 16px 40px rgba(7, 28, 53, 0.07);
+}
+
+.real-power-compat-brand {
+  padding: 24px 28px;
+
+  background:
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(30, 182, 217, .18),
+      transparent 35%
+    ),
+    var(--dark-site);
+
+  color: #ffffff;
+
+  font-size: 1.35rem;
+  font-weight: 900;
+}
+
+.real-power-compat-card ul {
+  margin: 0;
+  padding: 12px 28px 20px;
+
+  list-style: none;
+}
+
+.real-power-compat-card li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 14px 0;
+
+  border-bottom: 1px solid var(--line);
+
+  color: var(--navy);
+  font-weight: 500;
+}
+
+.real-power-compat-card li:last-child {
+  border-bottom: 0;
+}
+
+.real-power-compat-card li i {
+  color: var(--success);
+}
+
+
+/* AVISO PARA OUTROS MODELOS */
+
+.real-power-compat-alert {
+  margin-top: 26px;
+  padding: 26px 28px;
+
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 20px;
+  align-items: center;
+
+  border: 1px solid rgba(18, 51, 179, .14);
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(18, 51, 179, .045),
+      rgba(30, 182, 217, .07)
+    );
+}
+
+.real-power-compat-alert-icon {
+  width: 48px;
+  height: 48px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 14px;
+
+  background: var(--navy);
+  color: #ffffff;
+
+  font-size: 1.2rem;
+}
+
+.real-power-compat-alert strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--navy);
+  font-size: 1.05rem;
+}
+
+.real-power-compat-alert p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+
+/* =========================================
+   FAQ
+========================================= */
+
+.real-power-faq-grid {
+  display: grid;
+  grid-template-columns: .72fr 1.28fr;
+  gap: 70px;
+  align-items: start;
+}
+
+.real-power-faq-intro {
+  position: sticky;
+  top: 120px;
+}
+
+.real-power-faq-list {
+  border-top: 1px solid var(--line);
+}
+
+.real-power-faq-list details {
+  border-bottom: 1px solid var(--line);
+}
+
+.real-power-faq-list summary {
+  position: relative;
+
+  padding: 22px 42px 22px 0;
+
+  color: var(--navy);
+  font-weight: 600;
+
+  cursor: pointer;
+  list-style: none;
+}
+
+.real-power-faq-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.real-power-faq-list summary::after {
+  content: "+";
+
+  position: absolute;
+  right: 0;
+  top: 17px;
+
+  color: var(--rp);
+
+  font-size: 1.55rem;
+  font-weight: 300;
+}
+
+.real-power-faq-list details[open] summary::after {
+  content: "−";
+}
+
+.real-power-faq-list details p {
+  margin: -2px 0 22px;
+  padding-right: 40px;
+
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1020px) {
+
+  .real-power-benefits-grid-completo {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .real-power-faq-grid {
+    grid-template-columns: 1fr;
+    gap: 38px;
+  }
+
+  .real-power-faq-intro {
+    position: static;
+  }
+
+  .real-power-compat-alert {
+    grid-template-columns: auto 1fr;
+  }
+
+  .real-power-compat-alert .btn {
+    grid-column: 1 / -1;
+    justify-self: start;
+  }
+
+}
+
+
+/* =========================================
+   SMARTPHONE
+========================================= */
+
+@media (max-width: 680px) {
+
+  .real-power-benefits-grid-completo,
+  .real-power-compat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .real-power-benefits-grid-completo article {
+    min-height: 0;
+    padding: 24px;
+  }
+
+  .real-power-compat-brand {
+    padding: 21px 22px;
+  }
+
+  .real-power-compat-card ul {
+    padding: 10px 22px 16px;
+  }
+
+  .real-power-compat-alert {
+    grid-template-columns: 1fr;
+    padding: 24px;
+  }
+
+  .real-power-compat-alert .btn {
+    width: 100%;
+  }
+
+  .real-power-faq-list details p {
+    padding-right: 0;
+  }
+
+}
