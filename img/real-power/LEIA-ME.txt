@@ -1,0 +1,6 @@
+REAL POWER - IMAGEM DO PRODUTO
+
+Quando a imagem oficial estiver disponível, adicione-a nesta pasta com o nome:
+real-power-principal.png
+
+A página real-power.html já está preparada para exibi-la automaticamente.

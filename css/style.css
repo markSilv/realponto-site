@@ -7496,3 +7496,325 @@ body.relogio-page .header .nav-actions .btn-primary:hover {
     0 0 38px rgba(255, 255, 255, 0.55),
     0 12px 30px rgba(0, 0, 0, 0.15) !important;
 }
+
+
+/* =====================================================
+   PÁGINA REAL POWER
+===================================================== */
+
+.real-power-hero .lead {
+  max-width: 980px;
+}
+
+.real-power-hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.real-power-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 70px;
+  align-items: center;
+}
+
+.real-power-visual {
+  position: relative;
+  min-height: 470px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at 72% 18%, rgba(30,182,217,.18), transparent 30%),
+    linear-gradient(145deg, #f8fbff, #edf4fa);
+  box-shadow: 0 20px 50px rgba(7,28,53,.08);
+}
+
+.real-power-product-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 45px;
+  object-fit: contain;
+  object-position: center;
+  z-index: 2;
+}
+
+.real-power-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 7px;
+  padding: 35px;
+  color: var(--navy);
+}
+
+.real-power-visual.has-image .real-power-placeholder {
+  display: none;
+}
+
+.real-power-placeholder-icon {
+  width: 96px;
+  height: 96px;
+  margin-bottom: 12px;
+  display: grid;
+  place-items: center;
+  border-radius: 28px;
+  background: var(--dark-site);
+  color: #fff;
+  font-size: 2.25rem;
+  box-shadow: 0 18px 38px rgba(7,28,53,.18);
+}
+
+.real-power-placeholder strong {
+  font-family: "Neue Haas Grotesk Display Pro", Arial, sans-serif;
+  font-size: 1.55rem;
+  font-weight: 900;
+}
+
+.real-power-placeholder span {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.real-power-placeholder small {
+  max-width: 300px;
+  margin-top: 10px;
+  color: #8a98aa;
+  font-size: .78rem;
+}
+
+.real-power-copy h2 {
+  margin-top: 10px;
+}
+
+.real-power-copy > p:not(.lead) {
+  color: var(--muted);
+  line-height: 1.72;
+}
+
+.real-power-highlights {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.real-power-highlights > div {
+  min-width: 0;
+  padding: 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: #fff;
+}
+
+.real-power-highlights i {
+  flex: 0 0 auto;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: rgba(18,51,179,.08);
+  color: var(--rp);
+}
+
+.real-power-highlights span,
+.real-power-highlights strong,
+.real-power-highlights small {
+  display: block;
+}
+
+.real-power-highlights strong {
+  color: var(--navy);
+  font-size: .96rem;
+}
+
+.real-power-highlights small {
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: .76rem;
+  line-height: 1.25;
+}
+
+.real-power-section-head {
+  max-width: 800px;
+  margin-bottom: 42px;
+}
+
+.real-power-section-head h2 {
+  margin-top: 10px;
+}
+
+.real-power-benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 20px;
+}
+
+.real-power-benefits-grid article {
+  padding: 30px;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: #fff;
+}
+
+.real-power-benefits-grid article > span {
+  display: inline-grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  margin-bottom: 22px;
+  border-radius: 13px;
+  background: var(--dark-site);
+  color: #fff;
+  font-size: .78rem;
+  font-weight: 600;
+}
+
+.real-power-benefits-grid h3 {
+  color: var(--navy);
+}
+
+.real-power-benefits-grid p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.real-power-manual-box {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 28px;
+  align-items: center;
+  padding: 42px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 92% 10%, rgba(30,182,217,.12), transparent 30%),
+    linear-gradient(145deg, #f8fbff, #edf4fa);
+  box-shadow: 0 18px 45px rgba(7,28,53,.06);
+}
+
+.real-power-manual-icon {
+  width: 78px;
+  height: 78px;
+  display: grid;
+  place-items: center;
+  border-radius: 22px;
+  background: var(--dark-site);
+  color: #fff;
+  font-size: 2rem;
+}
+
+.real-power-manual-box h2 {
+  margin: 7px 0 10px;
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+}
+
+.real-power-manual-box .lead {
+  margin-bottom: 0;
+}
+
+.real-power-manual-action {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+}
+
+.real-power-manual-action small {
+  color: var(--muted);
+  font-size: .72rem;
+}
+
+@media (max-width: 1020px) {
+  .real-power-grid {
+    grid-template-columns: 1fr;
+    gap: 45px;
+  }
+
+  .real-power-visual {
+    min-height: 420px;
+  }
+
+  .real-power-highlights {
+    grid-template-columns: repeat(3, minmax(0,1fr));
+  }
+
+  .real-power-manual-box {
+    grid-template-columns: auto 1fr;
+  }
+
+  .real-power-manual-action {
+    grid-column: 1 / -1;
+    justify-items: start;
+    padding-left: 106px;
+  }
+}
+
+@media (max-width: 720px) {
+  .real-power-hero-actions {
+    flex-direction: column;
+  }
+
+  .real-power-hero-actions .btn {
+    width: 100%;
+  }
+
+  .real-power-visual {
+    min-height: 330px;
+    border-radius: 24px;
+  }
+
+  .real-power-product-image {
+    padding: 28px;
+  }
+
+  .real-power-placeholder-icon {
+    width: 78px;
+    height: 78px;
+    border-radius: 22px;
+    font-size: 1.8rem;
+  }
+
+  .real-power-placeholder small {
+    display: none;
+  }
+
+  .real-power-highlights,
+  .real-power-benefits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .real-power-manual-box {
+    grid-template-columns: 1fr;
+    padding: 30px 24px;
+  }
+
+  .real-power-manual-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    font-size: 1.65rem;
+  }
+
+  .real-power-manual-action {
+    grid-column: auto;
+    justify-items: stretch;
+    padding-left: 0;
+  }
+
+  .real-power-manual-action .btn {
+    width: 100%;
+  }
+}

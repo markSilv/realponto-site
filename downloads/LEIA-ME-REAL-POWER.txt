@@ -1,0 +1,6 @@
+REAL POWER - MANUAL
+
+Quando o manual oficial estiver disponível, adicione o PDF nesta pasta com o nome:
+manual-real-power.pdf
+
+Os botões da página real-power.html já apontam para esse arquivo.

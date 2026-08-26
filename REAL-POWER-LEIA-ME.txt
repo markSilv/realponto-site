@@ -1,0 +1,19 @@
+REAL POWER - ARQUIVOS FUTUROS
+
+A página real-power.html já está pronta.
+
+Quando a foto oficial do produto estiver disponível:
+1. Coloque a imagem em: img/real-power/
+2. Use exatamente o nome: real-power-principal.png
+3. Não é necessário alterar o HTML. O placeholder é substituído automaticamente pela imagem.
+
+Quando o manual oficial estiver disponível:
+1. Coloque o PDF em: downloads/
+2. Use exatamente o nome: manual-real-power.pdf
+3. Os botões "Manual do equipamento" já apontam para esse arquivo.
+
+BASE DO PROJETO
+- Repositório: https://github.com/markSilv/realponto-site.git
+- Branch: main
+- Base utilizada: commit 43e8b41 (AlteracoesBanners2608)
+- As alterações desta entrega foram deixadas sem commit para revisão/publicação no fluxo normal do Git.
