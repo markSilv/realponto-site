@@ -8737,3 +8737,12 @@ body.real-power-page .real-power-grid {
   transform: none;
   box-shadow: none !important;
 }
+
+/* =====================================================
+   INDEX - MAIS RESPIRO ENTRE TODAS AS SEÇÕES
+===================================================== */
+
+body.home-page .section {
+  padding-top: 125px;
+  padding-bottom: 125px;
+}
