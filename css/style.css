@@ -8746,3 +8746,12 @@ body.home-page .section {
   padding-top: 125px;
   padding-bottom: 125px;
 }
+
+.stat .experiencia-linha {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+#anosExperiencia {
+  display: inline;
+}

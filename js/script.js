@@ -297,4 +297,14 @@ document.addEventListener("DOMContentLoaded", () => {
   mostrarSlide(0);
   iniciarAutoplay();
 
+
 });
+
+const anosExperiencia = document.getElementById("anosExperiencia");
+
+if (anosExperiencia) {
+  const anoFundacao = 1996;
+  const anoAtual = new Date().getFullYear();
+
+  anosExperiencia.textContent = anoAtual - anoFundacao;
+}
