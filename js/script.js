@@ -173,3 +173,128 @@ document.addEventListener("DOMContentLoaded", () => {
   initSimpleFadeCarousel(".identidade-carousel");
   initProductCarousel(".produto-carousel");
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const carousel =
+    document.querySelector(".locacao-equipamentos-carousel");
+
+  if (!carousel) return;
+
+
+  const slides =
+    carousel.querySelectorAll(".locacao-carousel-slide");
+
+  const dots =
+    carousel.querySelectorAll(".locacao-carousel-dot");
+
+  const prev =
+    carousel.querySelector(".locacao-carousel-prev");
+
+  const next =
+    carousel.querySelector(".locacao-carousel-next");
+
+
+  if (!slides.length) return;
+
+
+  let atual = 0;
+  let autoplay;
+
+
+  function mostrarSlide(index) {
+
+    atual =
+      (index + slides.length) %
+      slides.length;
+
+
+    slides.forEach((slide, i) => {
+
+      slide.classList.toggle(
+        "active",
+        i === atual
+      );
+
+    });
+
+
+    dots.forEach((dot, i) => {
+
+      dot.classList.toggle(
+        "active",
+        i === atual
+      );
+
+    });
+
+  }
+
+
+  function proximo() {
+    mostrarSlide(atual + 1);
+  }
+
+
+  function iniciarAutoplay() {
+
+    clearInterval(autoplay);
+
+    autoplay =
+      setInterval(proximo, 4500);
+
+  }
+
+
+  function reiniciarAutoplay() {
+
+    iniciarAutoplay();
+
+  }
+
+
+  next?.addEventListener("click", () => {
+
+    proximo();
+    reiniciarAutoplay();
+
+  });
+
+
+  prev?.addEventListener("click", () => {
+
+    mostrarSlide(atual - 1);
+    reiniciarAutoplay();
+
+  });
+
+
+  dots.forEach((dot, index) => {
+
+    dot.addEventListener("click", () => {
+
+      mostrarSlide(index);
+      reiniciarAutoplay();
+
+    });
+
+  });
+
+
+  /* pausa quando o mouse fica sobre o carrossel */
+  carousel.addEventListener(
+    "mouseenter",
+    () => clearInterval(autoplay)
+  );
+
+
+  carousel.addEventListener(
+    "mouseleave",
+    iniciarAutoplay
+  );
+
+
+  mostrarSlide(0);
+  iniciarAutoplay();
+
+});

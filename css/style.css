@@ -8430,3 +8430,310 @@ body.real-power-page .real-power-grid {
     translateX(12px)
     scale(1.05);
 }
+
+/* =====================================================
+   LOCAÇÃO - CARROSSEL DE EQUIPAMENTOS
+===================================================== */
+
+.locacao-equipamentos-carousel {
+  position: relative;
+
+  width: 100%;
+  height: 500px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+}
+
+
+/* área dos slides */
+
+.locacao-carousel-track {
+  position: relative;
+
+  width: 100%;
+  height: 440px;
+}
+
+
+/* slide */
+
+.locacao-carousel-slide {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transform: scale(.96);
+
+  transition:
+    opacity .55s ease,
+    visibility .55s ease,
+    transform .55s ease;
+
+  pointer-events: none;
+}
+
+
+.locacao-carousel-slide.active {
+  opacity: 1;
+  visibility: visible;
+
+  transform: scale(1);
+
+  pointer-events: auto;
+}
+
+
+/* imagem */
+
+.locacao-carousel-slide img {
+  display: block;
+
+  width: 100%;
+  height: 350px;
+
+  max-width: 430px;
+
+  object-fit: contain;
+  object-position: center;
+
+  margin: 0 auto;
+}
+
+
+/* descrição */
+
+.locacao-carousel-slide span {
+  margin-top: 8px;
+
+  color: var(--navy);
+
+  font-size: 1.08rem;
+  font-weight: 500;
+
+  text-align: center;
+}
+
+
+/* =====================================================
+   SETAS
+===================================================== */
+
+.locacao-carousel-arrow {
+  position: absolute;
+
+  top: 46%;
+  z-index: 10;
+
+  width: 46px;
+  height: 46px;
+
+  display: grid;
+  place-items: center;
+
+  padding: 0;
+
+  border: 1px solid var(--line);
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, .92);
+
+  color: var(--navy);
+
+  font-size: 1.8rem;
+  line-height: 1;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 10px 30px rgba(7, 28, 53, .10);
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+
+.locacao-carousel-arrow:hover {
+  transform: scale(1.08);
+
+  box-shadow:
+    0 14px 32px rgba(7, 28, 53, .16);
+}
+
+
+.locacao-carousel-prev {
+  left: 5px;
+}
+
+
+.locacao-carousel-next {
+  right: 5px;
+}
+
+
+/* =====================================================
+   BOLINHAS
+===================================================== */
+
+.locacao-carousel-dots {
+  position: absolute;
+
+  left: 50%;
+  bottom: 5px;
+
+  transform: translateX(-50%);
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+.locacao-carousel-dot {
+  width: 8px;
+  height: 8px;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: 999px;
+
+  background: #cbd6e2;
+
+  cursor: pointer;
+
+  transition:
+    width .25s ease,
+    background .25s ease;
+}
+
+
+.locacao-carousel-dot.active {
+  width: 25px;
+
+  background: var(--rp);
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
+
+@media (max-width: 680px) {
+
+  .locacao-equipamentos-carousel {
+    height: 400px;
+  }
+
+  .locacao-carousel-track {
+    height: 345px;
+  }
+
+  .locacao-carousel-slide img {
+    height: 270px;
+    max-width: 310px;
+  }
+
+  .locacao-carousel-arrow {
+    width: 40px;
+    height: 40px;
+
+    font-size: 1.5rem;
+  }
+
+  .locacao-carousel-prev {
+    left: 0;
+  }
+
+  .locacao-carousel-next {
+    right: 0;
+  }
+
+}
+
+/* =====================================================
+   LOCAÇÃO - SETAS DO CARROSSEL
+===================================================== */
+
+.locacao-carousel-arrow {
+  width: 44px;
+  height: 44px;
+
+  display: grid;
+  place-items: center;
+
+  padding: 0;
+
+  background: #ffffff;
+
+  border: 1px solid var(--line);
+  border-radius: 50%;
+
+  box-shadow: none !important;
+
+  cursor: pointer;
+
+  /* esconde o ‹ e › do HTML */
+  font-size: 0;
+
+  transform: none;
+
+  transition:
+    border-color .2s ease,
+    background .2s ease;
+}
+
+
+/* desenha a seta */
+.locacao-carousel-arrow::before {
+  content: "";
+
+  width: 9px;
+  height: 9px;
+
+  border-top: 2px solid var(--navy);
+  border-right: 2px solid var(--navy);
+}
+
+
+/* seta esquerda */
+.locacao-carousel-prev::before {
+  transform: rotate(-135deg);
+  margin-left: 4px;
+}
+
+
+/* seta direita */
+.locacao-carousel-next::before {
+  transform: rotate(45deg);
+  margin-right: 4px;
+}
+
+
+/* hover mais discreto */
+.locacao-carousel-arrow:hover {
+  background: #ffffff;
+
+  border-color: var(--rp);
+
+  box-shadow: none !important;
+  transform: none;
+}
+
+
+/* clique */
+.locacao-carousel-arrow:active {
+  transform: none;
+  box-shadow: none !important;
+}
