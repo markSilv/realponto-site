@@ -8910,6 +8910,64 @@ body.assistencia-page .assistencia-observacao {
 }
 
 /* =====================================================
+   LOCAÇÃO - RESPIRO ENTRE AS SEÇÕES
+===================================================== */
+
+body.locacao-page .section {
+  padding-top: 105px;
+  padding-bottom: 105px;
+}
+
+
+/* seção de apresentação tem bastante conteúdo,
+   incluindo os recursos opcionais */
+body.locacao-page .locacao-apresentacao-grid {
+  margin-bottom: 65px;
+}
+
+
+/* dá um pouco mais de espaço antes dos recursos opcionais */
+body.locacao-page .locacao-opcionais {
+  margin-top: 70px;
+}
+
+
+/* =====================================================
+   TABLET
+===================================================== */
+
+@media (max-width: 1020px) {
+
+  body.locacao-page .section {
+    padding-top: 85px;
+    padding-bottom: 85px;
+  }
+
+}
+
+
+/* =====================================================
+   CELULAR
+===================================================== */
+
+@media (max-width: 680px) {
+
+  body.locacao-page .section {
+    padding-top: 65px;
+    padding-bottom: 65px;
+  }
+
+  body.locacao-page .locacao-apresentacao-grid {
+    margin-bottom: 45px;
+  }
+
+  body.locacao-page .locacao-opcionais {
+    margin-top: 45px;
+  }
+
+}
+
+/* =====================================================
    CORREÇÃO FINAL - MENU MOBILE / TABLET - DEIXAR SEMPRE POR ULTIMO
 ===================================================== */
 
