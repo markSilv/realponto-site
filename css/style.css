@@ -807,7 +807,8 @@ b {
 .about-text {
   position: relative;
   overflow: hidden;
-  margin-bottom: 0;
+  margin-top: 60px;
+  margin-bottom: 0px;
   padding: 24px 32px;
   min-height: 280px;
 
@@ -1152,7 +1153,9 @@ box-shadow: inset 0 -3px 0 #ffffff !important;
   display:grid;
   grid-template-columns:54px 1fr;
   gap:17px;
-  align-items:start
+  align-items:start;
+  margin-top: 10px;
+  margin-bottom: 10px
 }
 
     .reason strong {
@@ -5747,10 +5750,6 @@ body.produto-page .topbar {
     gap: 14px;
   }
 
-  .assistencia-marcas-texto {
-    justify-content: flex-start;
-  }
-
   .produto-assistencia-inner {
     grid-template-columns: 1fr;
     padding: 28px 24px;
@@ -8755,3 +8754,281 @@ body.home-page .section {
 #anosExperiencia {
   display: inline;
 }
+
+/* =====================================================
+   REAL POWER - ESPAÇAMENTO ENTRE SEÇÕES
+===================================================== */
+
+body.real-power-page .section {
+  padding-top: 90px;
+  padding-bottom: 90px;
+}
+
+
+/* Benefícios */
+body.real-power-page .real-power-benefits {
+  padding-top: 90px;
+  padding-bottom: 105px;
+}
+
+
+/* Compatibilidade */
+body.real-power-page .real-power-compatibilidade {
+  padding-top: 105px;
+  padding-bottom: 105px;
+}
+
+
+/* FAQ */
+body.real-power-page .real-power-faq {
+  padding-top: 105px;
+  padding-bottom: 105px;
+}
+
+
+/* Manual */
+body.real-power-page .real-power-manual-section {
+  padding-top: 95px;
+  padding-bottom: 95px;
+}
+
+@media (max-width: 680px) {
+
+  body.real-power-page .section,
+  body.real-power-page .real-power-benefits,
+  body.real-power-page .real-power-compatibilidade,
+  body.real-power-page .real-power-faq,
+  body.real-power-page .real-power-manual-section {
+    padding-top: 65px;
+    padding-bottom: 65px;
+  }
+
+}
+
+/* =====================================================
+   ASSISTÊNCIA TÉCNICA - RESPIRO ENTRE SEÇÕES
+===================================================== */
+
+body.assistencia-page .section {
+  padding-top: 105px;
+  padding-bottom: 105px;
+}
+
+
+/* =====================================================
+   SUPORTE TÉCNICO - RESPIRO ENTRE SEÇÕES
+===================================================== */
+
+body.suporte-page .section {
+  padding-top: 105px;
+  padding-bottom: 105px;
+}
+
+body.suporte-page .suporte-marcas-section {
+  padding-top: 75px;
+  padding-bottom: 95px;
+}
+
+@media (max-width: 680px) {
+
+  body.assistencia-page .section,
+  body.suporte-page .section {
+    padding-top: 70px;
+    padding-bottom: 70px;
+  }
+
+  body.suporte-page .suporte-marcas-section {
+    padding-top: 50px;
+    padding-bottom: 60px;
+  }
+
+}
+
+/* =====================================================
+   ASSISTÊNCIA - CENTRALIZAÇÃO DA SEÇÃO DE MARCAS
+===================================================== */
+
+body.assistencia-page .assistencia-marcas-section > .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+/* título e descrição */
+body.assistencia-page
+.assistencia-marcas-section
+.assistencia-section-head-center {
+  width: 100%;
+  max-width: 820px;
+
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-bottom: 48px;
+
+  text-align: center;
+}
+
+
+/* marcas */
+body.assistencia-page .assistencia-marcas-texto {
+  width: 100%;
+  max-width: 920px;
+
+  margin-left: auto;
+  margin-right: auto;
+
+  justify-content: center !important;
+}
+
+
+/* texto final */
+body.assistencia-page .assistencia-observacao {
+  width: 100%;
+  max-width: 760px;
+
+  margin: 30px auto 0;
+
+  text-align: center;
+}
+
+@media (max-width: 720px) {
+
+  body.assistencia-page .assistencia-marcas-texto {
+    justify-content: center !important;
+  }
+
+  body.assistencia-page
+  .assistencia-marcas-section
+  .assistencia-section-head-center {
+    text-align: center;
+  }
+
+}
+
+/* =====================================================
+   CORREÇÃO FINAL - MENU MOBILE / TABLET - DEIXAR SEMPRE POR ULTIMO
+===================================================== */
+
+@media (max-width: 1200px) {
+
+  /* menu principal pode rolar se ficar maior que a tela */
+  .header .nav-links {
+    max-height: calc(100vh - 95px);
+    max-height: calc(100dvh - 95px);
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+
+  /* linha "Soluções + seta" */
+  .header .nav-dropdown {
+    width: 100%;
+  }
+
+  .header .nav-dropdown-trigger {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+  }
+
+  .header .nav-dropdown-trigger .nav-main-link {
+    flex: 1;
+  }
+
+
+  /* força a seta a aparecer */
+  .header .submenu-toggle {
+    display: grid !important;
+    place-items: center;
+
+    flex: 0 0 44px;
+
+    width: 44px;
+    height: 44px;
+
+    padding: 0;
+
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+
+    background: transparent;
+    border: 0;
+
+    color: inherit;
+
+    font-size: 18px;
+
+    cursor: pointer;
+  }
+
+
+  /* submenu no mobile fica dentro do menu */
+  .header .submenu {
+    position: static !important;
+
+    top: auto !important;
+    left: auto !important;
+
+    width: 100% !important;
+
+    margin: 0;
+    padding: 6px 0 8px 16px;
+
+    display: none !important;
+
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+
+    transform: none !important;
+
+    background: transparent !important;
+
+    border: 0 !important;
+    border-radius: 0 !important;
+
+    box-shadow: none !important;
+
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+
+  /* abre quando o JS coloca .open */
+  .header .nav-dropdown.open .submenu {
+    display: grid !important;
+  }
+
+
+  /* fecha quando não está aberto */
+  .header .nav-dropdown:not(.open) .submenu {
+    display: none !important;
+  }
+
+
+  /* seta gira ao abrir */
+  .header .nav-dropdown.open .submenu-toggle {
+    transform: rotate(180deg);
+  }
+
+
+  /* links internos */
+  .header .submenu a {
+    width: 100%;
+
+    padding: 12px 14px;
+
+    white-space: normal;
+  }
+
+}/* DEIXAR ESSE BLOCO SEMPRE POR ULTIMO*/ 
