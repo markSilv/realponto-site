@@ -1,0 +1,339 @@
+
+/* Complemento exclusivo do iPonto. Não modifica o tour do RHiD. */
+.iponto-page .ip-demo,.iponto-page .ip-demo *, .iponto-page .ip-dialog,.iponto-page .ip-dialog *{box-sizing:border-box}
+.iponto-page .ip-demo [hidden],.iponto-page .ip-dialog [hidden]{display:none!important}
+.iponto-page .ip-js{display:none!important}
+.iponto-page.ip-ready .ip-js{display:flex!important}
+.iponto-page .ip-demo{overflow:hidden;border:1px solid var(--line,#dfe7f0);border-radius:24px;background:#fff;box-shadow:0 20px 60px rgba(7,28,53,.08);scroll-margin-top:120px}
+.iponto-page .ip-demo button,.iponto-page .ip-dialog button{font:inherit;cursor:pointer}
+.iponto-page .ip-demo button:disabled{opacity:.4;cursor:default}
+.iponto-page .ip-demo :focus-visible,.iponto-page .ip-dialog :focus-visible{outline:3px solid #1687aa;outline-offset:3px}
+.iponto-page .ip-topbar{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 24px;background:var(--dark-site,#06172c);color:#fff}
+.iponto-page .ip-topbar>div{display:flex;align-items:center;gap:16px}
+.iponto-page .ip-topbar strong{font-size:1.45rem;letter-spacing:-.035em}
+.iponto-page .ip-topbar small{padding-left:16px;border-left:1px solid #344258;color:#c6d8ec;font-size:.8rem}
+.iponto-page .ip-start{align-items:center;justify-content:center;gap:8px;min-height:44px;padding:9px 14px;border:1px solid rgba(255,255,255,.25);border-radius:12px;background:rgba(255,255,255,.08);color:#fff;font-size:.85rem!important;white-space:nowrap}
+.iponto-page.ip-ready .ip-tabs{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr));border-bottom:1px solid var(--line,#dfe7f0);background:#f6f8fc}
+.iponto-page .ip-tab{min-width:0;min-height:68px;padding:12px 8px;border:0;border-bottom:3px solid transparent;background:transparent;color:var(--muted,#617086);font-size:.84rem!important;font-weight:600!important;line-height:1.3}
+.iponto-page .ip-tab span{display:block;margin-bottom:4px;font-size:.65rem}
+.iponto-page .ip-tab[aria-selected="true"]{border-bottom-color:var(--rp,#25237b);background:#fff;color:var(--rp,#25237b)}
+.iponto-page .ip-tab:focus-visible{outline-offset:-5px}
+.iponto-page .ip-tourbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:12px 24px;border-bottom:1px solid var(--line,#dfe7f0);background:#eef4fb}
+.iponto-page .ip-tourbar strong{color:var(--ink,#132238);font-size:.82rem}
+.iponto-page .ip-progress{display:flex;flex-wrap:wrap;gap:3px}
+.iponto-page .ip-progress button{display:grid;place-items:center;width:34px;height:38px;padding:0;border:0;border-radius:8px;background:transparent;color:var(--muted,#617086);font-size:.75rem}
+.iponto-page .ip-progress button[aria-current="step"]{color:#fff;background:var(--rp,#25237b)}
+.iponto-page .ip-exit{padding:8px;border:0;background:transparent;color:var(--rp,#25237b);font-size:.78rem!important}
+.iponto-page .ip-heading{display:flex;align-items:center;justify-content:space-between;gap:22px;padding:24px 28px 20px}
+.iponto-page .ip-heading h3{margin:0 0 6px;color:var(--ink,#132238);font-size:1.25rem;line-height:1.25}
+.iponto-page .ip-heading p{margin:0;color:var(--muted,#617086);font-size:.88rem;line-height:1.55}
+.iponto-page .ip-zoom-button{align-items:center;justify-content:center;gap:8px;flex-shrink:0;min-height:44px;padding:9px 14px;border:1px solid var(--line,#dfe7f0);border-radius:12px;background:#fff;color:var(--ink,#132238);font-size:.8rem!important}
+.iponto-page .ip-figure{margin:0;padding:0 24px 8px}
+.iponto-page .ip-screen{position:relative;width:100%;aspect-ratio:var(--ip-ratio,1710 / 896);overflow:hidden;border:1px solid var(--line,#dfe7f0);border-radius:10px;background:#f4f6f8;isolation:isolate}
+.iponto-page .ip-canvas{position:absolute;top:0;left:0;width:100%;transform-origin:top left}
+.iponto-page .ip-canvas img{display:block;width:100%;height:auto;max-width:none;margin:0}
+.iponto-page .ip-highlight{position:absolute;z-index:1;border:2px solid #1687aa;border-radius:6px;background:rgba(22,135,170,.045);pointer-events:none}
+.iponto-page .ip-pin{position:absolute;z-index:2;display:grid;place-items:center;width:32px;height:32px;padding:0;border:2px solid #fff;border-radius:50%;background:var(--rp,#25237b);color:#fff;font-size:.78rem!important;font-weight:700!important;transform:translate(-50%,-50%);box-shadow:0 3px 10px rgba(7,28,53,.22)}
+.iponto-page .ip-pin[aria-pressed="true"]{background:#0b7795;box-shadow:0 0 0 4px rgba(12,131,164,.18)}
+.iponto-page .ip-card{position:absolute;z-index:5;width:min(306px,calc(100% - 24px));max-height:calc(100% - 24px);overflow:auto;padding:17px 18px 14px;border:1px solid #d9e2ed;border-top:3px solid var(--rp,#25237b);border-radius:14px;background:#fff;color:var(--ink,#132238);box-shadow:0 15px 38px rgba(7,28,53,.20)}
+.iponto-page .ip-card-top{display:flex;align-items:center;gap:8px;margin-bottom:9px;padding-right:24px}
+.iponto-page .ip-card-label{color:var(--rp,#25237b);font-size:.6rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.iponto-page .ip-card-count{margin-left:auto;color:var(--muted,#617086);font-size:.68rem;white-space:nowrap}
+.iponto-page .ip-card h4{margin:0 0 8px;color:var(--ink,#132238);font-size:1rem;font-weight:750;line-height:1.25;letter-spacing:-.015em}
+.iponto-page .ip-card p{margin:0;color:var(--muted,#617086);font-size:.82rem;line-height:1.55}
+.iponto-page .ip-card-close{position:absolute;top:5px;right:5px;width:34px;height:34px;padding:0;border:0;border-radius:8px;background:transparent;color:#617086;font-size:1.25rem!important;line-height:1}
+.iponto-page .ip-card-close:hover{background:#f0f4f9}
+.iponto-page .ip-card-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:15px;padding-top:12px;border-top:1px solid #edf1f6}
+.iponto-page .ip-prev,.iponto-page .ip-next{min-height:40px;padding:9px 12px;border:0;border-radius:9px;font-size:.77rem!important;font-weight:700!important}
+.iponto-page .ip-prev{background:transparent;color:var(--muted,#617086)}
+.iponto-page .ip-next{margin-left:auto;background:var(--rp,#25237b);color:#fff}
+.iponto-page .ip-next:hover{background:var(--blue,#1233b3)}
+.iponto-page .ip-contact{display:block;margin-top:12px;color:var(--rp,#25237b);font-size:.8rem;font-weight:700}
+.iponto-page .ip-picks{align-items:center;gap:6px;margin-top:14px}
+.iponto-page .ip-picks>span{margin-right:4px;color:var(--muted,#617086);font-size:.74rem}
+.iponto-page .ip-pick{width:40px;height:40px;padding:0;border:1px solid var(--line,#dfe7f0);border-radius:10px;background:#fff;color:var(--rp,#25237b);font-size:.8rem!important;font-weight:700!important}
+.iponto-page .ip-pick[aria-pressed="true"]{background:var(--rp,#25237b);border-color:var(--rp,#25237b);color:#fff}
+.iponto-page .ip-figure figcaption{padding:10px 2px;color:var(--muted,#617086);font-size:.71rem;line-height:1.5}
+.iponto-page .ip-sr-only{position:absolute;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.iponto-page .ip-dialog:not([open]){display:none}
+.iponto-page .ip-dialog{inset:0;width:min(1700px,calc(100vw - 24px));height:min(1050px,calc(100dvh - 24px));max-width:none;max-height:none;margin:auto;padding:0;border:1px solid var(--line,#dfe7f0);border-radius:16px;overflow:hidden;background:#fff;color:var(--ink,#132238)}
+.iponto-page .ip-dialog[open]{display:flex;flex-direction:column}
+.iponto-page .ip-dialog::backdrop{background:rgba(3,16,34,.82)}
+.iponto-page .ip-dialog-head{display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap;padding:15px 20px;border-bottom:1px solid var(--line,#dfe7f0)}
+.iponto-page .ip-dialog-head h2{margin:0;font-size:1.1rem;line-height:1.3}
+.iponto-page .ip-dialog-head>div{display:flex;gap:8px}
+.iponto-page .ip-dialog-head button{min-height:42px;padding:9px 13px;border:1px solid var(--line,#dfe7f0);border-radius:9px;background:#fff;color:var(--ink,#132238);font-size:.8rem}
+.iponto-page .ip-dialog-view{display:flex;flex:1;min-height:0;padding:12px;overflow:auto;background:#edf1f6;overscroll-behavior:contain}
+.iponto-page .ip-dialog-view img{display:block;flex-shrink:0;width:auto;height:auto;max-width:100%;max-height:100%;margin:auto;object-fit:contain}
+.iponto-page .ip-dialog-view.ip-original img{max-width:none;max-height:none;margin:0}
+@media(max-width:1020px){.iponto-page.ip-ready .ip-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}.iponto-page .ip-topbar>div{display:block}.iponto-page .ip-topbar small{display:block;margin-top:3px;padding:0;border:0}}
+@media(max-width:900px){.iponto-page .ip-demo{border-radius:17px}.iponto-page .ip-topbar{padding:15px;gap:10px}.iponto-page .ip-topbar strong{font-size:1.2rem}.iponto-page .ip-topbar small{font-size:.69rem}.iponto-page .ip-start{padding:8px 10px;font-size:.74rem!important}.iponto-page.ip-ready .ip-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.iponto-page .ip-tab{min-height:54px}.iponto-page .ip-tab span{display:inline;margin-right:5px}.iponto-page .ip-heading{display:block;padding:20px 15px 15px}.iponto-page .ip-heading h3{font-size:1.12rem}.iponto-page .ip-zoom-button{margin-top:12px}.iponto-page .ip-figure{padding:0 10px 6px}.iponto-page .ip-screen[data-card-open="true"]{height:clamp(460px,75svh,590px);aspect-ratio:auto}.iponto-page .ip-pin{display:none}.iponto-page .ip-card{width:calc(100% - 24px);max-width:360px;padding:15px}.iponto-page .ip-card p{font-size:.84rem}.iponto-page .ip-tourbar{padding:12px 15px}.iponto-page .ip-progress{order:3;width:100%}.iponto-page .ip-dialog{width:calc(100vw - 10px);height:calc(100dvh - 10px);border-radius:10px}.iponto-page .ip-dialog-head{padding:12px}.iponto-page .ip-dialog-head h2{font-size:.95rem}.iponto-page .ip-dialog-head button{padding:8px 10px;font-size:.72rem}}
+@media(prefers-reduced-motion:reduce){.iponto-page .ip-demo *,.iponto-page .ip-dialog *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Refinos de apresentação: mesmo padrão visual do RHiD. */
+.iponto-page .ip-topbar strong{font-weight:750}
+.iponto-page .ip-start,.iponto-page .ip-zoom-button{font-weight:600!important}
+.iponto-page .ip-tab{min-height:64px}
+.iponto-page .ip-tab span{display:inline-block;margin:0 7px 0 0}
+.iponto-page .ip-demo .ip-card{border-top-color:#1687aa}
+.iponto-page .ip-demo .ip-card h4{font-weight:700}
+.iponto-page .ip-demo .ip-card p{color:var(--muted,#617086)}
+.iponto-page.ip-ready .ip-picks{display:none!important}
+.iponto-page .ip-screen{--ip-ratio:1914 / 998;background:#f4f6f8}
+.iponto-page .ip-screen[aria-busy="true"] .ip-canvas{opacity:.45}
+.iponto-page .ip-canvas{transition:opacity .16s ease}
+.iponto-page .ip-error{position:absolute;inset:12px;z-index:8;display:grid;place-content:center;gap:14px;padding:22px;border-radius:10px;background:#fff;text-align:center}
+.iponto-page .ip-error p{margin:0;font-size:.9rem}
+.iponto-page .ip-error button{justify-self:center;padding:10px 16px;border:1px solid #dfe7f0;border-radius:9px;color:#25237b;background:#fff}
+.iponto-page .ip-card-count{font-variant-numeric:tabular-nums}
+.iponto-page .ip-prev:focus-visible,.iponto-page .ip-next:focus-visible{outline-offset:2px}
+.iponto-page .ip-pin:hover{box-shadow:0 0 0 5px rgba(12,131,164,.18)}
+.iponto-page .ip-progress button{border-radius:50%;width:32px;height:32px;background:#e4eaf4}
+.iponto-page .ip-progress{gap:6px}
+.iponto-page .ip-figure figcaption{font-size:.72rem}
+.iponto-page .ip-card-actions{gap:5px}
+.iponto-page .ip-hero-start svg,.iponto-page .ip-start svg{width:17px;height:17px}
+.iponto-page .ip-panel-description{max-width:640px}
+@media(max-width:1020px){.iponto-page .ip-tab{min-height:54px}}
+@media(max-width:900px){
+ .iponto-page.ip-ready .ip-picks{display:flex!important}
+ .iponto-page .ip-card{max-width:360px}
+ .iponto-page .ip-card-actions button{min-height:44px}
+ .iponto-page .ip-screen[data-card-open="true"]{height:clamp(460px,75svh,590px)}
+ .iponto-page .ip-hero-start svg{width:18px;height:18px}
+ .iponto-page .ip-heading{position:relative;padding-right:15px}
+ .iponto-page .ip-zoom-button{margin-top:14px}
+}
+@media(prefers-reduced-motion:reduce){.iponto-page .ip-canvas{transition:none}}
+
+/* Integração local de cores: somente esta página. */
+/*
+ * REALPONTO — IPONTO: INTEGRAÇÃO LOCAL AO TEMA DO SITE
+ * Carregado após os estilos compartilhados e visual-original.css.
+ * Preserva grid, conteúdo, capturas, recortes e controles de cada tour.
+ * No claro, nenhum estilo visual é substituído.
+ * Não aplica filtros às imagens: as telas dos sistemas mantêm suas cores.
+ */
+@media screen {
+  html[data-rp-theme="dark"] body.iponto-page {
+    --rhid-ink: var(--rp-dark-title, #f0f6fc);
+    --rhid-navy: #0d1117;
+    --rhid-accent: var(--rp-dark-link, #79c0ff);
+    --rhid-blue: var(--rp-dark-link, #79c0ff);
+    --rhid-muted: var(--rp-dark-muted, #b1bac4);
+    --rhid-line: var(--rp-dark-line, #30363d);
+    --rhid-soft: var(--rp-dark-soft, #10151c);
+    --rhid-action: var(--rp-dark-action, #1f6feb);
+  }
+
+  /* Fundo contínuo, com as conexões atrás das seções. */
+  html[data-rp-theme="dark"] body.iponto-page .rhid-hero,
+  html[data-rp-theme="dark"] body.iponto-page .rhid-soft {
+    background: transparent;
+  }
+
+  /* Molduras das demonstrações, cartões e painéis. */
+  html[data-rp-theme="dark"] body.iponto-page :is(
+    .rhid-window, .rhid-demo, .rhid-value-grid > article,
+    .rhid-zoom-dialog, .rhid-icon-label, .rhid-btn-secondary
+  ),
+  html[data-rp-theme="dark"] body.iponto-page :is(
+    .ip-demo, .ip-dialog, .ip-zoom-button, .ip-card, .ip-error,
+    .ip-pick, .ip-dialog-head button, .ip-error button
+  ) {
+    background: var(--rp-dark-panel);
+    color: var(--rp-dark-text);
+    border-color: var(--rp-dark-line);
+    box-shadow: 0 16px 42px rgba(0,0,0,.20);
+  }
+  html[data-rp-theme="dark"] body.iponto-page :is(
+    .rhid-icon-label, .rhid-btn-secondary, .rhid-window-bar
+  ),
+  html[data-rp-theme="dark"] body.iponto-page :is(
+    .ip-zoom-button, .ip-pick, .ip-dialog-head button, .ip-error button
+  ) { box-shadow: none; }
+  html[data-rp-theme="dark"] body.iponto-page .rhid-btn-secondary {
+    border-color: var(--rp-dark-line) !important;
+  }
+  html[data-rp-theme="dark"] body.iponto-page .rhid-preview-label {
+    color: var(--rp-dark-muted);
+    background: var(--rp-dark-raised);
+  }
+  html[data-rp-theme="dark"] body.iponto-page .rhid-window-dots i { background: #6e7681; }
+
+  /* As capturas são superfícies de produto, nunca invertidas/recoloridas. */
+  html[data-rp-theme="dark"] body.iponto-page :is(.rhid-screen, .rhid-zoom-viewport),
+  html[data-rp-theme="dark"] body.iponto-page :is(.ip-screen, .ip-dialog-view) {
+    background: #0d1117;
+    border-color: var(--rp-dark-line);
+  }
+  html[data-rp-theme="dark"] body.iponto-page .rhid-zoom-dialog::backdrop,
+  html[data-rp-theme="dark"] body.iponto-page .ip-dialog::backdrop {
+    background: rgba(0,0,0,.84);
+  }
+
+  /* Abas: estado selecionado e foco legíveis nos dois sistemas. */
+  html[data-rp-theme="dark"] body.iponto-page.rhid-ready .rhid-tabs,
+  html[data-rp-theme="dark"] body.iponto-page.ip-ready .ip-tabs {
+    background: var(--rp-dark-soft);
+    border-color: var(--rp-dark-line);
+  }
+  html[data-rp-theme="dark"] body.iponto-page .rhid-tab,
+  html[data-rp-theme="dark"] body.iponto-page .ip-tab {
+    color: var(--rp-dark-muted);
+  }
+  html[data-rp-theme="dark"] body.iponto-page .rhid-tab:hover,
+  html[data-rp-theme="dark"] body.iponto-page .ip-tab:hover {
+    background: var(--rp-dark-raised);
+    color: var(--rp-dark-title);
+  }
+  html[data-rp-theme="dark"] body.iponto-page .rhid-tab[aria-selected="true"],
+  html[data-rp-theme="dark"] body.iponto-page .ip-tab[aria-selected="true"] {
+    background: var(--rp-dark-panel);
+    color: var(--rp-dark-link);
+    border-bottom-color: var(--rp-dark-link);
+  }
+  html[data-rp-theme="dark"] body.iponto-page .rhid-content :focus-visible,
+  html[data-rp-theme="dark"] body.iponto-page .rhid-zoom-dialog :focus-visible,
+  html[data-rp-theme="dark"] body.iponto-page .ip-dialog :focus-visible {
+    outline-color: var(--rp-dark-link);
+  }
+
+  /* Barras de progresso e navegação do tour. */
+  html[data-rp-theme="dark"] body.iponto-page .rhid-demo-topbar,
+  html[data-rp-theme="dark"] body.iponto-page .ip-topbar {
+    background: #0d1117;
+    color: var(--rp-dark-title);
+  }
+  html[data-rp-theme="dark"] body.iponto-page .rhid-demo-topbar > div > span,
+  html[data-rp-theme="dark"] body.iponto-page .ip-topbar small {
+    color: var(--rp-dark-muted);
+    border-color: var(--rp-dark-line);
+  }
+  html[data-rp-theme="dark"] body.iponto-page .rhid-tour-banner,
+  html[data-rp-theme="dark"] body.iponto-page .ip-tourbar {
+    background: var(--rp-dark-soft);
+    border-color: var(--rp-dark-line);
+  }
+  html[data-rp-theme="dark"] body.iponto-page .rhid-tour-progress button span,
+  html[data-rp-theme="dark"] body.iponto-page .ip-progress button {
+    background: var(--rp-dark-raised);
+    color: var(--rp-dark-muted);
+  }
+
+  /* Explicações dentro das imagens: mesma posição e dimensões originais. */
+  html[data-rp-theme="dark"] body.iponto-page.rhid-ready .rhid-screen .rhid-callout {
+    background: var(--rp-dark-panel);
+    border-color: var(--rp-dark-line);
+    border-top-color: var(--rp-dark-link);
+    color: var(--rp-dark-text);
+    box-shadow: 0 14px 40px rgba(0,0,0,.42);
+  }
+  html[data-rp-theme="dark"] body.iponto-page.rhid-ready .rhid-note::before {
+    background: var(--rp-dark-panel);
+    border-color: var(--rp-dark-line);
+  }
+  html[data-rp-theme="dark"] body.iponto-page.rhid-ready .rhid-note[data-side="bottom"]::before {
+    border-color: var(--rp-dark-link);
+  }
+  html[data-rp-theme="dark"] body.iponto-page .ip-demo .ip-card {
+    border-top-color: var(--rp-dark-link);
+    box-shadow: 0 14px 40px rgba(0,0,0,.42);
+  }
+  html[data-rp-theme="dark"] body.iponto-page .rhid-card-actions,
+  html[data-rp-theme="dark"] body.iponto-page .ip-card-actions {
+    border-color: var(--rp-dark-line);
+  }
+  html[data-rp-theme="dark"] body.iponto-page.rhid-ready .rhid-highlight,
+  html[data-rp-theme="dark"] body.iponto-page .ip-highlight {
+    border-color: #2785d1;
+    background: rgba(39,133,209,.06);
+  }
+  html[data-rp-theme="dark"] body.iponto-page.rhid-ready .rhid-feature-picker {
+    background: var(--rp-dark-panel);
+    border-color: var(--rp-dark-line);
+  }
+  html[data-rp-theme="dark"] body.iponto-page .rhid-feature-pick {
+    background: var(--rp-dark-raised);
+    color: var(--rp-dark-link);
+  }
+
+  /* Ação preenchida usa azul de botão, não o azul mais claro dos links. */
+  html[data-rp-theme="dark"] body.iponto-page :is(
+    .rhid-btn-primary, .rhid-card-next, .rhid-preview-play, .rhid-hotspot,
+    .rhid-feature-pick[aria-pressed="true"]
+  ),
+  html[data-rp-theme="dark"] body.iponto-page :is(
+    .ip-next, .ip-pin, .ip-pick[aria-pressed="true"]
+  ),
+  html[data-rp-theme="dark"] body.iponto-page .rhid-tour-progress button[aria-current="step"] span,
+  html[data-rp-theme="dark"] body.iponto-page .ip-progress button[aria-current="step"] {
+    color: #fff;
+    background: var(--rp-dark-action);
+  }
+  html[data-rp-theme="dark"] body.iponto-page :is(.rhid-btn-primary, .rhid-card-next):hover,
+  html[data-rp-theme="dark"] body.iponto-page .ip-next:hover {
+    color: #fff;
+    background: #185ac6;
+  }
+  html[data-rp-theme="dark"] body.iponto-page .rhid-hotspot[aria-pressed="true"],
+  html[data-rp-theme="dark"] body.iponto-page .ip-pin[aria-pressed="true"] {
+    background: #116b86;
+    color: #fff;
+  }
+  html[data-rp-theme="dark"] body.iponto-page .rhid-preview-play { border-color: #e6edf3; }
+  html[data-rp-theme="dark"] body.iponto-page .ip-pick[aria-pressed="true"] { border-color: var(--rp-dark-action); }
+  html[data-rp-theme="dark"] body.iponto-page .rhid-zoom-actions button {
+    background: var(--rp-dark-panel);
+    color: var(--rp-dark-title);
+    border-color: var(--rp-dark-line);
+  }
+  html[data-rp-theme="dark"] body.iponto-page :is(
+    .rhid-btn-secondary, .rhid-icon-label, .rhid-card-close,
+    .rhid-card-prev:not(:disabled), .rhid-zoom-actions button
+  ):hover,
+  html[data-rp-theme="dark"] body.iponto-page :is(
+    .ip-card-close, .ip-prev:not(:disabled), .ip-zoom-button, .ip-dialog-head button
+  ):hover {
+    background: var(--rp-dark-raised);
+    color: var(--rp-dark-title);
+  }
+
+  html[data-rp-theme="dark"] body.iponto-page :is(
+    .ip-exit, .ip-card-label, .ip-contact, .ip-error button
+  ) { color: var(--rp-dark-link); }
+  html[data-rp-theme="dark"] body.iponto-page :is(
+    .ip-card-close, .ip-card-count, .ip-prev, .ip-figure figcaption
+  ) { color: var(--rp-dark-muted); }
+  html[data-rp-theme="dark"] body.iponto-page .ip-card h4 { color: var(--rp-dark-title); }
+
+  /* Cartões complementares, conclusão, perguntas frequentes e CTA. */
+  html[data-rp-theme="dark"] body.iponto-page .rhid-support-box {
+    background: #10151c;
+    box-shadow: inset 0 0 0 1px var(--rp-dark-line);
+  }
+  html[data-rp-theme="dark"] body.iponto-page .rhid-support-box p { color: var(--rp-dark-muted); }
+  html[data-rp-theme="dark"] body.iponto-page .rhid-support-box .eyebrow,
+  html[data-rp-theme="dark"] body.iponto-page .rhid-support-steps > div > span {
+    color: var(--rp-dark-link);
+  }
+  html[data-rp-theme="dark"] body.iponto-page .rhid-support-steps > div {
+    border-color: var(--rp-dark-line);
+  }
+  html[data-rp-theme="dark"] body.iponto-page .rhid-complete-icon {
+    background: #15251c;
+    color: #56d364;
+  }
+  html[data-rp-theme="dark"] body.iponto-page.rhid-ready .rhid-screen .rhid-complete {
+    border-top-color: #56d364;
+  }
+}
+
+/* Cinco abas, preservando os alvos de toque na versão móvel. */
+@media(max-width:900px){
+ .iponto-page.ip-ready .ip-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .iponto-page .ip-tab:last-child{grid-column:1/-1}
+ .iponto-page .ip-progress button{width:32px;height:36px}
+ .iponto-page .ip-progress{gap:5px}
+}
+@media(max-width:360px){.iponto-page .ip-topbar{align-items:flex-start;flex-wrap:wrap}.iponto-page .ip-progress button{width:30px}}
