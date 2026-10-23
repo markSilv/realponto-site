@@ -1,0 +1,2652 @@
+/*
+ * REALPONTO — VISUAL ORIGINAL + PRETO / GRAFITE + CONEXÕES + MOVIMENTOS LATERAIS (v8)
+ * Camada aditiva: css/style.css e js/script.js originais não são modificados.
+ * As regras de tema só são ativadas por html[data-rp-theme="dark"].
+ * Imagens, posições, medidas, tipografia e botões de marca são preservados.
+ */
+
+/* Controle independente: não ocupa espaço nem altera o cabeçalho original. */
+.rp-theme-control {
+  position: fixed; left: max(16px, env(safe-area-inset-left));
+  bottom: max(16px, env(safe-area-inset-bottom)); z-index: 1100;
+  display: flex; align-items: center; gap: 3px; padding: 5px;
+  border: 1px solid #dce4ef; border-radius: 999px;
+  background: rgba(255,255,255,.97); color: #132238;
+  box-shadow: 0 5px 22px rgba(7,28,53,.13);
+  font-family: Arial, sans-serif; line-height: 1.2;
+}
+.rp-theme-option {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 7px; min-height: 40px; padding: 0 13px;
+  border: 0; border-radius: 999px; background: transparent;
+  color: #52627a; font: 600 12px/1.2 Arial, sans-serif;
+  cursor: pointer; -webkit-tap-highlight-color: transparent;
+}
+.rp-theme-option svg { width: 16px; height: 16px; flex: 0 0 16px; }
+.rp-theme-option[aria-pressed="true"] { color: #fff; background: #25237b; }
+.rp-theme-option:hover:not([aria-pressed="true"]) { background: #edf2f8; }
+.rp-theme-option:focus-visible { outline: 3px solid #1eb6d9; outline-offset: 2px; }
+html[data-rp-theme="dark"] .rp-theme-control {
+  background: rgba(22,27,34,.98); color: #f0f6fc; border-color: #30363d;
+}
+html[data-rp-theme="dark"] .rp-theme-option { color: #b1bac4; }
+html[data-rp-theme="dark"] .rp-theme-option[aria-pressed="true"] { color: #0d1117; background: #f0f6fc; }
+html[data-rp-theme="dark"] .rp-theme-option:hover:not([aria-pressed="true"]) { background: #21262d; }
+/* O recorte só evita que as entradas laterais criem rolagem horizontal. */
+html.rp-motion-ready body,
+html.rp-motion-ready main,
+html.rp-motion-ready footer { overflow-x: clip; }
+@media (max-width: 600px) {
+  .rp-theme-control { left: 10px; bottom: max(10px, env(safe-area-inset-bottom)); padding: 4px; }
+  .rp-theme-option { min-height: 40px; padding: 0 11px; gap: 5px; font-size: 11px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+}
+@media print {
+  .rp-theme-control { display: none !important; }
+  [data-rp-motion] { opacity: 1 !important; translate: none !important; rotate: none !important; scale: none !important; }
+}
+
+/* TEMA GRAFITE — cores, sem alteração de estrutura. */
+html[data-rp-theme="dark"] body {
+  color: #e6edf3;
+  background: #0d1117;
+}
+
+html[data-rp-theme="dark"] a {
+  color: inherit;
+}
+
+html[data-rp-theme="dark"] .eyebrow {
+  color: #79c0ff;
+}
+
+html[data-rp-theme="dark"] .eyebrow:before {
+  background: linear-gradient(90deg,var(--rp),var(--cyan));
+}
+
+html[data-rp-theme="dark"] .lead {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .section-soft {
+  background: #10151c;
+}
+
+html[data-rp-theme="dark"] .section-head p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .topbar {
+  background: var(--navy);
+  color: #e6edf3;
+}
+
+html[data-rp-theme="dark"] .topbar a:hover {
+  color: #fff;
+}
+
+html[data-rp-theme="dark"] .header {
+  background: rgba(255,255,255,0.40);
+  border-bottom: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .brand {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .brand-copy small {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .nav-links a:after {
+  background: var(--rp);
+}
+
+html[data-rp-theme="dark"] .menu-btn {
+  border: 1px solid #30363d;
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .hero {
+  background: radial-gradient(circle at 78% 18%,rgba(30,182,217,.18),transparent 26%), radial-gradient(circle at 95% 65%,rgba(233,52,76,.12),transparent 24%),       linear-gradient(180deg,#161b22 0,#161b22 100%);
+}
+
+html[data-rp-theme="dark"] .hero:after {
+  background: repeating-linear-gradient(120deg,transparent 0 22px,rgba(25,118,210,.045) 23px 24px);
+}
+
+html[data-rp-theme="dark"] .hero h1 span {
+  background: linear-gradient(90deg,var(--blue),var(--cyan));
+  background-clip: text;
+  color: transparent;
+}
+
+html[data-rp-theme="dark"] .hero-proof {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .check {
+  background: #10151c;
+  color: var(--success);
+}
+
+html[data-rp-theme="dark"] .visual-orbit {
+  background: linear-gradient(145deg,var(--navy),var(--navy-2));
+}
+
+html[data-rp-theme="dark"] .visual-orbit:before {
+  border: 22px solid rgba(30,182,217,.35);
+}
+
+html[data-rp-theme="dark"] .visual-orbit:after {
+  background: linear-gradient(135deg,var(--blue),var(--rp));
+}
+
+html[data-rp-theme="dark"] .dashboard {
+  background: rgba(22,27,34,0.97);
+  border: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .dash-top {
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .dot {
+  background: #10151c;
+}
+
+html[data-rp-theme="dark"] .dot:nth-child(1) {
+  background: var(--rp);
+}
+
+html[data-rp-theme="dark"] .dot:nth-child(2) {
+  background: #f1bd38;
+}
+
+html[data-rp-theme="dark"] .dot:nth-child(3) {
+  background: #36bd79;
+}
+
+html[data-rp-theme="dark"] .dash-side {
+  background: #10151c;
+}
+
+html[data-rp-theme="dark"] .dash-side i {
+  background: rgba(255,255,255,.2);
+}
+
+html[data-rp-theme="dark"] .dash-side i:nth-child(1) {
+  background: var(--cyan);
+}
+
+html[data-rp-theme="dark"] .dash-main {
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .dash-title {
+  background: #10151c;
+}
+
+html[data-rp-theme="dark"] .metric {
+  background: #161b22;
+  border: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .metric strong {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .metric small {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .chart {
+  background: #161b22;
+  border: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .chart i {
+  background: linear-gradient(180deg,var(--cyan),var(--blue));
+}
+
+html[data-rp-theme="dark"] .face-card {
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .face-icon {
+  background: linear-gradient(145deg,#10151c,#10151c);
+}
+
+html[data-rp-theme="dark"] .face-icon:before {
+  border: 4px solid var(--blue);
+}
+
+html[data-rp-theme="dark"] .face-icon:after {
+  border: 4px solid var(--blue);
+  border-bottom: 0;
+}
+
+html[data-rp-theme="dark"] .face-card small {
+  color: var(--success);
+}
+
+html[data-rp-theme="dark"] .stats {
+  border-top: 1px solid #30363d;
+  border-bottom: 1px solid #30363d;
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .stat {
+  border-right: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .stat:last-child {
+  border-right: 0;
+}
+
+html[data-rp-theme="dark"] .stat strong {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .about-text {
+  background: /* Esmaece em cima e embaixo */
+  /*linear-gradient(
+    to bottom,
+    #161b22 0%,
+    rgba(22,27,34,0) 12%,
+    rgba(22,27,34,0) 88%,
+    #161b22 100%
+  ),*/
+
+  linear-gradient(
+  to bottom,
+  #161b22 0%,
+  rgba(22,27,34,0) 12%,
+  rgba(22,27,34,0) 80%,
+  rgba(22,27,34,0.85) 92%,
+  #161b22 97%,
+  #161b22 100%
+),
+
+  /* Esmaece a borda direita */
+  linear-gradient(
+    to left,
+    #161b22 0%,
+    rgba(22,27,34,0) 14%
+  ),
+
+  /* Protege o texto e revela a foto à direita */
+  linear-gradient(
+    to right,
+    #161b22 0%,
+    rgba(22,27,34,0.98) 30%,
+    rgba(22,27,34,0.72) 52%,
+    rgba(22,27,34,0.08) 90%
+  ),
+
+    url("../img/fachadaRP.JPG");
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+  border: none;
+  background-color: #161b22;
+}
+
+html[data-rp-theme="dark"] .about-text .stat {
+  border: none;
+}
+
+html[data-rp-theme="dark"] .stat span {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .card {
+  background: #161b22;
+  border: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .card:hover {
+  border-color: transparent;
+}
+
+html[data-rp-theme="dark"] .card:after {
+  background: rgba(30,182,217,.1);
+}
+
+html[data-rp-theme="dark"] .icon {
+  background: linear-gradient(145deg,#10151c,#10151c);
+  color: #79c0ff;
+}
+
+html[data-rp-theme="dark"] .card p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .card-link {
+  color: #79c0ff;
+}
+
+html[data-rp-theme="dark"] .feature-visual {
+  background: linear-gradient(145deg,var(--navy),#21262d);
+}
+
+html[data-rp-theme="dark"] .feature-visual:before {
+  border: 50px solid rgba(30,182,217,.17);
+}
+
+html[data-rp-theme="dark"] .device {
+  background: linear-gradient(145deg,#161b22,#30363d);
+}
+
+html[data-rp-theme="dark"] .device-screen {
+  background: linear-gradient(145deg,#10151c,#89d9ef);
+  color: #e6edf3;
+}
+
+html[data-rp-theme="dark"] .device-face {
+  border: 3px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .device-face:before,
+html[data-rp-theme="dark"] .device-face:after {
+  background: rgba(22,27,34,0.7);
+}
+
+html[data-rp-theme="dark"] .float-tag {
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .float-tag small {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .feature-item .num {
+  background: #10151c;
+  color: #79c0ff;
+}
+
+html[data-rp-theme="dark"] .feature-item p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .trust-box {
+  background: var(--navy);
+  color: #fff;
+}
+
+html[data-rp-theme="dark"] .trust-box:after {
+  background: rgba(30,182,217,.16);
+}
+
+html[data-rp-theme="dark"] .trust-box p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .badge {
+  border: 1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.06);
+}
+
+html[data-rp-theme="dark"] .reason {
+  background: #161b22;
+  border: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .reason p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .reason-index {
+  background: linear-gradient(135deg,var(--blue),var(--rp));
+  color: #fff;
+}
+
+html[data-rp-theme="dark"] .segment {
+  color: #fff;
+  background-color: #1c2128;
+}
+
+html[data-rp-theme="dark"] .segment:before {
+  border: 28px solid rgba(255,255,255,.08);
+}
+
+html[data-rp-theme="dark"] .segment p {
+  color: rgba(255,255,255,.8);
+}
+
+html[data-rp-theme="dark"] .step:before {
+  background: var(--navy);
+  color: #fff;
+}
+
+html[data-rp-theme="dark"] .step:not(:last-child):after {
+  background: linear-gradient(90deg,var(--blue),#30363d);
+}
+
+html[data-rp-theme="dark"] .step p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .faq {
+  border: 1px solid #30363d;
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .faq button {
+  border: 0;
+  background: #161b22;
+  color: #e6edf3;
+}
+
+html[data-rp-theme="dark"] .faq button span:last-child {
+  color: #79c0ff;
+}
+
+html[data-rp-theme="dark"] .faq-content p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .cta-box {
+  background: radial-gradient(circle at 85% 10%,rgba(30,182,217,.27),transparent 30%),       linear-gradient(135deg,var(--navy),#21262d);
+  color: #fff;
+}
+
+html[data-rp-theme="dark"] .cta-box p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] footer {
+  background: var(--dark-site);
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] footer .brand {
+  color: #fff;
+}
+
+html[data-rp-theme="dark"] .footer-copy {
+  color: #9da7b2;
+}
+
+html[data-rp-theme="dark"] .footer-title {
+  color: #fff;
+}
+
+html[data-rp-theme="dark"] .footer-links a:hover {
+  color: #fff;
+}
+
+html[data-rp-theme="dark"] .footer-bottom {
+  border-top: 1px solid rgba(255,255,255,.12);
+  color: #9da7b2;
+}
+
+@media (max-width:1020px) {
+html[data-rp-theme="dark"] .nav-links {
+  background: #161b22;
+  border: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .stat:nth-child(2) {
+  border-right: 0;
+}
+
+html[data-rp-theme="dark"] .stat:nth-child(-n/**/+2) {
+  border-bottom: 1px solid #30363d;
+}
+}
+
+html[data-rp-theme="dark"] .eyebrow-light {
+  color: #79c0ff;
+}
+
+html[data-rp-theme="dark"] .footer-brand-label {
+  color: #9da7b2;
+}
+
+html[data-rp-theme="dark"] .banner-carousel {
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .topbar-socials a {
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] .topbar-socials a:hover {
+  background: var(--rp);
+}
+
+html[data-rp-theme="dark"] .header {
+  background: rgba(13,17,23,0.15);
+}
+
+html[data-rp-theme="dark"] .header .nav-links a {
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] .header .menu-btn {
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] .header.header-scrolled {
+  background: rgba(22,27,34,0.65);
+}
+
+html[data-rp-theme="dark"] .header.header-scrolled .nav-links a {
+  color: #e6edf3;
+}
+
+html[data-rp-theme="dark"] .header.header-scrolled .menu-btn {
+  color: #e6edf3;
+}
+
+html[data-rp-theme="dark"] .header .nav-links a::after {
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .header.header-scrolled .nav-links a::after {
+  background: var(--rp);
+}
+
+html[data-rp-theme="dark"] .segment {
+  color: #ffffff;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+html[data-rp-theme="dark"] .segments .segment {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+html[data-rp-theme="dark"] .segment h3 {
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] .segment p {
+  color: rgba(255, 255, 255, 0.92);
+}
+
+html[data-rp-theme="dark"] .segments .segment-industria {
+  background-image: linear-gradient(
+      to top,
+      rgba(13,17,23,0.92) 0%,
+      rgba(13,17,23,0.55) 52%,
+      rgba(13,17,23,0.12) 100%
+    ),
+    url("../img/segmentos/industria.png");
+}
+
+html[data-rp-theme="dark"] .segments .segment-escritorio {
+  background-image: linear-gradient(
+      to top,
+      rgba(13,17,23,0.92) 0%,
+      rgba(13,17,23,0.55) 52%,
+      rgba(13,17,23,0.12) 100%
+    ),
+    url("../img/segmentos/escritorio.png");
+}
+
+html[data-rp-theme="dark"] .segments .segment-condominio {
+  background-image: linear-gradient(
+      to top,
+      rgba(13,17,23,0.92) 0%,
+      rgba(13,17,23,0.55) 52%,
+      rgba(13,17,23,0.12) 100%
+    ),
+    url("../img/segmentos/condominio.png");
+}
+
+html[data-rp-theme="dark"] .segments .segment-escola {
+  background-image: linear-gradient(
+      to top,
+      rgba(13,17,23,0.92) 0%,
+      rgba(13,17,23,0.55) 52%,
+      rgba(13,17,23,0.12) 100%
+    ),
+    url("../img/segmentos/escola.png");
+}
+
+html[data-rp-theme="dark"] .segments .segment-hospital {
+  background-image: linear-gradient(
+      to top,
+      rgba(13,17,23,0.92) 0%,
+      rgba(13,17,23,0.55) 52%,
+      rgba(13,17,23,0.12) 100%
+    ),
+    url("../img/segmentos/hospital.png");
+}
+
+html[data-rp-theme="dark"] .segments .segment-filiais {
+  background-image: linear-gradient(
+      to top,
+      rgba(13,17,23,0.92) 0%,
+      rgba(13,17,23,0.55) 52%,
+      rgba(13,17,23,0.12) 100%
+    ),
+    url("../img/segmentos/filiais.png");
+}
+
+html[data-rp-theme="dark"] .feature-visual-image {
+  background: transparent;
+  border: 0;
+}
+
+html[data-rp-theme="dark"] .feature-visual-image img {
+  border: 0;
+}
+
+html[data-rp-theme="dark"] .trust-badge-image {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+html[data-rp-theme="dark"] .trust-badge-image::after {
+  background: linear-gradient(
+    to right,
+    rgba(13,17,23,0.88),
+    rgba(13,17,23,0.35)
+  );
+}
+
+html[data-rp-theme="dark"] .trust-badge-image span {
+  color: #ffffff;
+}
+
+/* v8.1 — Foto e sobreposição compartilham a mesma área e o mesmo recorte.
+   A borda fica transparente para preservar as medidas e o alinhamento.
+   O degradê é pintado com a foto, inclusive até a borda arredondada:
+   não há uma camada menor deixando uma linha clara ao redor do card. */
+html[data-rp-theme="dark"] .cards-five .solution-card {
+  color: #ffffff;
+  border-color: transparent;
+  background-color: #0d1117;
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgba(13,17,23,0.16) 0%,
+      rgba(13,17,23,0.55) 48%,
+      rgba(13,17,23,0.96) 100%
+    ),
+    var(--rp-solution-image, none);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-origin: border-box;
+  background-clip: border-box;
+}
+
+/* A sobreposição já está no fundo acima: evita duplicação e emendas.
+   No modo claro, a camada original continua funcionando sem mudanças. */
+html[data-rp-theme="dark"] .cards-five .solution-card::before {
+  display: none;
+  content: none;
+}
+
+html[data-rp-theme="dark"] .cards-five .solution-card .icon {
+  background: rgba(22,27,34,0.92);
+  color: #79c0ff;
+}
+
+html[data-rp-theme="dark"] .cards-five .solution-card h3 {
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] .cards-five .solution-card p {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+html[data-rp-theme="dark"] .cards-five .solution-card .card-link {
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] .cards-five .solution-card:hover {
+  border-color: transparent;
+}
+
+html[data-rp-theme="dark"] .solution-card-ponto {
+  --rp-solution-image: url("../img/solucoes/controle-de-ponto.jpg");
+}
+
+html[data-rp-theme="dark"] .solution-card-seguranca {
+  --rp-solution-image: url("../img/solucoes/seguranca-eletronica.jpg");
+}
+
+html[data-rp-theme="dark"] .solution-card-nuvem {
+  --rp-solution-image: url("../img/solucoes/sistemas-em-nuvem.jpg");
+}
+
+html[data-rp-theme="dark"] .solution-card-assistencia {
+  --rp-solution-image: url("../img/solucoes/assistencia-tecnica.jpg");
+}
+
+html[data-rp-theme="dark"] .solution-card-identidade {
+  --rp-solution-image: url("../img/solucoes/identidade-visual.jpg");
+}
+
+html[data-rp-theme="dark"] .solution-card-suporte {
+  --rp-solution-image: url("../img/solucoes/suporte.png");
+}
+
+html[data-rp-theme="dark"] .internal-page .header {
+  background: rgba(22,27,34,0.82) !important;
+  border-bottom: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .internal-page .header .nav-links a,
+html[data-rp-theme="dark"] .internal-page .header .menu-btn {
+  color: #e6edf3 !important;
+}
+
+html[data-rp-theme="dark"] .internal-page .header .nav-links a::after {
+  background: var(--rp) !important;
+}
+
+html[data-rp-theme="dark"] .internal-hero {
+  background: radial-gradient(circle at 85% 15%, rgba(30, 182, 217, 0.18), transparent 28%),
+    radial-gradient(circle at 100% 80%, rgba(233, 52, 76, 0.1), transparent 24%),
+    linear-gradient(180deg, #161b22 0%, #161b22 100%);
+}
+
+html[data-rp-theme="dark"] .internal-empty-area {
+  border: 1px dashed #30363d;
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .header:not(.header-scrolled) {
+  background: transparent !important;
+  border: none !important;
+}
+
+html[data-rp-theme="dark"] .header.header-scrolled {
+  background: rgba(22,27,34,0.72) !important;
+  border-bottom: 1px solid rgba(220, 228, 238, 0.45) !important;
+}
+
+html[data-rp-theme="dark"] .header:not(.header-scrolled) .nav {
+  background: transparent !important;
+  border: 0 !important;
+}
+
+@media (max-width: 1200px) {
+html[data-rp-theme="dark"] .nav-links {
+  background: rgba(22,27,34,0.98);
+  border: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .nav-links a {
+  color: #e6edf3 !important;
+  border-bottom: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .nav-links a:last-child {
+  border-bottom: 0;
+}
+
+html[data-rp-theme="dark"] .menu-btn {
+  color: #e6edf3;
+  background: rgba(22,27,34,0.95);
+}
+
+html[data-rp-theme="dark"] .nav-dropdown-trigger {
+  border-bottom: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .nav-dropdown-trigger .nav-main-link {
+  border-bottom: 0 !important;
+}
+
+html[data-rp-theme="dark"] .submenu-toggle {
+  color: #e6edf3;
+}
+
+html[data-rp-theme="dark"] .submenu {
+  background: transparent;
+  border: 0;
+}
+
+html[data-rp-theme="dark"] .header .submenu a {
+  border-bottom: 0;
+  background: rgba(22,27,34,0.9);
+}
+}
+
+html[data-rp-theme="dark"] .relogio-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .relogio-card:hover {
+  border-color: transparent;
+}
+
+html[data-rp-theme="dark"] .relogio-category {
+  color: #79c0ff;
+}
+
+html[data-rp-theme="dark"] .relogio-content h2 {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .submenu-toggle {
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+
+html[data-rp-theme="dark"] .submenu {
+  background: rgba(22,27,34,0.97);
+  border: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .submenu::before {
+  background: transparent;
+}
+
+html[data-rp-theme="dark"] .header .submenu a {
+  color: #e6edf3 !important;
+}
+
+html[data-rp-theme="dark"] .header .submenu a:hover {
+  color: #79c0ff !important;
+  background: #10151c;
+}
+
+html[data-rp-theme="dark"] body.relogio-page .header,
+html[data-rp-theme="dark"] body.relogio-page .header:not(.header-scrolled),
+html[data-rp-theme="dark"] body.relogio-page .header.header-scrolled {
+  background: rgba(13,17,23,0.95) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+html[data-rp-theme="dark"] body.relogio-page .header .nav-links a {
+  color: #ffffff !important;
+}
+
+html[data-rp-theme="dark"] body.relogio-page .header .nav-links a::after {
+  background: #161b22 !important;
+}
+
+html[data-rp-theme="dark"] body.relogio-page .header .menu-btn {
+  color: #e6edf3 !important;
+  background: #161b22 !important;
+}
+
+html[data-rp-theme="dark"] body.relogio-page .header .submenu {
+  background: rgba(22,27,34,0.98);
+}
+
+html[data-rp-theme="dark"] body.relogio-page .header .submenu a {
+  color: #e6edf3 !important;
+}
+
+html[data-rp-theme="dark"] body.relogio-page .header .submenu a:hover {
+  color: #79c0ff !important;
+  background: #10151c;
+}
+
+html[data-rp-theme="dark"] .produto-carousel {
+  background: #161b22;
+  border: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .relogio-page .internal-empty-area {
+  border: none;
+  background: transparent;
+}
+
+html[data-rp-theme="dark"] .relogio-page .produto-carousel {
+  background: transparent;
+  border: none;
+}
+
+html[data-rp-theme="dark"] body.produto-page .header,
+html[data-rp-theme="dark"] body.produto-page .header:not(.header-scrolled),
+html[data-rp-theme="dark"] body.produto-page .header.header-scrolled {
+  background: rgba(13,17,23,0.95) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+html[data-rp-theme="dark"] body.produto-page .header .nav-links > a,
+html[data-rp-theme="dark"] body.produto-page .header .nav-main-link {
+  color: #ffffff !important;
+}
+
+html[data-rp-theme="dark"] body.produto-page .header .nav-links > a::after,
+html[data-rp-theme="dark"] body.produto-page .header .nav-main-link::after {
+  background: #161b22 !important;
+}
+
+html[data-rp-theme="dark"] body.produto-page .header .menu-btn {
+  color: #e6edf3 !important;
+  background: #161b22 !important;
+}
+
+html[data-rp-theme="dark"] body.produto-page .header .submenu {
+  background: rgba(22,27,34,0.98) !important;
+}
+
+html[data-rp-theme="dark"] body.produto-page .header .submenu a {
+  color: #e6edf3 !important;
+}
+
+html[data-rp-theme="dark"] body.produto-page .header .submenu a:hover {
+  color: #79c0ff !important;
+  background: #10151c !important;
+}
+
+html[data-rp-theme="dark"] body.home-page .topbar {
+  background: transparent;
+  border-bottom: 1px solid rgba(255,255,255,0.0);
+}
+
+html[data-rp-theme="dark"] body.home-page .topbar,
+html[data-rp-theme="dark"] body.home-page .topbar a {
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] body.relogio-page .header,
+html[data-rp-theme="dark"] body.relogio-page .header:not(.header-scrolled),
+html[data-rp-theme="dark"] body.relogio-page .header.header-scrolled,
+html[data-rp-theme="dark"] body.produto-page .header,
+html[data-rp-theme="dark"] body.produto-page .header:not(.header-scrolled),
+html[data-rp-theme="dark"] body.produto-page .header.header-scrolled {
+  background: var(--dark-site) !important;
+}
+
+html[data-rp-theme="dark"] body.relogio-page .topbar,
+html[data-rp-theme="dark"] body.produto-page .topbar {
+  background: var(--dark-site) !important;
+}
+
+html[data-rp-theme="dark"] .sistema-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .sistema-card:hover {
+  border-color: transparent;
+}
+
+html[data-rp-theme="dark"] .sistema-category {
+  color: #79c0ff;
+}
+
+html[data-rp-theme="dark"] .sistema-content h2 {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .sistema-content p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .sistema-content .card-link {
+  color: #79c0ff;
+}
+
+html[data-rp-theme="dark"] .seguranca-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .seguranca-card:hover {
+  border-color: transparent;
+}
+
+html[data-rp-theme="dark"] .seguranca-category {
+  color: #79c0ff;
+}
+
+html[data-rp-theme="dark"] .seguranca-content h2 {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .seguranca-content p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .suporte-intro-box {
+  background: linear-gradient(
+      to right,
+      #161b22 0%,
+      #161b22 44%,
+      rgba(22,27,34,0.96) 53%,
+      rgba(22,27,34,0.65) 67%,
+      rgba(22,27,34,0.1) 100%
+    ),
+    url("../img/suporte/suporte-tecnico.jpg");
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+}
+
+html[data-rp-theme="dark"] .suporte-marcas-titulo {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .suporte-marcas {
+  border-top: 1px solid #30363d;
+  border-bottom: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .suporte-destaques {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .suporte-destaques i {
+  background: linear-gradient(
+    90deg,
+    var(--rp),
+    var(--cyan)
+  );
+}
+
+html[data-rp-theme="dark"] .suporte-processo {
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .suporte-processo-linha::before {
+  background: linear-gradient(
+      90deg,
+      var(--rp),
+      var(--cyan)
+    );
+}
+
+html[data-rp-theme="dark"] .suporte-etapa-numero {
+  background: var(--dark-site, #0d1117);
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] .suporte-etapa p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .suporte-avulso {
+  background: linear-gradient(
+      90deg,
+      rgba(13,17,23,0.97) 0%,
+      rgba(13,17,23,0.93) 42%,
+      rgba(13,17,23,0.62) 65%,
+      rgba(13,17,23,0.18) 100%
+    ),
+    url("../img/suporte/atendimento-avulso.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+html[data-rp-theme="dark"] .suporte-avulso-content {
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] .suporte-avulso-content h2 {
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] .suporte-avulso-content .lead {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+html[data-rp-theme="dark"] .suporte-avulso-content strong {
+  color: #ffffff;
+}
+
+@media (max-width: 680px) {
+html[data-rp-theme="dark"] .suporte-intro-box {
+  background: linear-gradient(
+        to bottom,
+        rgba(22,27,34,0.05) 0%,
+        rgba(22,27,34,0.15) 30%,
+        #161b22 53%,
+        #161b22 100%
+      ),
+      url("../img/suporte/suporte-tecnico.jpg");
+  background-size: auto 300px;
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+
+html[data-rp-theme="dark"] .suporte-etapa:not(:last-child)::after {
+  background: linear-gradient(
+        to bottom,
+        var(--rp),
+        var(--cyan)
+      );
+}
+
+html[data-rp-theme="dark"] .suporte-avulso {
+  background: linear-gradient(
+        to bottom,
+        rgba(13,17,23,0.18) 0%,
+        rgba(13,17,23,0.55) 30%,
+        rgba(13,17,23,0.96) 64%,
+        rgba(13,17,23,1) 100%
+      ),
+      url("../img/suporte/atendimento-avulso.jpg");
+  background-position: center;
+}
+}
+
+html[data-rp-theme="dark"] .assistencia-intro-box {
+  background: linear-gradient(
+      to right,
+      #161b22 0%,
+      #161b22 44%,
+      rgba(22,27,34,0.96) 53%,
+      rgba(22,27,34,0.65) 67%,
+      rgba(22,27,34,0.1) 100%
+    ),
+    url("../img/lab2.png");
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+}
+
+html[data-rp-theme="dark"] .identidade-card {
+  background: #161b22;
+  border: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .identidade-category {
+  color: #79c0ff;
+}
+
+html[data-rp-theme="dark"] .identidade-content h2 {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .identidade-content p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .assistencia-links-contextuais a {
+  color: #f0f6fc;
+  border-bottom: 1px solid rgba(13,17,23,0.2);
+}
+
+html[data-rp-theme="dark"] .assistencia-links-contextuais a:hover {
+  border-color: var(--rp);
+}
+
+html[data-rp-theme="dark"] .assistencia-diagnostico {
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .assistencia-problemas-lista {
+  border-top: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .assistencia-problema {
+  border-bottom: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .assistencia-problema:nth-child(odd) {
+  border-right: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .assistencia-numero {
+  background: var(--dark-site, #0d1117);
+  color: #fff;
+}
+
+html[data-rp-theme="dark"] .assistencia-problema p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .assistencia-tipo {
+  border: 1px solid #30363d;
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .assistencia-tipo-label {
+  background: rgba(13,17,23,.07);
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .assistencia-tipo p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .assistencia-marcas-section {
+  background: var(--dark-site, #0d1117);
+  color: #fff;
+}
+
+html[data-rp-theme="dark"] .assistencia-marcas-section h2,
+html[data-rp-theme="dark"] .assistencia-marcas-section .eyebrow {
+  color: #fff;
+}
+
+html[data-rp-theme="dark"] .assistencia-marcas-section .lead {
+  color: rgba(255,255,255,.78);
+}
+
+html[data-rp-theme="dark"] .assistencia-marcas-texto span {
+  border: 1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.06);
+}
+
+html[data-rp-theme="dark"] .assistencia-observacao {
+  color: rgba(255,255,255,.68);
+}
+
+html[data-rp-theme="dark"] .assistencia-check-list {
+  border-top: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .assistencia-check-list > div {
+  border-bottom: 1px solid #30363d;
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .assistencia-check-list i {
+  background: rgba(19, 178, 207, .12);
+  color: #79c0ff;
+}
+
+html[data-rp-theme="dark"] .assistencia-processo {
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .assistencia-etapa {
+  background: var(--dark-site);
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] .assistencia-etapa-numero {
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] .assistencia-etapa-texto h3 {
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] .assistencia-etapa-texto p {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+html[data-rp-theme="dark"] .assistencia-etapa::after {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .assistencia-laboratorio {
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .assistencia-laboratorio-copy p:not(.lead) {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .assistencia-endereco {
+  border-top: 1px solid #30363d;
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .assistencia-endereco strong {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .assistencia-endereco a {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .assistencia-laboratorio-destaques > div {
+  background: #161b22;
+  border: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .assistencia-laboratorio-destaques strong {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .assistencia-laboratorio-destaques span {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .assistencia-faq {
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .assistencia-faq-list details {
+  border-top: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .assistencia-faq-list details:last-child {
+  border-bottom: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .assistencia-faq-list summary {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .assistencia-faq-list details p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .produto-assistencia {
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .produto-assistencia-inner {
+  border: 1px solid #30363d;
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .produto-assistencia p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .relogio-resumo {
+  color: #b1bac4;
+}
+
+@media (max-width: 1020px) {
+html[data-rp-theme="dark"] .assistencia-problema:nth-child(odd),
+html[data-rp-theme="dark"] .assistencia-problema:nth-child(even) {
+  border-right: 0;
+}
+}
+
+@media (max-width: 720px) {
+html[data-rp-theme="dark"] .assistencia-intro-box {
+  background: linear-gradient(rgba(22,27,34,0.94), rgba(22,27,34,0.94)),
+      url("../img/lab2.png");
+  background-size: cover;
+  background-position: center;
+}
+}
+
+@media (max-width: 1200px) {
+html[data-rp-theme="dark"] body.produto-page .header .nav-links,
+html[data-rp-theme="dark"] body.relogio-page .header .nav-links,
+html[data-rp-theme="dark"] body.internal-page .header .nav-links {
+  background: rgba(13,17,23,0.98) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+html[data-rp-theme="dark"] body.produto-page .header .nav-links > a,
+html[data-rp-theme="dark"] body.produto-page .header .nav-main-link,
+html[data-rp-theme="dark"] body.relogio-page .header .nav-links > a,
+html[data-rp-theme="dark"] body.relogio-page .header .nav-main-link,
+html[data-rp-theme="dark"] body.internal-page .header .nav-links > a,
+html[data-rp-theme="dark"] body.internal-page .header .nav-main-link {
+  color: #ffffff !important;
+}
+
+html[data-rp-theme="dark"] body.produto-page .header .nav-links > a,
+html[data-rp-theme="dark"] body.relogio-page .header .nav-links > a,
+html[data-rp-theme="dark"] body.internal-page .header .nav-links > a,
+html[data-rp-theme="dark"] body.produto-page .nav-dropdown-trigger,
+html[data-rp-theme="dark"] body.relogio-page .nav-dropdown-trigger,
+html[data-rp-theme="dark"] body.internal-page .nav-dropdown-trigger {
+  border-bottom-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+html[data-rp-theme="dark"] body.produto-page .submenu-toggle,
+html[data-rp-theme="dark"] body.relogio-page .submenu-toggle,
+html[data-rp-theme="dark"] body.internal-page .submenu-toggle {
+  color: #ffffff !important;
+}
+
+html[data-rp-theme="dark"] body.produto-page .header .submenu,
+html[data-rp-theme="dark"] body.relogio-page .header .submenu,
+html[data-rp-theme="dark"] body.internal-page .header .submenu {
+  background: transparent !important;
+  border: 0 !important;
+}
+
+html[data-rp-theme="dark"] body.produto-page .header .submenu a,
+html[data-rp-theme="dark"] body.relogio-page .header .submenu a,
+html[data-rp-theme="dark"] body.internal-page .header .submenu a {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.07) !important;
+  border: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+html[data-rp-theme="dark"] body.produto-page .header .submenu a:hover,
+html[data-rp-theme="dark"] body.produto-page .header .submenu a:focus-visible,
+html[data-rp-theme="dark"] body.relogio-page .header .submenu a:hover,
+html[data-rp-theme="dark"] body.relogio-page .header .submenu a:focus-visible,
+html[data-rp-theme="dark"] body.internal-page .header .submenu a:hover,
+html[data-rp-theme="dark"] body.internal-page .header .submenu a:focus-visible {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.14) !important;
+}
+}
+
+@media (max-width: 680px) {
+html[data-rp-theme="dark"] body.home-page .topbar {
+  background: var(--dark-site) !important;
+}
+
+html[data-rp-theme="dark"] body.home-page .header,
+html[data-rp-theme="dark"] body.home-page .header:not(.header-scrolled) {
+  background: var(--dark-site) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.10) !important;
+}
+
+html[data-rp-theme="dark"] body.home-page .header.header-scrolled {
+  background: rgba(22,27,34,0.96) !important;
+  border-bottom-color: #30363d !important;
+}
+
+html[data-rp-theme="dark"] body.home-page .banner-carousel {
+  background: var(--dark-site);
+}
+}
+
+@media (max-width: 680px) {
+html[data-rp-theme="dark"] body.home-page #diferenciais .about-text {
+  background: #161b22 !important;
+}
+
+html[data-rp-theme="dark"] body.internal-page .suporte-intro-box {
+  background: #161b22 !important;
+  background-image: none !important;
+}
+}
+
+@media (max-width: 680px) {
+html[data-rp-theme="dark"] body.produto-page .suporte-intro-box {
+  background: #161b22 !important;
+  background-image: none !important;
+  border: 0 !important;
+}
+}
+
+html[data-rp-theme="dark"] .locacao-apresentacao-copy p:not(.lead) {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .locacao-equipamento {
+  border: 1px solid #30363d;
+  background: radial-gradient(
+      circle at 75% 15%,
+      rgba(30, 182, 217, 0.16),
+      transparent 34%
+    ),
+
+    linear-gradient(
+      145deg,
+      #161b22,
+      #10151c
+    );
+}
+
+html[data-rp-theme="dark"] .locacao-equipamento span {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .locacao-beneficio {
+  background: var(--success);
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] .locacao-beneficio > span {
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] .locacao-section-head.locacao-vantagens-head {
+  border-bottom: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .locacao-beneficio h3 {
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] .locacao-beneficio p {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+html[data-rp-theme="dark"] .locacao-atencao-lista {
+  border-top: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .locacao-atencao-lista > div {
+  border-bottom: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .locacao-atencao-lista strong {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .locacao-atencao-lista p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .locacao-comparativo-box {
+  border: 1px solid #30363d;
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .locacao-comparativo-header {
+  background: var(--dark-site);
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] .locacao-comparativo-row {
+  border-bottom: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .locacao-comparativo-row:last-child {
+  border-bottom: 0;
+}
+
+html[data-rp-theme="dark"] .locacao-comparativo-row > * {
+  border-right: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .locacao-comparativo-row > *:last-child {
+  border-right: 0;
+}
+
+html[data-rp-theme="dark"] .locacao-comparativo-row > strong {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .locacao-comparativo-row p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .locacao-comparativo-row p:nth-child(2) {
+  background: rgba(18, 51, 179, 0.025);
+}
+
+html[data-rp-theme="dark"] .locacao-comparativo-row b {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .locacao-escolha-card {
+  border: 1px solid #30363d;
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .locacao-escolha-card-destaque {
+  color: #ffffff;
+  border-color: transparent;
+  background: radial-gradient(
+      circle at 90% 10%,
+      rgba(30,182,217,0.25),
+      transparent 30%
+    ),
+
+    linear-gradient(
+      135deg,
+      var(--navy),
+      #21262d
+    );
+}
+
+html[data-rp-theme="dark"] .locacao-escolha-label {
+  background: rgba(13,17,23,0.07);
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .locacao-escolha-card-destaque
+.locacao-escolha-label {
+  color: #ffffff;
+  background: rgba(255,255,255,0.12);
+}
+
+html[data-rp-theme="dark"] .locacao-escolha-card-destaque h3 {
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] .locacao-escolha-card li {
+  border-bottom: 1px solid #30363d;
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .locacao-escolha-card li:last-child {
+  border-bottom: 0;
+}
+
+html[data-rp-theme="dark"] .locacao-escolha-card li::before {
+  color: #79c0ff;
+}
+
+html[data-rp-theme="dark"] .locacao-escolha-card-destaque li {
+  color: rgba(255,255,255,0.80);
+  border-bottom-color: rgba(255,255,255,0.12);
+}
+
+html[data-rp-theme="dark"] .locacao-escolha-card-destaque li::before {
+  color: #79c0ff;
+}
+
+html[data-rp-theme="dark"] .locacao-processo-linha article {
+  border: 1px solid #30363d;
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .locacao-processo-linha article > span {
+  background: var(--dark-site);
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] .locacao-processo-linha h3 {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .locacao-processo-linha p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .locacao-faq-list details {
+  border-top: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .locacao-faq-list details:last-child {
+  border-bottom: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .locacao-faq-list summary {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .locacao-faq-list details p {
+  color: #b1bac4;
+}
+
+@media (max-width: 720px) {
+html[data-rp-theme="dark"] .locacao-comparativo-box {
+  border: 0;
+  background: transparent;
+}
+
+html[data-rp-theme="dark"] .locacao-comparativo-row {
+  border: 1px solid #30363d;
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .locacao-comparativo-row > * {
+  border-right: 0;
+  border-bottom: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .locacao-comparativo-row > *:last-child {
+  border-bottom: 0;
+}
+
+html[data-rp-theme="dark"] .locacao-comparativo-row > strong {
+  background: var(--dark-site);
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] .locacao-comparativo-row
+  p:nth-child(2)::before {
+  color: #79c0ff;
+}
+
+html[data-rp-theme="dark"] .locacao-comparativo-row
+  p:nth-child(3)::before {
+  color: #f0f6fc;
+}
+}
+
+html[data-rp-theme="dark"] .card-link-wrapper {
+  color: inherit;
+}
+
+html[data-rp-theme="dark"] .locacao-opcionais {
+  border: 1px solid #30363d;
+  background: radial-gradient(
+      circle at 92% 10%,
+      rgba(30, 182, 217, 0.10),
+      transparent 32%
+    ),
+    linear-gradient(
+      145deg,
+      #161b22,
+      #10151c
+    );
+}
+
+html[data-rp-theme="dark"] .locacao-opcionais-texto h3 {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .locacao-opcionais-texto .lead {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .locacao-opcional-item {
+  border: 1px solid #30363d;
+  background: rgba(22,27,34,0.78);
+}
+
+html[data-rp-theme="dark"] .locacao-opcional-imagem {
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .locacao-opcional-info > span {
+  color: #79c0ff;
+}
+
+html[data-rp-theme="dark"] .locacao-opcional-info h4 {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .locacao-opcional-info p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .ra-home-verificacao {
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+html[data-rp-theme="dark"] .ra-home-verificacao-copy strong {
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] .ra-home-verificacao-copy p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .locacao-vantagens-head::after {
+  background-image: url("../img/idclass2.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+html[data-rp-theme="dark"] .locacao-opcional-link-wrapper {
+  color: inherit;
+}
+
+@media (min-width: 1021px) {
+html[data-rp-theme="dark"] .assistencia-etapa:nth-child(5)::after,
+html[data-rp-theme="dark"] /* 04 → aponta para o 05 */
+  .assistencia-etapa:nth-child(6)::after {
+  color: #b1bac4;
+}
+}
+
+html[data-rp-theme="dark"] .real-power-visual {
+  border: 1px solid #30363d;
+  background: radial-gradient(circle at 72% 18%, rgba(30,182,217,.18), transparent 30%),
+    linear-gradient(145deg, #161b22, #10151c);
+}
+
+html[data-rp-theme="dark"] .real-power-placeholder {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .real-power-placeholder-icon {
+  background: var(--dark-site);
+  color: #fff;
+}
+
+html[data-rp-theme="dark"] .real-power-placeholder span {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .real-power-placeholder small {
+  color: #9da7b2;
+}
+
+html[data-rp-theme="dark"] .real-power-copy > p:not(.lead) {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .real-power-highlights > div {
+  border: 1px solid #30363d;
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .real-power-highlights i {
+  background: rgba(18,51,179,.08);
+  color: #79c0ff;
+}
+
+html[data-rp-theme="dark"] .real-power-highlights strong {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .real-power-highlights small {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .real-power-benefits-grid article {
+  border: 1px solid #30363d;
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .real-power-benefits-grid article > span {
+  background: var(--dark-site);
+  color: #fff;
+}
+
+html[data-rp-theme="dark"] .real-power-benefits-grid h3 {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .real-power-benefits-grid p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .real-power-manual-box {
+  border: 1px solid #30363d;
+  background: radial-gradient(circle at 92% 10%, rgba(30,182,217,.12), transparent 30%),
+    linear-gradient(145deg, #161b22, #10151c);
+}
+
+html[data-rp-theme="dark"] .real-power-manual-icon {
+  background: var(--dark-site);
+  color: #fff;
+}
+
+html[data-rp-theme="dark"] .real-power-manual-action small {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .real-power-benefits-grid-completo article {
+  border: 1px solid #30363d;
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .real-power-benefits-grid-completo article:hover {
+  border-color: transparent;
+}
+
+html[data-rp-theme="dark"] .real-power-benefits-grid-completo article > span {
+  background: var(--dark-site);
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] .real-power-benefits-grid-completo h3 {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .real-power-benefits-grid-completo p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .real-power-compat-card {
+  border: 1px solid #30363d;
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] .real-power-compat-brand {
+  background: radial-gradient(
+      circle at 90% 10%,
+      rgba(30, 182, 217, .18),
+      transparent 35%
+    ),
+    var(--dark-site);
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] .real-power-compat-card li {
+  border-bottom: 1px solid #30363d;
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .real-power-compat-card li:last-child {
+  border-bottom: 0;
+}
+
+html[data-rp-theme="dark"] .real-power-compat-card li i {
+  color: var(--success);
+}
+
+html[data-rp-theme="dark"] .real-power-compat-alert {
+  border: 1px solid rgba(18, 51, 179, .14);
+  background: linear-gradient(
+      135deg,
+      rgba(18, 51, 179, .045),
+      rgba(30, 182, 217, .07)
+    );
+}
+
+html[data-rp-theme="dark"] .real-power-compat-alert-icon {
+  background: var(--navy);
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] .real-power-compat-alert strong {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .real-power-compat-alert p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .real-power-faq-list {
+  border-top: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .real-power-faq-list details {
+  border-bottom: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .real-power-faq-list summary {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .real-power-faq-list summary::after {
+  color: #79c0ff;
+}
+
+html[data-rp-theme="dark"] .real-power-faq-list details p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] .real-power-modelo:hover {
+  color: #79c0ff;
+  background: rgba(18, 51, 179, 0.035);
+}
+
+html[data-rp-theme="dark"] body.real-power-page .real-power-visual {
+  background: transparent !important;
+  border: 0 !important;
+}
+
+html[data-rp-theme="dark"] body.real-power-page .real-power-product-image {
+  border: 0;
+}
+
+html[data-rp-theme="dark"] .locacao-carousel-slide span {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .locacao-carousel-arrow {
+  border: 1px solid #30363d;
+  background: rgba(22,27,34,0.92);
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] .locacao-carousel-arrow {
+  background: #161b22;
+  border: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] .locacao-carousel-arrow::before {
+  border-top: 2px solid var(--navy);
+  border-right: 2px solid var(--navy);
+}
+
+html[data-rp-theme="dark"] .locacao-carousel-arrow:hover {
+  background: #161b22;
+  border-color: var(--rp);
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-intro-visual {
+  background: radial-gradient(circle at 75% 20%,rgba(30,182,217,.16),transparent 34%),linear-gradient(145deg,#161b22,#10151c);
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-beneficios-rapidos > div {
+  border: 1px solid #30363d;
+  background: #161b22;
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-beneficios-rapidos i {
+  color: #79c0ff;
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-checklist li {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-checklist i {
+  color: var(--success);
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-media-card {
+  border: 1px solid #30363d;
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-media-card figcaption {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-galeria-item {
+  border: 1px solid #30363d;
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-galeria-label {
+  color: #79c0ff;
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-galeria-content h3 {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-galeria-content p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-cenario-card {
+  border: 1px solid #30363d;
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-cenario-icon {
+  background: rgba(18,51,179,.08);
+  color: #79c0ff;
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-cenario-card h3 {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-cenario-card p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-processo-card {
+  border: 1px solid #30363d;
+  background: #161b22;
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-processo-numero {
+  background: var(--dark-site);
+  color: #fff;
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-processo-card h3 {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-processo-card p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-faq-list {
+  border-top: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-faq-list details {
+  border-bottom: 1px solid #30363d;
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-faq-list summary {
+  color: #f0f6fc;
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-faq-list summary::after {
+  color: #79c0ff;
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-faq-list details p {
+  color: #b1bac4;
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-intro-visual {
+  background: transparent !important;
+  border: 0 !important;
+}
+
+html[data-rp-theme="dark"] body.modulos-page .modulos-intro-produto {
+  background: transparent;
+  border: 0;
+}
+
+@media (max-width: 1200px) {
+html[data-rp-theme="dark"] .header .submenu-toggle {
+  background: transparent;
+  border: 0;
+  color: inherit;
+}
+
+html[data-rp-theme="dark"] .header .submenu {
+  background: transparent !important;
+  border: 0 !important;
+}
+}
+
+/* Mantém o logo original branco sobre o cabeçalho escuro. */
+html[data-rp-theme="dark"] .header.header-scrolled .brand .logo-top { display: block !important; }
+html[data-rp-theme="dark"] .header.header-scrolled .brand .logo-scrolled { display: none !important; }
+/* A área das fotos/logos mantém o acabamento original, sem inverter imagens. */
+html[data-rp-theme="dark"] .hero-circle { border-color: rgba(255,255,255,.26); }
+
+html[data-rp-theme="dark"] { color-scheme: dark; }
+
+/* REALPONTO — ABERTURA COM UMA TELA INTEIRA (v5)
+   Complemento de css/visual-original.css.
+   Atua no carrossel da HOME, não na seção .hero.
+   Mantém as artes completas: a área é de tela inteira, com faixas azuis
+   quando a proporção da tela difere da proporção dos banners.
+   O JavaScript complementar mede a topbar e o menu sem alterar seus estilos. */
+
+@media screen {
+  body.home-page {
+    --rp-opening-overlap: 120px;
+  }
+
+  @media (max-width: 1200px) {
+    body.home-page { --rp-opening-overlap: 114px; }
+  }
+
+  @media (max-width: 680px) {
+    body.home-page { --rp-opening-overlap: 108px; }
+  }
+
+  body.home-page #inicio > .banner-carousel {
+    /* Fallback e altura da área visível do navegador. */
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0 !important;
+    max-height: none;
+    box-sizing: border-box;
+    padding: 0;
+    border: 0;
+    /* Topbar + menu continuam sobre a abertura e não somam outra faixa. */
+    margin-top: calc(-1 * var(--rp-opening-overlap)) !important;
+    margin-bottom: 0;
+    /* Mesma cor de marca, atrás das artes, em ambos os temas. */
+    background-color: #25237b;
+  }
+
+  body.home-page #inicio > .banner-carousel .carousel-track {
+    height: 100%;
+    min-height: 0 !important;
+    margin: 0;
+    padding: 0;
+  }
+
+  body.home-page #inicio > .banner-carousel .carousel-slide,
+  body.home-page #inicio > .banner-carousel .carousel-slide.active {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  body.home-page #inicio > .banner-carousel .carousel-slide img {
+    display: block;
+    width: 100%;
+    height: 100% !important;
+    max-height: none !important;
+    /* Não corta textos, logotipos e equipamentos gravados nas imagens. */
+    object-fit: contain !important;
+    object-position: center center !important;
+  }
+}
+
+/* REALPONTO — BANNER SEM FAIXAS LATERAIS
+   Mantém a altura atual e o menu sobre o banner.
+   Preenche a área sem deformar a imagem.
+   Pode recortar as bordas da arte conforme a tela. */
+
+@media screen {
+  body.home-page #inicio > .banner-carousel .carousel-slide img {
+    display: block;
+    width: 100%;
+    height: 100% !important;
+
+    /* Preenche toda a área, eliminando as faixas. */
+    object-fit: cover !important;
+
+    /* Mantém o enquadramento centralizado. */
+    object-position: center center !important;
+  }
+}
+
+/* =====================================================================
+   REALPONTO — MODO ESCURO GRAFITE v6 | cor solicitada: 0D:11:17:E0
+   #0D1117E0 = RGB(13,17,23) com alpha 224/255 (~87,84%).
+   O canvas tem a mesma base opaca: a transparência não esbranquiça a página.
+   Só atua em data-rp-theme="dark". Não muda layout, banners nem movimento.
+   ===================================================================== */
+html[data-rp-theme="dark"] {
+  --rp-dark-bg: #0d1117;
+  --rp-dark-alpha: #0d1117e0;
+  --rp-dark-soft: #10151c;
+  --rp-dark-panel: #161b22;
+  --rp-dark-raised: #21262d;
+  --rp-dark-line: #30363d;
+  --rp-dark-control-line: #6e7681;
+  --rp-dark-text: #e6edf3;
+  --rp-dark-title: #f0f6fc;
+  --rp-dark-muted: #b1bac4;
+  --rp-dark-link: #79c0ff;
+  --rp-dark-action: #1f6feb;
+  --navy: #0d1117;
+  --navy-2: #161b22;
+  --dark-site: #0d1117;
+  --ink: #e6edf3;
+  --muted: #b1bac4;
+  --line: #30363d;
+  --soft: #10151c;
+  --shadow: 0 20px 60px rgba(0,0,0,.32);
+  color-scheme: dark;
+  color: var(--rp-dark-text);
+  background: var(--rp-dark-bg);
+  scrollbar-color: #6e7681 #0d1117;
+}
+html[data-rp-theme="dark"] body {
+  background: var(--rp-dark-alpha);
+  color: var(--rp-dark-text);
+  isolation: isolate;
+}
+/* Desativa inteiramente as antigas camadas de imagem, malha e luz. */
+html[data-rp-theme="dark"] body::before,
+html[data-rp-theme="dark"] body::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  animation: none !important;
+}
+html[data-rp-theme="dark"] .hero,
+html[data-rp-theme="dark"] .internal-hero {
+  background: var(--rp-dark-bg);
+}
+html[data-rp-theme="dark"] .hero::after {
+  background: none;
+}
+html[data-rp-theme="dark"] .hero-copy,
+html[data-rp-theme="dark"] .internal-hero .container,
+html[data-rp-theme="dark"] .section-head {
+  text-shadow: none;
+}
+html[data-rp-theme="dark"] .section-soft,
+html[data-rp-theme="dark"] .suporte-processo,
+html[data-rp-theme="dark"] .assistencia-diagnostico,
+html[data-rp-theme="dark"] .assistencia-processo,
+html[data-rp-theme="dark"] .assistencia-laboratorio,
+html[data-rp-theme="dark"] .assistencia-faq,
+html[data-rp-theme="dark"] .produto-assistencia {
+  background: var(--rp-dark-soft);
+}
+html[data-rp-theme="dark"] footer,
+html[data-rp-theme="dark"] .assistencia-marcas-section {
+  background: var(--rp-dark-bg);
+}
+html[data-rp-theme="dark"] .footer-links a {
+  color: var(--rp-dark-muted);
+}
+html[data-rp-theme="dark"] .footer-links a:hover {
+  color: var(--rp-dark-link);
+}
+/* Reforço para títulos e textos com cores herdadas do modo claro. */
+html[data-rp-theme="dark"] :where(h1,h2,h3,h4,h5,h6) {
+  color: var(--rp-dark-title);
+}
+html[data-rp-theme="dark"] .hero h1 span {
+  background: none;
+  -webkit-text-fill-color: currentColor;
+  color: var(--rp-dark-link);
+}
+html[data-rp-theme="dark"] :where(.lead,.section-head p,.hero-proof) {
+  color: var(--rp-dark-muted);
+}
+html[data-rp-theme="dark"] .eyebrow,
+html[data-rp-theme="dark"] .card-link {
+  color: var(--rp-dark-link);
+}
+html[data-rp-theme="dark"] .check {
+  color: #56d364;
+  background: #15251c;
+}
+/* Mantém dimensões e sobreposição do cabeçalho; altera somente suas cores. */
+html[data-rp-theme="dark"] body .topbar {
+  background: var(--rp-dark-bg) !important;
+  color: var(--rp-dark-text);
+}
+html[data-rp-theme="dark"] body .header,
+html[data-rp-theme="dark"] body:is(.home-page,.internal-page,.produto-page,.relogio-page) .header,
+html[data-rp-theme="dark"] body:is(.home-page,.internal-page,.produto-page,.relogio-page) .header:not(.header-scrolled),
+html[data-rp-theme="dark"] body:is(.home-page,.internal-page,.produto-page,.relogio-page) .header.header-scrolled {
+  background: var(--rp-dark-alpha) !important;
+  border-bottom-color: var(--rp-dark-line) !important;
+  box-shadow: 0 8px 25px rgba(0,0,0,.20) !important;
+}
+html[data-rp-theme="dark"] body .header .menu-btn {
+  color: var(--rp-dark-title) !important;
+  background: var(--rp-dark-raised) !important;
+  border-color: var(--rp-dark-control-line);
+}
+html[data-rp-theme="dark"] body .header .nav-links a::after {
+  background: var(--rp-dark-link) !important;
+}
+html[data-rp-theme="dark"] body .header .submenu a {
+  color: var(--rp-dark-text) !important;
+  background: var(--rp-dark-panel) !important;
+}
+html[data-rp-theme="dark"] body .header .submenu a:hover,
+html[data-rp-theme="dark"] body .header .submenu a:focus-visible {
+  color: var(--rp-dark-link) !important;
+  background: var(--rp-dark-raised) !important;
+}
+/* Botões: superfície + texto sempre definidos juntos para não herdar branco
+   sobre branco. Não altera o ícone flutuante de WhatsApp nem as fotos. */
+html[data-rp-theme="dark"] .btn-primary {
+  color: #ffffff;
+  background: var(--rp-dark-action);
+  border-color: #388bfd;
+  box-shadow: 0 8px 24px rgba(0,0,0,.24);
+}
+html[data-rp-theme="dark"] .btn-primary:hover {
+  background: #195bc5;
+  box-shadow: 0 10px 28px rgba(0,0,0,.32);
+}
+html[data-rp-theme="dark"] .btn-secondary,
+html[data-rp-theme="dark"] .btn-dark {
+  color: var(--rp-dark-title);
+  background: var(--rp-dark-raised);
+  border-color: var(--rp-dark-control-line);
+}
+html[data-rp-theme="dark"] .btn-secondary:hover,
+html[data-rp-theme="dark"] .btn-dark:hover {
+  color: var(--rp-dark-link);
+  background: #292f38;
+  border-color: var(--rp-dark-link);
+}
+html[data-rp-theme="dark"] .btn-whatsapp {
+  background: #176a3a;
+  color: #ffffff;
+}
+html[data-rp-theme="dark"] .btn-whatsapp:hover { background: #12552e; }
+html[data-rp-theme="dark"] body .header .nav-actions .btn-primary,
+html[data-rp-theme="dark"] body .header:not(.header-scrolled) .nav-actions .btn-primary,
+html[data-rp-theme="dark"] body:is(.home-page,.internal-page,.produto-page,.relogio-page) .header .nav-actions .btn-primary,
+html[data-rp-theme="dark"] body:is(.home-page,.internal-page,.produto-page,.relogio-page) .header:not(.header-scrolled) .nav-actions .btn-primary,
+html[data-rp-theme="dark"] body:is(.home-page,.internal-page,.produto-page,.relogio-page) .header.header-scrolled .nav-actions .btn-primary {
+  color: #ffffff !important;
+  background: var(--rp-dark-action) !important;
+  border-color: #388bfd !important;
+  box-shadow: none !important;
+}
+html[data-rp-theme="dark"] body .header .nav-actions .btn-primary:hover {
+  background: #195bc5 !important;
+}
+/* Cartões e áreas de contato: sem o brilho azul das versões anteriores. */
+html[data-rp-theme="dark"] .cta-box {
+  background: var(--rp-dark-panel);
+  border-color: var(--rp-dark-line);
+}
+html[data-rp-theme="dark"] .locacao-beneficio {
+  background: var(--rp-dark-panel);
+  color: var(--rp-dark-text);
+  border-color: var(--rp-dark-line);
+}
+html[data-rp-theme="dark"] .locacao-beneficio > span { color: var(--rp-dark-link); }
+html[data-rp-theme="dark"] .locacao-beneficio h3 { color: var(--rp-dark-title); }
+html[data-rp-theme="dark"] .locacao-beneficio p { color: var(--rp-dark-muted); }
+html[data-rp-theme="dark"] .card:hover { border-color: #6e7681; }
+html[data-rp-theme="dark"] .card::after { background: rgba(121,192,255,.04); }
+html[data-rp-theme="dark"] .rp-theme-control {
+  background: var(--rp-dark-panel);
+  border-color: var(--rp-dark-control-line);
+  color: var(--rp-dark-text);
+  box-shadow: 0 5px 22px rgba(0,0,0,.3);
+}
+html[data-rp-theme="dark"] .rp-theme-option { color: var(--rp-dark-muted); }
+html[data-rp-theme="dark"] .rp-theme-option[aria-pressed="true"] {
+  color: #0d1117;
+  background: #e6edf3;
+}
+html[data-rp-theme="dark"] .rp-theme-option:hover:not([aria-pressed="true"]) {
+  background: var(--rp-dark-raised);
+  color: var(--rp-dark-title);
+}
+html[data-rp-theme="dark"] :where(a,button,input,select,textarea,summary):focus-visible {
+  outline: 3px solid var(--rp-dark-link);
+  outline-offset: 3px;
+}
+html[data-rp-theme="dark"] :where(input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"])),
+html[data-rp-theme="dark"] :where(select,textarea) {
+  color: var(--rp-dark-text);
+  background-color: var(--rp-dark-panel);
+  border-color: var(--rp-dark-control-line);
+  caret-color: var(--rp-dark-link);
+}
+html[data-rp-theme="dark"] ::placeholder { color: #9da7b2; opacity: 1; }
+html[data-rp-theme="dark"] ::selection { color: #ffffff; background: #264f8b; }
+@media (max-width: 1200px) {
+  html[data-rp-theme="dark"] body .header .nav-links,
+  html[data-rp-theme="dark"] body:is(.home-page,.internal-page,.produto-page,.relogio-page) .header .nav-links {
+    background: #161b22 !important;
+    color: var(--rp-dark-text);
+    border-color: var(--rp-dark-line) !important;
+  }
+}
+
+/* =====================================================================
+   REALPONTO — GRAFITE EM 3 TONS + MENU TRANSPARENTE NA ABERTURA (v7)
+   Base: #0D1117E0. Apenas modo escuro. Nenhuma imagem de fundo.
+   A classe .header-scrolled continua sendo controlada pelo JS original.
+   Não altera medidas, carrossel, modo claro nem as animações dos blocos.
+   ===================================================================== */
+@media screen {
+  html[data-rp-theme="dark"] {
+    /* Mude somente estas 3 variáveis para ajustar os tons do degradê. */
+    --rp-dark-gradient-start: #0d1117e0;
+    --rp-dark-gradient-middle: #17212b;
+    --rp-dark-gradient-end: #263442;
+    --rp-dark-gradient: linear-gradient(
+      120deg,
+      var(--rp-dark-gradient-start) 0%,
+      var(--rp-dark-gradient-middle) 52%,
+      var(--rp-dark-gradient-end) 100%
+    );
+  }
+
+  html[data-rp-theme="dark"] body {
+    background: var(--rp-dark-bg, #0d1117);
+    isolation: isolate;
+  }
+
+  /* Camada fixa e contínua. Não ocupa espaço nem intercepta cliques.
+     O alpha E0 do primeiro tom fica sobre a própria base #0D1117,
+     nunca sobre um fundo branco. Não usa background-attachment: fixed. */
+  html[data-rp-theme="dark"] body::before {
+    content: "" !important;
+    display: block !important;
+    position: fixed;
+    inset: 0;
+    width: auto;
+    height: auto;
+    z-index: -1;
+    pointer-events: none;
+    background: var(--rp-dark-gradient) !important;
+    opacity: 1;
+    transform: none;
+    filter: none;
+    animation: none !important;
+  }
+
+  /* As seções revelam o mesmo fundo; não reiniciam o degradê.
+     O carrossel e as superfícies dos cartões NÃO são alterados. */
+  html[data-rp-theme="dark"] body > main,
+  html[data-rp-theme="dark"] body > main > section:not(.banner-carousel) {
+    background: transparent !important;
+  }
+
+  html[data-rp-theme="dark"] body > footer {
+    background: rgba(13, 17, 23, 0.45);
+  }
+
+  /* HOME, NO TOPO: restaura a transparência sobre o banner.
+     Mantém a sobreposição e a altura atuais, inclusive no celular. */
+  html[data-rp-theme="dark"] body.home-page > .topbar {
+    background: transparent !important;
+    border-bottom-color: transparent !important;
+    color: #ffffff;
+  }
+
+  html[data-rp-theme="dark"] body.home-page > .header:not(.header-scrolled) {
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  html[data-rp-theme="dark"] body.home-page > .header:not(.header-scrolled) .nav-links > a,
+  html[data-rp-theme="dark"] body.home-page > .header:not(.header-scrolled) .nav-main-link {
+    color: #ffffff !important;
+  }
+
+  html[data-rp-theme="dark"] body.home-page > .header:not(.header-scrolled) .nav-links > a::after,
+  html[data-rp-theme="dark"] body.home-page > .header:not(.header-scrolled) .nav-main-link::after {
+    background: #ffffff !important;
+  }
+
+  /* Botão da abertura igual ao modo claro; após rolar, volta ao azul. */
+  html[data-rp-theme="dark"] body.home-page > .header:not(.header-scrolled) .nav-actions .btn-primary {
+    background: #ffffff !important;
+    color: #25237b !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+  }
+
+  html[data-rp-theme="dark"] body.home-page > .header:not(.header-scrolled) .nav-actions .btn-primary:hover {
+    background: #ffffff !important;
+    color: #25237b !important;
+    border-color: transparent !important;
+    box-shadow:
+      0 0 18px rgba(255, 255, 255, 0.95),
+      0 0 38px rgba(255, 255, 255, 0.55),
+      0 12px 30px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  /* APÓS ROLAR: continua com contraste sobre o texto da página.
+     Os submenus e o painel móvel conservam o fundo escuro legível.
+     O cabeçalho das páginas internas também mantém o tema já aprovado. */
+  html[data-rp-theme="dark"] body.home-page > .header.header-scrolled {
+    background: var(--rp-dark-alpha, #0d1117e0) !important;
+    border-bottom-color: var(--rp-dark-line, #30363d) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.20) !important;
+  }
+}
+
+/* =====================================================================
+   REALPONTO — PRETO ABSOLUTO + CONEXÕES TECNOLÓGICAS (v8)
+   Adição independente: não muda o modo claro, os banners, as medidas,
+   o menu transparente ou a montagem suave dos blocos.
+   O JavaScript cria um único canvas decorativo, atrás de todo o conteúdo.
+   ===================================================================== */
+.rp-tech-connections { display: none; }
+/* Compatibilidade com páginas que ainda tenham o botão da versão anterior. */
+.rp-connections-toggle { display: none !important; }
+
+@media screen {
+  html[data-rp-theme="dark"] {
+    /* Fundo neutro: sem o azul do degradê anterior. */
+    --rp-dark-bg: #000000;
+    --rp-dark-gradient-start: #000000;
+    --rp-dark-gradient-middle: #0a0a0a;
+    --rp-dark-gradient-end: #1c1c1c;
+    --rp-dark-gradient: linear-gradient(
+      125deg,
+      var(--rp-dark-gradient-start) 0%,
+      var(--rp-dark-gradient-start) 24%,
+      var(--rp-dark-gradient-middle) 64%,
+      var(--rp-dark-gradient-end) 100%
+    );
+    /* Preserva o grafite translúcido do menu após a rolagem. */
+    --rp-dark-alpha: #0d1117e0;
+    --rp-connections-opacity: 0.85;
+    background: #000000;
+    scrollbar-color: #69717b #000000;
+  }
+
+  html[data-rp-theme="dark"] body {
+    background: #000000;
+    isolation: isolate;
+  }
+  html[data-rp-theme="dark"] body::before {
+    z-index: -2;
+    background: var(--rp-dark-gradient) !important;
+  }
+
+  html[data-rp-theme="dark"] .rp-tech-connections {
+    display: block;
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    z-index: -1;
+    opacity: var(--rp-connections-opacity);
+    pointer-events: none;
+    user-select: none;
+    contain: strict;
+    /* O centro é mais discreto para preservar a leitura. */
+    -webkit-mask-image: linear-gradient(90deg, #000 0%, rgba(0,0,0,.65) 20%, rgba(0,0,0,.28) 42%, rgba(0,0,0,.28) 58%, rgba(0,0,0,.65) 80%, #000 100%);
+    mask-image: linear-gradient(90deg, #000 0%, rgba(0,0,0,.65) 20%, rgba(0,0,0,.28) 42%, rgba(0,0,0,.28) 58%, rgba(0,0,0,.65) 80%, #000 100%);
+  }
+
+  html[data-rp-theme="dark"] body > footer {
+    background: rgba(0,0,0,.48);
+  }
+
+
+}
+
+@media screen and (max-width: 700px) {
+  html[data-rp-theme="dark"] { --rp-connections-opacity: 0.62; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html[data-rp-theme="dark"] .rp-tech-connections { opacity: 0.38; }
+}
+@media print {
+  .rp-tech-connections { display: none !important; }
+}
+
+/* =========================================================
+   REALPONTO — v8.2: MENU TRANSPARENTE NO CELULAR / MODO CLARO
+   Corrige a antiga regra mobile de style.css sem alterar esse arquivo.
+   Somente na home, no topo e no modo claro (inclusive antes do JS).
+   Mantém medidas, área segura dos banners e painel do menu aberto.
+   O fundo do cabeçalho após rolar e todo o modo escuro são preservados.
+========================================================= */
+@media screen and (max-width: 1200px) {
+  html:not([data-rp-theme="dark"]) body.home-page > .topbar {
+    background: transparent !important;
+    border-bottom-color: transparent !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  html:not([data-rp-theme="dark"]) body.home-page > .header:not(.header-scrolled) {
+    background: transparent !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  /* Mantém o botão branco original, mas com o ícone legível no topo. */
+  html:not([data-rp-theme="dark"]) body.home-page > .header:not(.header-scrolled) .menu-btn {
+    color: var(--ink, #132238) !important;
+  }
+}
+
+/* =========================================================
+   REALPONTO — v9: CONSISTÊNCIA DAS PÁGINAS INTEGRADAS
+   Correções de largura nos próprios grids; não esconde conteúdo.
+   Mesma regra para claro/escuro e para movimento reduzido.
+========================================================= */
+@media (max-width: 1020px) {
+  body.real-power-page .real-power-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 45px;
+  }
+}
+@media (max-width: 720px) {
+  .produto-assistencia-inner { grid-template-columns: minmax(0, 1fr); }
+  .produto-assistencia-inner > * { min-width: 0; }
+  .produto-assistencia-inner .eyebrow { max-width: 100%; }
+  .produto-assistencia-inner > .btn {
+    white-space: normal;
+    max-width: 100%;
+    text-align: center;
+  }
+}

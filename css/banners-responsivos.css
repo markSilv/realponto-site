@@ -1,0 +1,166 @@
+/*
+ * REALPONTO — BANNERS RESPONSIVOS (v2 — CELULAR SEM CORTES)
+ * Carregue DEPOIS de style.css e visual-original.css.
+ * O index.html deste pacote já inclui este arquivo.
+ *
+ * Substitui o arquivo v1 inteiro; o HTML já existente continua válido.
+ * Desktop: mantém cover. Retrato: arte inteira (contain) em área protegida.
+ * O espaço complementar usa uma cópia desfocada do próprio banner.
+ * Não altera os arquivos do tema, do menu ou dos movimentos do site.
+ */
+
+@media screen {
+  body.home-page[data-rp-responsive-banners] {
+    --rp-opening-overlap: 120px;
+    --rp-banner-safe-top: var(--rp-opening-overlap);
+    --rp-banner-safe-bottom: calc(116px + env(safe-area-inset-bottom, 0px));
+  }
+
+  @media (max-width: 1200px) {
+    body.home-page[data-rp-responsive-banners] {
+      --rp-opening-overlap: 114px;
+    }
+  }
+
+  @media (max-width: 680px) {
+    body.home-page[data-rp-responsive-banners] {
+      --rp-opening-overlap: 108px;
+    }
+  }
+
+  /* Apenas a abertura. A seção .hero seguinte mantém suas medidas. */
+  body.home-page[data-rp-responsive-banners] #inicio > .banner-carousel {
+    position: relative;
+    width: 100%;
+    max-width: none;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 0 !important;
+    max-height: none !important;
+    box-sizing: border-box;
+    padding: 0;
+    border: 0;
+    margin-top: calc(-1 * var(--rp-opening-overlap)) !important;
+    margin-bottom: 0;
+    overflow: hidden;
+    background-color: #25237b;
+  }
+
+  body.home-page[data-rp-responsive-banners] #inicio > .banner-carousel .carousel-track {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 0 !important;
+    margin: 0;
+    padding: 0;
+  }
+
+  body.home-page[data-rp-responsive-banners] #inicio > .banner-carousel .carousel-slide,
+  body.home-page[data-rp-responsive-banners] #inicio > .banner-carousel .carousel-slide.active {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  body.home-page[data-rp-responsive-banners] #inicio > .banner-carousel .rp-banner-picture {
+    display: block;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  body.home-page[data-rp-responsive-banners] #inicio > .banner-carousel .carousel-slide img {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    margin: 0;
+    padding: 0;
+    object-fit: cover !important;
+    object-position: var(--rp-banner-posicao, 50% 50%) !important;
+  }
+
+  /* O fundo de apoio não participa da largura nem da altura do layout. */
+  body.home-page[data-rp-responsive-banners] #inicio > .banner-carousel .carousel-slide {
+    overflow: hidden;
+  }
+
+  body.home-page[data-rp-responsive-banners] #inicio > .banner-carousel .carousel-slide::before {
+    content: "";
+    display: none;
+    position: absolute;
+    inset: -24px;
+    z-index: 0;
+    pointer-events: none;
+    background-color: #25237b;
+    background-image:
+      linear-gradient(180deg, rgba(7, 20, 55, .22), rgba(7, 20, 55, .48)),
+      var(--rp-banner-backdrop, none);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    filter: blur(18px);
+  }
+
+  /* A fonte vertical já é selecionada pelo <picture> no HTML.
+     O CONTÊINER continua em tela cheia. Só a arte ganha uma área segura,
+     entre o cabeçalho e os controles. Não estica nem corta a imagem. */
+  @media (orientation: portrait) {
+    body.home-page[data-rp-responsive-banners] #inicio > .banner-carousel .carousel-slide::before {
+      display: block;
+    }
+
+    body.home-page[data-rp-responsive-banners] #inicio > .banner-carousel .rp-banner-picture {
+      inset: var(--rp-banner-safe-top) 0 var(--rp-banner-safe-bottom);
+      width: 100%;
+      height: auto;
+      min-width: 0;
+      min-height: 0;
+      max-width: 100%;
+      box-sizing: border-box;
+      z-index: 1;
+    }
+
+    body.home-page[data-rp-responsive-banners] #inicio > .banner-carousel .carousel-slide img {
+      object-fit: contain !important;
+      object-position: 50% 50% !important;
+      background: transparent;
+    }
+
+    /* No retrato, setas e indicadores ficam abaixo da arte, não sobre ela.
+       A reserva inferior é medida pelo JS para não sobrepor Claro/Escuro
+       nem o botão de WhatsApp. O estilo visual dos controles é preservado. */
+    body.home-page[data-rp-responsive-banners] #inicio > .banner-carousel .carousel-arrow {
+      top: calc(100% - var(--rp-banner-safe-bottom) + 22px);
+      bottom: auto;
+      width: 36px;
+      height: 36px;
+      transform: translateY(-50%);
+    }
+
+    body.home-page[data-rp-responsive-banners] #inicio > .banner-carousel .carousel-dots {
+      top: calc(100% - var(--rp-banner-safe-bottom) + 22px);
+      bottom: auto;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+
+/* Integração v9: se as pastas opcionais não estiverem presentes, mantém a
+   imagem original inteira. A abertura continua em tela cheia. */
+@media screen {
+  body.home-page[data-rp-responsive-banners] #inicio > .banner-carousel .carousel-slide img[data-rp-banner-legacy="true"] {
+    object-fit: contain !important;
+  }
+  body.home-page[data-rp-responsive-banners] #inicio > .banner-carousel .carousel-slide.rp-banner-legacy::before {
+    display: block;
+  }
+}

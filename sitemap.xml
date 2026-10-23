@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://www.realponto.com.br/</loc>
@@ -10,7 +10,7 @@
   </url>
   <url>
     <loc>https://www.realponto.com.br/sistemas-em-nuvem.html</loc>
-    <lastmod>2026-08-11</lastmod>
+    <lastmod>2026-10-22</lastmod>
   </url>
   <url>
     <loc>https://www.realponto.com.br/modulos.html</loc>
@@ -71,5 +71,12 @@
   <url>
     <loc>https://www.realponto.com.br/real-power.html</loc>
     <lastmod>2026-08-26</lastmod>
+  </url>
+  <url>
+    <loc>https://www.realponto.com.br/sistema-secullum.html</loc>
+    <lastmod>2026-10-22</lastmod>
+  </url>
+  <url>
+    <loc>https://www.realponto.com.br/sistema-rhid.html</loc>
   </url>
 </urlset>

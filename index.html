@@ -61,10 +61,13 @@
   ]
 }</script>
 <link href="img/RP.png" rel="icon" type="image/png"/>
+<script src="js/visual-preload.js?v=9"></script>
 <link href="css/style.css" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
+<link href="css/visual-original.css?v=9" rel="stylesheet"/>
+<link href="css/banners-responsivos.css?v=9" rel="stylesheet"/>
 </head>
-<body class="home-page" id="topo">
+<body data-rp-responsive-banners="v2" class="home-page" id="topo">
 <div class="topbar">
 <div class="container">
 <div class="topbar-list"><span><a href=
@@ -130,22 +133,46 @@
 <section aria-label="Destaques da RealPonto" class="banner-carousel">
 <div class="carousel-track">
 <a class="carousel-slide active" href="#diferenciais">
-<img alt="Grupo RealPonto" src="img/banners/banner.jpg"/>
+<picture class="rp-banner-picture">
+<source media="(orientation: portrait)" srcset="img/banners/bannersCelular/banner.jpg"/>
+<source srcset="img/banners/banners1080/banner.jpg 1920w, img/banners/banners1440/banner.jpg 2560w" sizes="100vw"/>
+<img alt="Grupo RealPonto" src="img/banners/banner.jpg" width="1920" height="1080" loading="eager" decoding="async" fetchpriority="high" data-rp-banner-original="img/banners/banner.jpg"/>
+</picture>
 </a>
 <a class="carousel-slide" href="relogio-de-ponto.html">
-<img alt="Relógios de ponto" src="img/banners/banner1.jpg"/>
+<picture class="rp-banner-picture">
+<source media="(orientation: portrait)" srcset="img/banners/bannersCelular/banner1.jpg"/>
+<source srcset="img/banners/banners1080/banner1.jpg 1920w, img/banners/banners1440/banner1.jpg 2560w" sizes="100vw"/>
+<img alt="Relógios de ponto" src="img/banners/banner1.jpg" width="1920" height="1080" loading="lazy" decoding="async" data-rp-banner-original="img/banners/banner1.jpg"/>
+</picture>
 </a>
 <a class="carousel-slide" href="seguranca-eletronica.html">
-<img alt="Controle de acesso RealPonto" src="img/banners/banner2.jpg"/>
+<picture class="rp-banner-picture">
+<source media="(orientation: portrait)" srcset="img/banners/bannersCelular/banner2.jpg"/>
+<source srcset="img/banners/banners1080/banner2.jpg 1920w, img/banners/banners1440/banner2.jpg 2560w" sizes="100vw"/>
+<img alt="Controle de acesso RealPonto" src="img/banners/banner2.jpg" width="1920" height="1080" loading="lazy" decoding="async" data-rp-banner-original="img/banners/banner2.jpg"/>
+</picture>
 </a>
 <a class="carousel-slide" href="locacao-de-equipamentos.html">
-<img alt="Locação de relógios de ponto e equipamentos de controle de acesso" src="img/banners/banner3.jpg"/>
+<picture class="rp-banner-picture">
+<source media="(orientation: portrait)" srcset="img/banners/bannersCelular/banner3.jpg"/>
+<source srcset="img/banners/banners1080/banner3.jpg 1920w, img/banners/banners1440/banner3.jpg 2560w" sizes="100vw"/>
+<img alt="Locação de relógios de ponto e equipamentos de controle de acesso" src="img/banners/banner3.jpg" width="1920" height="1080" loading="lazy" decoding="async" data-rp-banner-original="img/banners/banner3.jpg"/>
+</picture>
 </a>
 <a class="carousel-slide" href="assistencia-tecnica.html" rel="noopener noreferrer" target="_blank">
-<img alt="Assistência Técnica Relógio de Ponto" src="img/banners/banner5.jpg"/>
+<picture class="rp-banner-picture">
+<source media="(orientation: portrait)" srcset="img/banners/bannersCelular/banner5.jpg"/>
+<source srcset="img/banners/banners1080/banner5.jpg 1920w, img/banners/banners1440/banner5.jpg 2560w" sizes="100vw"/>
+<img alt="Assistência Técnica Relógio de Ponto" src="img/banners/banner5.jpg" width="1920" height="1080" loading="lazy" decoding="async" data-rp-banner-original="img/banners/banner5.jpg"/>
+</picture>
 </a>
 <a class="carousel-slide" href="https://loja.realponto.com.br/" rel="noopener noreferrer" target="_blank">
-<img alt="Nova loja Grupo RealPonto" src="img/banners/banner4.jpg"/>
+<picture class="rp-banner-picture">
+<source media="(orientation: portrait)" srcset="img/banners/bannersCelular/banner4.jpg"/>
+<source srcset="img/banners/banners1080/banner4.jpg 1920w, img/banners/banners1440/banner4.jpg 2560w" sizes="100vw"/>
+<img alt="Nova loja Grupo RealPonto" src="img/banners/banner4.jpg" width="1920" height="1080" loading="lazy" decoding="async" data-rp-banner-original="img/banners/banner4.jpg"/>
+</picture>
 </a>
 </div>
 <button aria-label="Banner anterior" class="carousel-arrow carousel-prev" type="button">
@@ -438,5 +465,7 @@
 <a aria-label="Falar pelo WhatsApp" class="wa-float" href="https://wa.me/551141262929?text=Ol%C3%A1%2Cquero%20tirar%20dúvidas." rel="noopener" target="_blank">
 <img alt="Fale conosco pelo WhatsApp" src="img/wa.png"/></a>
 <script defer="" src="js/script.js"></script>
+<script defer src="js/visual-original.js?v=9"></script>
+<script defer src="js/banners-responsivos.js?v=9"></script>
 </body>
 </html>

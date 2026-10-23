@@ -1,0 +1,107 @@
+REALPONTO | RHID — PÁGINA DEDICADA E TOUR VISUAL
+============================================================
+
+O QUE ESTÁ NO PACOTE
+
+sistema-rhid.html
+  Nova página dedicada ao RHiD, pronta para ficar na raiz do site.
+
+sistemas-em-nuvem.html
+  Sua página de sistemas com somente o card do RHiD atualizado:
+  o link agora abre sistema-rhid.html na mesma aba e a chamada
+  passou a ser “Explorar o RHiD”. Os outros cards foram mantidos.
+
+css/rhid-demo.css
+  Estilos exclusivos da página RHiD.
+
+js/rhid-demo.js
+  Interações do tour, abas, destaques e ampliação.
+
+img/rhid-demo/
+  Quatro imagens demonstrativas em WebP sem perda, mais versões
+  menores para prévia. Não há imagens originais não tratadas no pacote.
+
+COMO INSTALAR
+
+1. Faça uma cópia de segurança do seu sistemas-em-nuvem.html atual.
+2. Copie o conteúdo do ZIP para a raiz do projeto.
+3. MESCLE as pastas css/, js/ e img/ com as pastas existentes.
+   Não apague nem substitua essas pastas inteiras.
+4. Confirme a substituição apenas de sistemas-em-nuvem.html.
+5. Abra sistema-rhid.html dentro do seu projeto, ou clique no card
+   RHiD na página de sistemas. Faça a publicação pelo seu fluxo habitual.
+
+NÃO PRECISA COLAR CÓDIGO NO STYLE.CSS OU NO SCRIPT.JS.
+A nova página já referencia seus arquivos complementares.
+Mantenha css/style.css, js/script.js, as fontes e as imagens de identidade
+visual que já existem no seu projeto. Eles não foram substituídos.
+O body da página nova é: produto-page rhid-page.
+Os links internos continuam relativos e com a extensão .html.
+
+A página reutiliza os caminhos originais do menu/rodapé, logo, WhatsApp,
+Font Awesome e selo oficial do Reclame Aqui. O pacote não é uma cópia
+completa do site; foi preparado para ser incorporado ao projeto existente.
+
+COMO A DEMONSTRAÇÃO FUNCIONA
+
+Exploração livre: quatro abas, com três destaques por tela.
+Tour guiado: seis etapas com navegação manual, retorno, conclusão e reinício.
+Não há troca automática de telas enquanto o visitante está lendo.
+
+Telas incluídas:
+- Visão geral: atalhos, últimas marcações e estatísticas.
+- Colaboradores: identificação, empresa/horário e organização interna.
+- Ponto diário: data/filtros, marcações da equipe e totais.
+- Apuração: colaborador/período, conferência dos dias e resultados.
+
+O tour usa quatro telas DISTINTAS. Não foi criada uma tela de horários
+que não estivesse entre as versões demonstrativas preparadas para uso.
+
+No desktop, os pontos numerados ficam sobre as capturas. No celular,
+as explicações são selecionadas por botões abaixo da imagem, evitando
+alvos pequenos. “Ampliar tela” abre o modal e “Ver em tamanho original”
+permite ler os detalhes e rolar a captura. Esc fecha e devolve o foco.
+As abas respondem às setas do teclado, Home e End.
+Sem JavaScript, as capturas e explicações continuam disponíveis no HTML.
+
+DADOS E ESCOPO
+
+As imagens são demonstrativas e foram preparadas a partir do material
+aprovado na conversa. Não são uma sessão aberta do RHiD.
+A coluna de PIS ainda visível no ponto diário foi ocultada diretamente
+nos pixels, antes da geração das imagens finais e das miniaturas.
+A captura de cadastro utilizada está com os campos de identificação vazios.
+As explicações se restringem às áreas mostradas, sem promessas adicionais
+sobre planos, cálculos, integrações ou conformidade.
+
+O tour não envia formulários, não faz login, não chama APIs do RHiD e
+não grava dados em cookies/localStorage. Os links externos de contato,
+redes sociais e serviços do cabeçalho/rodapé foram preservados.
+
+PUBLICAÇÃO E MANUTENÇÃO
+
+A URL prevista é /sistema-rhid.html, no domínio definitivo já usado pelo
+seu site. Os metadados e o breadcrumb estão preparados para essa URL.
+O sitemap não foi alterado neste pacote; inclua a página quando publicar.
+
+Para editar as explicações, altere os textos visíveis dos painéis e seus
+correspondentes no bloco JSON “rhid-demo-data” dentro do HTML.
+Os retângulos e pontos dos destaques usam coordenadas percentuais. Revise
+essas posições ao trocar uma captura por outra com layout diferente.
+Nunca use capturas de produção com nomes, documentos ou dados de clientes.
+
+VALIDAÇÃO
+
+Verificações locais com os arquivos-base disponíveis na conversa:
+- Abas, doze explicações e seis etapas do tour.
+- Voltar, concluir, reiniciar e sair do tour.
+- Ampliação, tamanho original, Esc e retorno de foco.
+- Menu/submenu em tela reduzida.
+- Ausência de transbordamento horizontal em 320, 390, 400, 768, 1024,
+  1440 e 1920 pixels de largura.
+- HTML, IDs, âncoras internas, imagens e JSON estruturado.
+
+Os testes foram feitos em Chromium, com os recursos locais incorporados
+somente no ambiente de teste e os recursos externos bloqueados. Não são
+uma publicação nem um teste do seu domínio. Confira o resultado no seu
+projeto com a versão atual do CSS/JS e com os serviços externos carregados.

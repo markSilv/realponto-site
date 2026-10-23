@@ -1,0 +1,221 @@
+/*
+ * REALPONTO — INTEGRAÇÃO DAS DEMONSTRAÇÕES RHiD + SECULLUM (v9)
+ * Carregado após os CSS originais das demonstrações e visual-original.css.
+ * Preserva grid, conteúdo, capturas, recortes e controles de cada tour.
+ * No claro, nenhum estilo visual é substituído.
+ * Não aplica filtros às imagens: as telas dos sistemas mantêm suas cores.
+ */
+@media screen {
+  html[data-rp-theme="dark"] body.rhid-page {
+    --rhid-ink: var(--rp-dark-title, #f0f6fc);
+    --rhid-navy: #0d1117;
+    --rhid-accent: var(--rp-dark-link, #79c0ff);
+    --rhid-blue: var(--rp-dark-link, #79c0ff);
+    --rhid-muted: var(--rp-dark-muted, #b1bac4);
+    --rhid-line: var(--rp-dark-line, #30363d);
+    --rhid-soft: var(--rp-dark-soft, #10151c);
+    --rhid-action: var(--rp-dark-action, #1f6feb);
+  }
+
+  /* Fundo contínuo, com as conexões atrás das seções. */
+  html[data-rp-theme="dark"] body.rhid-page .rhid-hero,
+  html[data-rp-theme="dark"] body.rhid-page .rhid-soft {
+    background: transparent;
+  }
+
+  /* Molduras das demonstrações, cartões e painéis. */
+  html[data-rp-theme="dark"] body.rhid-page :is(
+    .rhid-window, .rhid-demo, .rhid-value-grid > article,
+    .rhid-zoom-dialog, .rhid-icon-label, .rhid-btn-secondary
+  ),
+  html[data-rp-theme="dark"] body.secullum-page :is(
+    .sc-demo, .sc-dialog, .sc-zoom-button, .sc-card, .sc-error,
+    .sc-pick, .sc-dialog-head button, .sc-error button
+  ) {
+    background: var(--rp-dark-panel);
+    color: var(--rp-dark-text);
+    border-color: var(--rp-dark-line);
+    box-shadow: 0 16px 42px rgba(0,0,0,.20);
+  }
+  html[data-rp-theme="dark"] body.rhid-page :is(
+    .rhid-icon-label, .rhid-btn-secondary, .rhid-window-bar
+  ),
+  html[data-rp-theme="dark"] body.secullum-page :is(
+    .sc-zoom-button, .sc-pick, .sc-dialog-head button, .sc-error button
+  ) { box-shadow: none; }
+  html[data-rp-theme="dark"] body.rhid-page .rhid-btn-secondary {
+    border-color: var(--rp-dark-line) !important;
+  }
+  html[data-rp-theme="dark"] body.rhid-page .rhid-preview-label {
+    color: var(--rp-dark-muted);
+    background: var(--rp-dark-raised);
+  }
+  html[data-rp-theme="dark"] body.rhid-page .rhid-window-dots i { background: #6e7681; }
+
+  /* As capturas são superfícies de produto, nunca invertidas/recoloridas. */
+  html[data-rp-theme="dark"] body.rhid-page :is(.rhid-screen, .rhid-zoom-viewport),
+  html[data-rp-theme="dark"] body.secullum-page :is(.sc-screen, .sc-dialog-view) {
+    background: #0d1117;
+    border-color: var(--rp-dark-line);
+  }
+  html[data-rp-theme="dark"] body.rhid-page .rhid-zoom-dialog::backdrop,
+  html[data-rp-theme="dark"] body.secullum-page .sc-dialog::backdrop {
+    background: rgba(0,0,0,.84);
+  }
+
+  /* Abas: estado selecionado e foco legíveis nos dois sistemas. */
+  html[data-rp-theme="dark"] body.rhid-page.rhid-ready .rhid-tabs,
+  html[data-rp-theme="dark"] body.secullum-page.sc-ready .sc-tabs {
+    background: var(--rp-dark-soft);
+    border-color: var(--rp-dark-line);
+  }
+  html[data-rp-theme="dark"] body.rhid-page .rhid-tab,
+  html[data-rp-theme="dark"] body.secullum-page .sc-tab {
+    color: var(--rp-dark-muted);
+  }
+  html[data-rp-theme="dark"] body.rhid-page .rhid-tab:hover,
+  html[data-rp-theme="dark"] body.secullum-page .sc-tab:hover {
+    background: var(--rp-dark-raised);
+    color: var(--rp-dark-title);
+  }
+  html[data-rp-theme="dark"] body.rhid-page .rhid-tab[aria-selected="true"],
+  html[data-rp-theme="dark"] body.secullum-page .sc-tab[aria-selected="true"] {
+    background: var(--rp-dark-panel);
+    color: var(--rp-dark-link);
+    border-bottom-color: var(--rp-dark-link);
+  }
+  html[data-rp-theme="dark"] body.rhid-page .rhid-content :focus-visible,
+  html[data-rp-theme="dark"] body.rhid-page .rhid-zoom-dialog :focus-visible,
+  html[data-rp-theme="dark"] body.secullum-page .sc-dialog :focus-visible {
+    outline-color: var(--rp-dark-link);
+  }
+
+  /* Barras de progresso e navegação do tour. */
+  html[data-rp-theme="dark"] body.rhid-page .rhid-demo-topbar,
+  html[data-rp-theme="dark"] body.secullum-page .sc-topbar {
+    background: #0d1117;
+    color: var(--rp-dark-title);
+  }
+  html[data-rp-theme="dark"] body.rhid-page .rhid-demo-topbar > div > span,
+  html[data-rp-theme="dark"] body.secullum-page .sc-topbar small {
+    color: var(--rp-dark-muted);
+    border-color: var(--rp-dark-line);
+  }
+  html[data-rp-theme="dark"] body.rhid-page .rhid-tour-banner,
+  html[data-rp-theme="dark"] body.secullum-page .sc-tourbar {
+    background: var(--rp-dark-soft);
+    border-color: var(--rp-dark-line);
+  }
+  html[data-rp-theme="dark"] body.rhid-page .rhid-tour-progress button span,
+  html[data-rp-theme="dark"] body.secullum-page .sc-progress button {
+    background: var(--rp-dark-raised);
+    color: var(--rp-dark-muted);
+  }
+
+  /* Explicações dentro das imagens: mesma posição e dimensões originais. */
+  html[data-rp-theme="dark"] body.rhid-page.rhid-ready .rhid-screen .rhid-callout {
+    background: var(--rp-dark-panel);
+    border-color: var(--rp-dark-line);
+    border-top-color: var(--rp-dark-link);
+    color: var(--rp-dark-text);
+    box-shadow: 0 14px 40px rgba(0,0,0,.42);
+  }
+  html[data-rp-theme="dark"] body.rhid-page.rhid-ready .rhid-note::before {
+    background: var(--rp-dark-panel);
+    border-color: var(--rp-dark-line);
+  }
+  html[data-rp-theme="dark"] body.rhid-page.rhid-ready .rhid-note[data-side="bottom"]::before {
+    border-color: var(--rp-dark-link);
+  }
+  html[data-rp-theme="dark"] body.secullum-page .sc-demo .sc-card {
+    border-top-color: var(--rp-dark-link);
+    box-shadow: 0 14px 40px rgba(0,0,0,.42);
+  }
+  html[data-rp-theme="dark"] body.rhid-page .rhid-card-actions,
+  html[data-rp-theme="dark"] body.secullum-page .sc-card-actions {
+    border-color: var(--rp-dark-line);
+  }
+  html[data-rp-theme="dark"] body.rhid-page.rhid-ready .rhid-highlight,
+  html[data-rp-theme="dark"] body.secullum-page .sc-highlight {
+    border-color: #2785d1;
+    background: rgba(39,133,209,.06);
+  }
+  html[data-rp-theme="dark"] body.rhid-page.rhid-ready .rhid-feature-picker {
+    background: var(--rp-dark-panel);
+    border-color: var(--rp-dark-line);
+  }
+  html[data-rp-theme="dark"] body.rhid-page .rhid-feature-pick {
+    background: var(--rp-dark-raised);
+    color: var(--rp-dark-link);
+  }
+
+  /* Ação preenchida usa azul de botão, não o azul mais claro dos links. */
+  html[data-rp-theme="dark"] body.rhid-page :is(
+    .rhid-btn-primary, .rhid-card-next, .rhid-preview-play, .rhid-hotspot,
+    .rhid-feature-pick[aria-pressed="true"]
+  ),
+  html[data-rp-theme="dark"] body.secullum-page :is(
+    .sc-next, .sc-pin, .sc-pick[aria-pressed="true"]
+  ),
+  html[data-rp-theme="dark"] body.rhid-page .rhid-tour-progress button[aria-current="step"] span,
+  html[data-rp-theme="dark"] body.secullum-page .sc-progress button[aria-current="step"] {
+    color: #fff;
+    background: var(--rp-dark-action);
+  }
+  html[data-rp-theme="dark"] body.rhid-page :is(.rhid-btn-primary, .rhid-card-next):hover,
+  html[data-rp-theme="dark"] body.secullum-page .sc-next:hover {
+    color: #fff;
+    background: #185ac6;
+  }
+  html[data-rp-theme="dark"] body.rhid-page .rhid-hotspot[aria-pressed="true"],
+  html[data-rp-theme="dark"] body.secullum-page .sc-pin[aria-pressed="true"] {
+    background: #116b86;
+    color: #fff;
+  }
+  html[data-rp-theme="dark"] body.rhid-page .rhid-preview-play { border-color: #e6edf3; }
+  html[data-rp-theme="dark"] body.secullum-page .sc-pick[aria-pressed="true"] { border-color: var(--rp-dark-action); }
+  html[data-rp-theme="dark"] body.rhid-page .rhid-zoom-actions button {
+    background: var(--rp-dark-panel);
+    color: var(--rp-dark-title);
+    border-color: var(--rp-dark-line);
+  }
+  html[data-rp-theme="dark"] body.rhid-page :is(
+    .rhid-btn-secondary, .rhid-icon-label, .rhid-card-close,
+    .rhid-card-prev:not(:disabled), .rhid-zoom-actions button
+  ):hover,
+  html[data-rp-theme="dark"] body.secullum-page :is(
+    .sc-card-close, .sc-prev:not(:disabled), .sc-zoom-button, .sc-dialog-head button
+  ):hover {
+    background: var(--rp-dark-raised);
+    color: var(--rp-dark-title);
+  }
+
+  html[data-rp-theme="dark"] body.secullum-page :is(
+    .sc-exit, .sc-card-label, .sc-contact, .sc-error button
+  ) { color: var(--rp-dark-link); }
+  html[data-rp-theme="dark"] body.secullum-page :is(
+    .sc-card-close, .sc-card-count, .sc-prev, .sc-figure figcaption
+  ) { color: var(--rp-dark-muted); }
+  html[data-rp-theme="dark"] body.secullum-page .sc-card h4 { color: var(--rp-dark-title); }
+
+  /* Cartões complementares, conclusão, perguntas frequentes e CTA. */
+  html[data-rp-theme="dark"] body.rhid-page .rhid-support-box {
+    background: #10151c;
+    box-shadow: inset 0 0 0 1px var(--rp-dark-line);
+  }
+  html[data-rp-theme="dark"] body.rhid-page .rhid-support-box p { color: var(--rp-dark-muted); }
+  html[data-rp-theme="dark"] body.rhid-page .rhid-support-box .eyebrow,
+  html[data-rp-theme="dark"] body.rhid-page .rhid-support-steps > div > span {
+    color: var(--rp-dark-link);
+  }
+  html[data-rp-theme="dark"] body.rhid-page .rhid-support-steps > div {
+    border-color: var(--rp-dark-line);
+  }
+  html[data-rp-theme="dark"] body.rhid-page .rhid-complete-icon {
+    background: #15251c;
+    color: #56d364;
+  }
+  html[data-rp-theme="dark"] body.rhid-page.rhid-ready .rhid-screen .rhid-complete {
+    border-top-color: #56d364;
+  }
+}

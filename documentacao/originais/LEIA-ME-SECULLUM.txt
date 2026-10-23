@@ -1,0 +1,72 @@
+REALPONTO — DEMONSTRAÇÃO SECULLUM RH
+Entrega: 22/10/2026
+
+PÁGINA PRINCIPAL
+sistema-secullum.html
+
+O QUE ESTÁ PRONTO
+- Página no padrão visual do sistema-rhid.html do pacote original.
+- Seis telas fornecidas por você: resumo diário, funcionários, horários,
+  opções avançadas, cálculos e ponto diário.
+- Tour guiado manual com oito etapas.
+- Exploração livre com dezoito destaques (três por tela).
+- Explicações em cartões DENTRO das imagens, com Próximo e Anterior.
+- Marcadores, seleção de telas, progresso, fechamento e reinício do tour.
+- Ampliação das capturas, com ajuste à tela ou tamanho original.
+- Adaptação para computador, tablet e celular; navegação por teclado.
+- Link do card Secullum RH em sistemas-em-nuvem.html levando à demonstração.
+- Título, descrição, compartilhamento social, dados estruturados e sitemap.
+- Imagens otimizadas e capturas PNG de reserva.
+- Nomes demonstrativos e identificadores pessoais ocultados nas capturas.
+
+COMO APLICAR — ATUALIZAÇÃO LEVE (RECOMENDADA PARA O SITE EXISTENTE)
+1. Faça uma cópia de segurança da pasta original do site.
+2. Extraia RealPonto-Atualizacao-Secullum.zip.
+3. Copie os arquivos e pastas extraídos para a RAIZ do seu site, onde fica
+   o index.html. Mescle as pastas css, js e img e substitua os arquivos
+   de mesmo nome. Não apague os demais arquivos ou pastas.
+4. Abra sistema-secullum.html, ou acesse Sistemas de ponto > Secullum RH.
+5. No servidor, envie os mesmos arquivos mantendo os caminhos das pastas.
+   Após publicar, recarregue com Ctrl+F5 para evitar o cache antigo.
+
+PACOTE MAIOR DO SITE
+RealPonto-Site-Secullum.zip reúne as páginas e os demais recursos do site
+com esta atualização aplicada. Os arquivos de fonte não são redistribuídos.
+MANTENHA a pasta fonts do seu site original. Ao aplicar o pacote sobre o
+site existente, mescle as pastas sem excluir os arquivos que já existem.
+Para uma nova pasta local, preserve/copie a pasta fonts do seu pacote
+original.
+
+ARQUIVOS DA ATUALIZAÇÃO
+- sistema-secullum.html
+- sistemas-em-nuvem.html
+- sitemap.xml
+- css/secullum-demo.css
+- js/secullum-demo.js
+- img/secullum-demo/ (capturas de publicação e imagens otimizadas)
+- LEIA-ME-SECULLUM.txt
+
+PRESERVADO
+O HTML, CSS, JavaScript e as capturas do RHID não foram alterados.
+O CSS e o JavaScript gerais do site também não foram alterados.
+As outras páginas, imagens e downloads foram preservados no pacote maior.
+
+TESTES REALIZADOS EM NAVEGADOR CHROMIUM
+- 1440x1000, 1024x768, 768x1024, 390x844 e 320x740.
+- Oito etapas guiadas e dezoito destaques livres em cada largura.
+- Ampliação das seis telas, tamanho original, fechamento com Esc e foco.
+- Avanço, retorno, conclusão, reinício e saída do tour.
+- Abas por teclado, fechamento e reabertura das explicações.
+- Sem rolagem horizontal indevida ou erros de JavaScript nos testes.
+- Captura principal e links de reserva disponíveis sem JavaScript.
+- Links locais das páginas alteradas verificados.
+- Inicialização da demonstração original do RHID conferida.
+
+OBSERVAÇÕES
+Esta entrega contém arquivos para você publicar: não houve alteração da
+hospedagem ou implantação no servidor. A demonstração não é o sistema
+Secullum real: não faz login, não salva marcações e não usa dados de clientes.
+As imagens representam a versão Pro fornecida; recursos e contratação
+devem ser confirmados pela RealPonto.
+Os links externos e serviços de terceiros já existentes foram preservados;
+a disponibilidade desses serviços não foi validada nos testes locais.
