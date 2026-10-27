@@ -23,14 +23,15 @@ code{font-size:12px;overflow-wrap:anywhere}.details{font-size:13px;color:#506078
 </head>
 <body><main>
 <header><div class="kicker">REALPONTO · CONFERÊNCIA LOCAL</div>
-<h1>As três versões estão no lugar certo?</h1>
-<p>Esta página verifica os 18 arquivos usados pelo carrossel: seis banners em cada pasta. Ela não altera nem envia suas imagens.</p>
-<p class="note">Deixe este arquivo na mesma pasta do <code>index.html</code>. Os nomes devem incluir a extensão <strong>.jpg</strong> e a pasta <strong>bannersCelular</strong> deve manter o C maiúsculo. Se faltar uma versão, o site pode recorrer a outra: confira as três pastas aqui.</p>
+<h1>As quatro versões estão no lugar certo?</h1>
+<p>Esta página verifica os 24 arquivos usados pelo carrossel: seis banners em cada pasta. Ela não altera nem envia suas imagens.</p>
+<p class="note">Deixe este arquivo na mesma pasta do <code>index.html</code>. Os nomes devem incluir a extensão <strong>.jpg</strong> e a pasta <strong>bannersCelular</strong> deve manter o C maiúsculo. A pasta quadrada é <strong>banners1600</strong>. Se faltar uma versão, o site pode recorrer a outra: confira as quatro pastas aqui.</p>
 <button id="check" type="button">Verificar novamente</button><a class="action" href="index.html">Abrir o site</a>
 </header>
 <div id="summary" class="summary" role="status" aria-live="polite">Preparando verificação…</div>
+<p class="note" id="viewport-info"></p>
 <div id="groups"></div>
-<p class="details">Este teste confirma arquivos e dimensões; a posição de títulos, produtos e logotipos precisa ser conferida no próprio site, em telas horizontais e verticais. Atualize com Ctrl + F5 após trocar um arquivo.</p>
+<p class="details">Este teste confirma arquivos e dimensões; a posição de títulos, produtos e logotipos precisa ser conferida no próprio site, em telas largas, intermediárias e verticais. Atualize com Ctrl + F5 após trocar um arquivo.</p>
 </main>
 <script>
 (function () {
@@ -39,8 +40,17 @@ code{font-size:12px;overflow-wrap:anywhere}.details{font-size:13px;color:#506078
   var variants = [
     { folder: "banners1080", title: "Horizontal · 1920 × 1080", width: 1920, height: 1080 },
     { folder: "banners1440", title: "Horizontal · 2560 × 1440", width: 2560, height: 1440 },
+    { folder: "banners1600", title: "Intermediário · 1600 × 1600", width: 1600, height: 1600 },
     { folder: "bannersCelular", title: "Vertical · 1080 × 1920", width: 1080, height: 1920 }
   ];
+  function showViewport() {
+    var mode = window.matchMedia("(max-aspect-ratio: 3/4)").matches ? "bannersCelular" :
+      window.matchMedia("(max-aspect-ratio: 3/2)").matches ? "banners1600" : "banners1080 / banners1440";
+    document.getElementById("viewport-info").textContent = "Janela atual: " + window.innerWidth + " × " + window.innerHeight +
+      " px CSS. Composição prevista: " + mode + ". A seleção ocorre pela proporção da janela, não pelo modelo do aparelho.";
+  }
+  window.addEventListener("resize", showViewport);
+  showViewport();
   var run = 0;
   function check() {
     run += 1;

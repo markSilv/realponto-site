@@ -1,11 +1,18 @@
 /*
- * REALPONTO — BANNERS RESPONSIVOS (v2 — CELULAR SEM CORTES)
+ * REALPONTO — BANNERS RESPONSIVOS (v3.1 — BANNERS1600 EM TELA CHEIA)
  * Carregue DEPOIS de style.css e visual-original.css.
- * O index.html deste pacote já inclui este arquivo.
+ * O index.html da versão integrada já inclui este arquivo.
  *
- * Substitui o arquivo v1 inteiro; o HTML já existente continua válido.
- * Desktop: mantém cover. Retrato: arte inteira (contain) em área protegida.
- * O espaço complementar usa uma cópia desfocada do próprio banner.
+ * Substitui o arquivo anterior inteiro; o index.html existente continua válido.
+ * O JS v3 adiciona banners1600 ao <picture>, sem substituir o index.html.
+ * Até 3:4: vertical. Acima de 3:4 até 3:2: quadrado. Acima de 3:2: horizontal.
+ * Celular: arte inteira (contain) em uma área protegida, como antes.
+ * Intermediário: a imagem 1600 preenche toda a abertura com cover.
+ * Não há reserva de espaço para o cabeçalho ou os controles nessa faixa.
+ * O menu continua sobre a imagem; as setas ficam nas laterais.
+ * Telas largas: mantém cover e as duas resoluções horizontais existentes.
+ * O fundo desfocado continua apenas no celular e na recuperação de imagens.
+ * Cover preserva a proporção, mas pode recortar bordas da arte.
  * Não altera os arquivos do tema, do menu ou dos movimentos do site.
  */
 
@@ -110,10 +117,11 @@
     filter: blur(18px);
   }
 
-  /* A fonte vertical já é selecionada pelo <picture> no HTML.
-     O CONTÊINER continua em tela cheia. Só a arte ganha uma área segura,
-     entre o cabeçalho e os controles. Não estica nem corta a imagem. */
-  @media (orientation: portrait) {
+  /* SOMENTE O CELULAR mantém a arte protegida entre menu e controles.
+     Acima de 3:4, incluindo banners1600 até 3:2, valem as regras
+     gerais: picture com inset: 0 e imagem em cover na abertura inteira.
+     A escolha da pasta continua sendo feita pelo JS v3, sem alterações. */
+  @media (max-aspect-ratio: 3/4) {
     body.home-page[data-rp-responsive-banners] #inicio > .banner-carousel .carousel-slide::before {
       display: block;
     }
@@ -135,7 +143,7 @@
       background: transparent;
     }
 
-    /* No retrato, setas e indicadores ficam abaixo da arte, não sobre ela.
+    /* Somente em celulares, controles abaixo da arte.
        A reserva inferior é medida pelo JS para não sobrepor Claro/Escuro
        nem o botão de WhatsApp. O estilo visual dos controles é preservado. */
     body.home-page[data-rp-responsive-banners] #inicio > .banner-carousel .carousel-arrow {
@@ -154,13 +162,23 @@
   }
 }
 
-/* Integração v9: se as pastas opcionais não estiverem presentes, mantém a
+/* Recuperação: se uma versão estiver faltando, mantém a
    imagem original inteira. A abertura continua em tela cheia. */
 @media screen {
-  body.home-page[data-rp-responsive-banners] #inicio > .banner-carousel .carousel-slide img[data-rp-banner-legacy="true"] {
+  body.home-page[data-rp-responsive-banners] #inicio > .banner-carousel .carousel-slide img[data-rp-banner-fallback="true"] {
     object-fit: contain !important;
   }
-  body.home-page[data-rp-responsive-banners] #inicio > .banner-carousel .carousel-slide.rp-banner-legacy::before {
+  body.home-page[data-rp-responsive-banners] #inicio > .banner-carousel .carousel-slide.rp-banner-fallback::before {
     display: block;
+  }
+}
+
+/* Janelas quadradas estreitas: os indicadores sobem, mas a imagem
+   continua ocupando toda a tela, sem diminuir sua área. */
+@media screen and (max-width: 680px) {
+  body.home-page[data-rp-responsive-banners][data-rp-banner-mode="intermediario"] #inicio > .banner-carousel .carousel-dots {
+    top: auto;
+    bottom: calc(var(--rp-banner-safe-bottom) - 28px);
+    transform: translateX(-50%);
   }
 }
