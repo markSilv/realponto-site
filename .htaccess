@@ -6,42 +6,45 @@ DirectoryIndex index.html
     Header always set X-Robots-Tag "noindex, nofollow, noarchive"
     Header always set Cache-Control "no-store"
 </IfModule>
+
 # BEGIN REALPONTO URLS LIMPAS - TESTE
-# Os arquivos continuam com .html. Nao renomear nem excluir index.html.
-# Escopo: paginas da raiz e paginas-relogios. Aplicacoes separadas nao mudam.
-# Redirecionamentos 302 enquanto validamos a hospedagem temporaria.
-# Na migracao definitiva, rever noindex, canonical, sitemap e usar 301.
+# Revisao temporaria: br232.teste.website/~mar43964/
+# Aplicar somente em /home1/mar43964/public_html/.htaccess.
+# SUBSTITUIR o bloco anterior; nao acumular as duas versoes.
+# Arquivos continuam com .html. Nao usar este bloco no dominio definitivo.
+
+Options -Indexes -MultiViews
+DirectoryIndex index.html
 RewriteEngine On
+RewriteBase /~mar43964/
 
-# 1) index.html (ou /index) solicitado pelo navegador -> raiz do site.
-# THE_REQUEST evita redirecionar a abertura interna de index.html.
-# A captura conserva o prefixo /~usuario/ do link temporario.
-RewriteCond %{ENV:REDIRECT_STATUS} ^$
+# Diagnostico inofensivo: /rp-teste-rotas deve voltar a inicial com ?rp_rotas=ok.
+RewriteRule ^rp-teste-rotas$ /~mar43964/?rp_rotas=ok [R=302,L]
+
+# Acesso direto a index.html ou index -> raiz do site temporario.
+# THE_REQUEST separa requisicoes do navegador de reescritas internas.
 RewriteCond %{REQUEST_METHOD} ^(?:GET|HEAD)$
-RewriteCond %{THE_REQUEST} "\s/+((?:[A-Za-z0-9_~-]+/)*)index(?:\.html)?(?:[?\s])" [NC]
-RewriteRule ^index(?:\.html)?$ /%1 [R=302,L]
+RewriteCond %{THE_REQUEST} "\s/+~mar43964/index(?:\.html)?/*(?:[?\s])" [NC]
+RewriteRule ^index(?:\.html)?/*$ /~mar43964/ [R=302,L]
 
-# 2) Pagina .html existente -> endereco sem extensao.
-RewriteCond %{ENV:REDIRECT_STATUS} ^$
+# Acesso direto a um HTML existente -> mesma pagina sem extensao.
 RewriteCond %{REQUEST_METHOD} ^(?:GET|HEAD)$
-RewriteCond %{REQUEST_FILENAME} -f
-RewriteCond %{THE_REQUEST} "\s/+((?:[A-Za-z0-9_~-]+/)*[A-Za-z0-9_-]+)\.html(?:[?\s])" [NC]
-RewriteRule ^(?:[A-Za-z0-9_-]+|paginas-relogios/[A-Za-z0-9_-]+)\.html$ /%1 [R=302,L]
+RewriteCond %{THE_REQUEST} "\s/+~mar43964/(?:paginas-relogios/)?[A-Za-z0-9_-]+\.html(?:[?\s])" [NC]
+RewriteCond /home1/mar43964/public_html/$1.html -f
+RewriteRule ^((?:paginas-relogios/)?[A-Za-z0-9_-]+)\.html$ /~mar43964/$1 [R=302,L]
 
-# 3) Retira barra final de uma rota de pagina (nao de diretorios reais).
-RewriteCond %{ENV:REDIRECT_STATUS} ^$
+# Remove barra final so de rotas com HTML correspondente (nao de pastas).
 RewriteCond %{REQUEST_METHOD} ^(?:GET|HEAD)$
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} ^(.+?)/?$
-RewriteCond %1.html -f
-RewriteCond %{THE_REQUEST} "\s/+((?:[A-Za-z0-9_~-]+/)*[A-Za-z0-9_-]+)/+(?:[?\s])"
-RewriteRule ^(?:[A-Za-z0-9_-]+|paginas-relogios/[A-Za-z0-9_-]+)/+$ /%1 [R=302,L]
+RewriteCond /home1/mar43964/public_html/$1.html -f
+RewriteRule ^((?:paginas-relogios/)?[A-Za-z0-9_-]+)/+$ /~mar43964/$1 [R=302,L]
 
-# 4) Entrega o HTML correspondente sem exibir a extensao no navegador.
-# Reescrita relativa: Apache 2.4.16+ infere a base de Alias e mod_userdir.
-# Nao usar RewriteBase / no endereco temporario /~usuario/.
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME}.html -f
-RewriteRule ^([A-Za-z0-9_-]+|paginas-relogios/[A-Za-z0-9_-]+)$ $1.html [END]
+# Nao altera imagens, estilos, scripts, downloads ou pastas reais.
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Rota sem extensao -> arquivo HTML, sem mudar o endereco do navegador.
+# Caminho fisico explicito: nao depende do DocumentRoot do servidor compartilhado.
+RewriteCond /home1/mar43964/public_html/$1.html -f
+RewriteRule ^((?:paginas-relogios/)?[A-Za-z0-9_-]+)$ $1.html [L]
 # END REALPONTO URLS LIMPAS - TESTE
