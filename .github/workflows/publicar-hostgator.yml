@@ -1,0 +1,57 @@
+name: Publicar site na HostGator
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      modo:
+        description: 'Verificar não altera arquivos; publicar envia a versão da main.'
+        type: choice
+        options: [verificar, publicar]
+        default: verificar
+        required: true
+      reenviar_tudo:
+        description: 'Ignorar o histórico e reenviar os arquivos permitidos (não apaga nada).'
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+# Não interrompe um envio em andamento; mantém a execução mais recente na fila.
+concurrency:
+  group: realponto-hostgator-site
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'workflow_dispatch' || vars.HOSTGATOR_AUTO_DEPLOY == 'true')
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Ler a versão do repositório
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+          lfs: false
+          submodules: false
+
+      - name: Validar o programa de publicação
+        run: python3 -m py_compile scripts/publicar_hostgator.py
+
+      - name: Verificar ou publicar por FTPS explícito
+        env:
+          HOSTGATOR_FTP_HOST: ${{ secrets.HOSTGATOR_FTP_HOST }}
+          HOSTGATOR_FTP_USER: ${{ secrets.HOSTGATOR_FTP_USER }}
+          HOSTGATOR_FTP_PASSWORD: ${{ secrets.HOSTGATOR_FTP_PASSWORD }}
+          HOSTGATOR_FTP_PORT: '21'
+          HOSTGATOR_FTP_DIR: ${{ vars.HOSTGATOR_FTP_DIR }}
+          SITE_LOCAL_DIR: ${{ vars.SITE_LOCAL_DIR || '.' }}
+          DEPLOY_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.modo || 'publicar' }}
+          FORCE_UPLOAD: ${{ github.event_name == 'workflow_dispatch' && inputs.reenviar_tudo && 'true' || 'false' }}
+          DEPLOY_COMMIT: ${{ github.sha }}
+        run: python3 scripts/publicar_hostgator.py

@@ -4,6 +4,8 @@
  * A rolagem dispara a entrada inteira; não controla a opacidade quadro a quadro.
  * O mesmo bloco só desmonta ao sair pela borda inferior, na rolagem para cima.
  * A API RealPontoUI no final facilita manutenção e testes locais.
+ * v13: seletor só com ícones e preferência persistente entre páginas/abas.
+ * Motor de movimentos, banners e conexões preservados.
  */
 (function () {
   "use strict";
@@ -25,6 +27,7 @@
   });
 
   const THEME_KEY = "realponto:theme:v2";
+  const DEFAULT_THEME = "dark";
   const root = document.documentElement;
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
   const mobile = window.matchMedia("(max-width: 700px)");
@@ -44,9 +47,34 @@
   let active = false;
   const clamp = value => Math.max(0, Math.min(1, value));
 
+  function isTheme(value) {
+    return value === "light" || value === "dark";
+  }
+
+  // Mesma regra do visual-preload.js: preferência salva primeiro;
+  // escuro somente quando não há uma escolha válida.
+  function readPreferredTheme() {
+    let theme = DEFAULT_THEME;
+    try {
+      const saved = window.localStorage.getItem(THEME_KEY);
+      if (isTheme(saved)) theme = saved;
+    } catch (_) {
+      // Se o navegador bloquear o armazenamento, preserva a escolha desta tela.
+      if (isTheme(root.dataset.rpTheme)) theme = root.dataset.rpTheme;
+    }
+    if (location.protocol === "file:") {
+      try {
+        const previewTheme = new URL(location.href).searchParams.get("rp-theme");
+        if (isTheme(previewTheme)) theme = previewTheme;
+      } catch (_) { /* O parâmetro só auxilia a prévia local. */ }
+    }
+    return theme;
+  }
+
   function setTheme(value, save = true) {
-    const theme = value === "dark" ? "dark" : "light";
+    const theme = isTheme(value) ? value : DEFAULT_THEME;
     root.dataset.rpTheme = theme;
+    root.style.colorScheme = theme;
     // Cor da barra do navegador: acompanha o tema sem mudar as animações.
     const themeMeta = document.querySelector('meta[name="theme-color"]');
     if (themeMeta) {
@@ -56,7 +84,7 @@
       themeMeta.content = theme === "dark" ? "#000000" : themeMeta.getAttribute("data-rp-light-color");
     }
     if (save) {
-      try { localStorage.setItem(THEME_KEY, theme); } catch (_) { /* O botão funciona mesmo sem armazenamento. */ }
+      try { window.localStorage.setItem(THEME_KEY, theme); } catch (_) { /* O botão funciona mesmo sem armazenamento. */ }
       if (location.protocol === "file:") {
         try {
           const url = new URL(location.href);
@@ -71,25 +99,34 @@
   }
 
   function buildThemeControl() {
-    if (document.querySelector(".rp-theme-control")) return;
-    themeControl = document.createElement("div");
-    themeControl.className = "rp-theme-control";
+    // Reaproveita um controle existente, sem criar seletores duplicados.
+    themeControl = document.querySelector(".rp-theme-control") || document.createElement("div");
+    if (themeControl.dataset.rpThemeReady === "v13") {
+      setTheme(root.dataset.rpTheme, false);
+      return;
+    }
+    themeControl.classList.add("rp-theme-control");
     themeControl.setAttribute("role", "group");
-    themeControl.setAttribute("aria-label", "Cor de fundo do site");
+    themeControl.setAttribute("aria-label", "Tema do site");
     themeControl.innerHTML = `
-      <button class="rp-theme-option" type="button" data-rp-set-theme="light" aria-pressed="true" title="Modo claro: fundo branco original">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3.8"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><span>Claro</span>
+      <button class="rp-theme-option" type="button" data-rp-set-theme="light" aria-pressed="false" aria-label="Ativar modo claro" title="Modo claro">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="3.8"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
       </button>
-      <button class="rp-theme-option" type="button" data-rp-set-theme="dark" aria-pressed="false" title="Modo escuro: preto, grafite e conexões">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 13.1A8.5 8.5 0 0 1 10.9 3.5a8.5 8.5 0 1 0 9.6 9.6Z"/></svg><span>Escuro</span>
+      <button class="rp-theme-option" type="button" data-rp-set-theme="dark" aria-pressed="false" aria-label="Ativar modo escuro" title="Modo escuro">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20.5 13.1A8.5 8.5 0 0 1 10.9 3.5a8.5 8.5 0 1 0 9.6 9.6Z"/></svg>
       </button>`;
     themeControl.addEventListener("click", event => {
       const button = event.target.closest("[data-rp-set-theme]");
       if (button) setTheme(button.dataset.rpSetTheme);
     });
-    document.body.appendChild(themeControl);
+    themeControl.dataset.rpThemeReady = "v13";
+    if (!themeControl.isConnected) document.body.appendChild(themeControl);
     setTheme(root.dataset.rpTheme, false);
   }
+
+  // Reforço quando uma página não carrega o preload ou ainda tem a versão antiga.
+  // O preload atualizado continua necessário no <head> para evitar a piscada inicial.
+  setTheme(readPreferredTheme(), false);
 
   // Peças independentes: sem envolver/alterar os grids e sem animar os slides.
   const TARGETS = [
@@ -571,6 +608,7 @@
   }
 
   function start() {
+    setTheme(readPreferredTheme(), false);
     buildThemeControl();
     initMotion();
 
@@ -590,8 +628,19 @@
       }, true);
     }
 
+    // Uma escolha feita em outra aba do mesmo site também atualiza esta aba.
     window.addEventListener("storage", event => {
-      if (event.key === THEME_KEY) setTheme(event.newValue, false);
+      if (event.key !== THEME_KEY && event.key !== null) return;
+      try {
+        if (event.storageArea !== window.localStorage) return;
+      } catch (_) { return; }
+      setTheme(readPreferredTheme(), false);
+    });
+
+    // Voltar/avançar pode restaurar uma página do cache de navegação (bfcache).
+    // Lê novamente a preferência, em vez de manter o tema antigo dessa página.
+    window.addEventListener("pageshow", () => {
+      setTheme(readPreferredTheme(), false);
     });
 
     window.RealPontoUI = Object.freeze({

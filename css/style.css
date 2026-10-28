@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Neue Haas Grotesk Display Pro";
-  src: url("./fonts/NHaasGroteskDSPro-95Blk.ttf") format("truetype");
+  src: url("../fonts/NHaasGroteskDSPro-95Blk.ttf") format("truetype");
   font-weight: 900;
   font-style: normal;
   font-display: swap;
@@ -8,7 +8,7 @@
 
 @font-face {
   font-family: "Neue Haas Grotesk Display Pro";
-  src: url("./fonts/NHaasGroteskDSPro-65Md.ttf") format("truetype");
+  src: url("../fonts/NHaasGroteskDSPro-65Md.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -16,7 +16,7 @@
 
 @font-face {
   font-family: "Neue Haas Grotesk Display Pro";
-  src: url("./fonts/NHaasGroteskDSPro-45Lt.ttf") format("truetype");
+  src: url("../fonts/NHaasGroteskDSPro-45Lt.ttf") format("truetype");
   font-weight: 300;
   font-style: normal;
   font-display: swap;
@@ -60,35 +60,7 @@ textarea {
   font-weight: 300;
 }
 
-/* ========================================
-   FONTES NEUE HAAS GROTESK DISPLAY PRO
-   Coloque os arquivos .woff2 dentro da pasta /fonts
-======================================== */
-
-@font-face {
-  font-family: "Neue Haas Grotesk Display Pro";
-  src: url("./fonts/NeueHaasDisplay-Black.woff2") format("woff2");
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Neue Haas Grotesk Display Pro";
-  src: url("./fonts/NeueHaasDisplay-Medium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Neue Haas Grotesk Display Pro";
-  src: url("./fonts/NeueHaasDisplay-Light.woff2") format("woff2");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
+/* Fontes locais: usar os arquivos licenciados da pasta /fonts original. */
 :root {
          --navy:#071c35;
          --navy-2:#0c2b50;

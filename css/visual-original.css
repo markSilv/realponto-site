@@ -2650,3 +2650,54 @@ html[data-rp-theme="dark"] ::selection { color: #ffffff; background: #264f8b; }
     text-align: center;
   }
 }
+
+/* =========================================================
+   REALPONTO — v13: SELETOR COM ÍCONES
+   Apenas o controle flutuante de tema. Preserva todas as cores,
+   os cards, as imagens, as conexões e os movimentos existentes.
+   O JavaScript cria somente os SVGs; aria-label mantém os nomes
+   acessíveis. A regra de span também protege contra JS antigo em cache.
+========================================================= */
+.rp-theme-control {
+  --rp-toggle-size: 36px;
+  gap: 4px;
+  padding: 4px;
+  width: auto;
+  height: auto;
+}
+
+.rp-theme-control .rp-theme-option {
+  box-sizing: border-box;
+  width: var(--rp-toggle-size);
+  height: var(--rp-toggle-size);
+  min-width: var(--rp-toggle-size);
+  min-height: var(--rp-toggle-size);
+  flex: 0 0 var(--rp-toggle-size);
+  padding: 0;
+  gap: 0;
+  border-radius: 50%;
+  line-height: 1;
+  touch-action: manipulation;
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+.rp-theme-control .rp-theme-option > span {
+  display: none;
+}
+
+.rp-theme-control .rp-theme-option svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  pointer-events: none;
+}
+
+/* Área de toque um pouco maior, sem voltar a mostrar os textos. */
+@media (pointer: coarse) {
+  .rp-theme-control { --rp-toggle-size: 40px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rp-theme-control .rp-theme-option { transition: none; }
+}
