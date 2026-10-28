@@ -4,6 +4,10 @@
 Python 3.10+; biblioteca padrão. Primeiro use DEPLOY_MODE=verificar.
 Não publica .htaccess, prévia-cliente, backups, credenciais ou o repositório.
 O manifesto é auxiliar; arquivos não gerenciados permanecem na hospedagem.
+Revisão r2: temporários ASCII sem ponto inicial, histórico não oculto,
+progresso confirmado por arquivo e resposta FTP detalhada com segredos filtrados.
+Não remove arquivos remotos nem tenta escrever diretamente sobre o arquivo final.
+O histórico contém somente metadados de arquivos públicos; não contém credenciais.
 """
 from __future__ import annotations
 
@@ -22,7 +26,9 @@ from datetime import datetime, timezone
 from pathlib import Path, PurePosixPath
 from typing import Any
 
-STATE_NAME = '.realponto-site-deploy-v1.json'
+SCRIPT_VERSION = '2026-10-28-r2'
+STATE_NAME = 'realponto-site-deploy-v1.json'
+LEGACY_STATE_NAME = '.realponto-site-deploy-v1.json'
 STATE_LIMIT = 4 * 1024 * 1024
 SITE_ID = 'realponto-site'
 PAGES = {
@@ -45,6 +51,39 @@ REQUIRED = ('index.html', 'css/style.css', 'js/script.js')
 
 class DeployError(RuntimeError):
     """Erro controlado, sem exibir credenciais."""
+
+
+def safe_detail(value: object) -> str:
+    """Filtra credenciais e caracteres de controle antes de exibir respostas FTP."""
+    message = str(value)
+    secrets = [os.environ.get(key, '') for key in (
+        'HOSTGATOR_FTP_PASSWORD', 'HOSTGATOR_FTP_USER', 'HOSTGATOR_FTP_HOST',
+    )]
+    for secret in sorted((v for v in secrets if v), key=len, reverse=True):
+        message = message.replace(secret, '[oculto]')
+    message = re.sub(r'(?i)(?:ftp|ftps)://[^\s]+', '[endereço FTP oculto]', message)
+    message = re.sub(r'/home[0-9]*/[^/\s]+', '/home/[conta]', message)
+    message = re.sub(r'[\x00-\x1f\x7f-\x9f]+', ' ', message)
+    return message.strip()[:1800]
+
+
+def operation_error(stage: str, path: str, error: BaseException) -> DeployError:
+    detail = safe_detail(error)
+    label = safe_detail(path) or '(conexão)'
+    return DeployError(
+        f'{stage} | arquivo/caminho: {label} | resposta: {detail or type(error).__name__}. '
+        'Nenhuma limpeza remota ou alteração automática de permissões foi executada.'
+    )
+
+
+def ftp_call(stage: str, path: str, action, *args, **kwargs):
+    """Mantém a operação e o arquivo no erro sem habilitar debug de credenciais."""
+    try:
+        return action(*args, **kwargs)
+    except ssl.SSLCertVerificationError:
+        raise
+    except ftplib.all_errors as exc:
+        raise operation_error(stage, path, exc) from exc
 
 
 @dataclass(frozen=True)
@@ -169,20 +208,29 @@ def verify_destination(ftp: StrictFTP_TLS) -> None:
     try:
         data = fetch_limited(ftp, 'index.html', 2 * 1024 * 1024)
     except ftplib.error_perm as exc:
-        raise DeployError('Não encontrei index.html no destino FTP. Confirme a pasta; nenhum arquivo foi enviado.') from exc
+        raise operation_error('RETR: validar a página inicial no destino (nenhum envio iniciado)', 'index.html', exc) from exc
     title = re.search(br'<title\b[^>]*>(.*?)</title\s*>', data, re.I | re.S)
     if not title or b'realponto' not in title.group(1).lower():
         raise DeployError('O index.html remoto não foi reconhecido como RealPonto. Confira o destino antes de publicar.')
 
 
 def read_state(ftp: StrictFTP_TLS) -> dict[str, dict[str, Any]]:
-    try:
-        raw = fetch_limited(ftp, STATE_NAME, STATE_LIMIT)
-    except ftplib.error_perm as exc:
-        if str(exc).startswith('550'):
-            print('Sem histórico de publicação: serão enviados todos os arquivos permitidos.')
-            return {}
-        raise
+    raw = None
+    # Lê o histórico novo e, na migração, o antigo; não escreve em nomes ocultos.
+    for name in (STATE_NAME, LEGACY_STATE_NAME):
+        try:
+            raw = fetch_limited(ftp, name, STATE_LIMIT)
+            if name == LEGACY_STATE_NAME:
+                print('Histórico anterior lido; o próximo histórico usará um nome sem ponto inicial.', flush=True)
+            break
+        except ftplib.error_perm as exc:
+            # Histórico é auxiliar. Falta/recusa implica reenviar, nunca excluir.
+            if str(exc).startswith(('550', '553')):
+                continue
+            raise operation_error('RETR: ler histórico de publicação', name, exc) from exc
+    if raw is None:
+        print('Sem histórico acessível: serão enviados todos os arquivos permitidos.', flush=True)
+        return {}
     try:
         state = json.loads(raw)
         if not isinstance(state, dict) or state.get('site') != SITE_ID or state.get('schema') != 1:
@@ -199,7 +247,7 @@ def read_state(ftp: StrictFTP_TLS) -> dict[str, dict[str, Any]]:
                 result[key] = value
         return result
     except (ValueError, TypeError, KeyError):
-        print('Histórico inválido: será ignorado, sem excluir arquivos do servidor.')
+        print('Histórico inválido: será ignorado, sem excluir arquivos do servidor.', flush=True)
         return {}
 
 
@@ -224,26 +272,52 @@ def ensure_parent(ftp: StrictFTP_TLS, relative: str, made: set[str]) -> None:
             continue
         try:
             ftp.mkd(current)
-        except ftplib.error_perm:
-            # Pode existir; confirme por CWD, sem supor que qualquer erro é benigno.
-            old = ftp.pwd()
+        except ftplib.error_perm as mkdir_error:
+            # Se já existe, confirma acesso sem presumir que todo erro é benigno.
+            old = ftp_call('PWD: consultar diretório atual', current, ftp.pwd)
             try:
                 ftp.cwd(current)
-            finally:
-                ftp.cwd(old)
+            except ftplib.all_errors as cwd_error:
+                detail = RuntimeError(
+                    f'MKD: {safe_detail(mkdir_error)}; CWD: {safe_detail(cwd_error)}'
+                )
+                raise operation_error('MKD/CWD: preparar pasta de destino', current, detail) from cwd_error
+            else:
+                ftp_call('CWD: retornar ao diretório de publicação', old, ftp.cwd, old)
+        except ftplib.all_errors as exc:
+            raise operation_error('MKD: preparar pasta de destino', current, exc) from exc
         made.add(current)
 
 
+def temporary_name(name: str, token: str) -> str:
+    """Temporário curto e ASCII na mesma pasta do destino, sem ponto inicial."""
+    if not (permitted(name) or name == STATE_NAME):
+        raise DeployError(f'Destino de escrita não permitido: {safe_detail(name)}.')
+    if not re.fullmatch(r'[a-f0-9]{16,32}', token):
+        raise DeployError('Identificador de envio inválido.')
+    parent = posixpath.dirname(name)
+    key = hashlib.sha256(name.encode('utf-8')).hexdigest()[:16]
+    return posixpath.join(parent, f'rp-upload-{token}-{key}.tmp')
+
+
 def upload_atomic(ftp: StrictFTP_TLS, name: str, data, size: int, token: str) -> None:
-    parent, leaf = posixpath.split(name)
-    temporary = posixpath.join(parent, '.' + leaf + '.rp-' + token + '.part')
-    ftp.storbinary('STOR ' + temporary, data, blocksize=256 * 1024)
-    ftp.voidcmd('TYPE I')
-    if ftp.size(temporary) != size:
-        raise DeployError(f'Tamanho divergente ao enviar {name}. O arquivo definitivo não foi trocado.')
-    # Não remove o arquivo anterior. Se o servidor não permitir substituir por rename,
-    # interrompe e preserva o anterior (e o temporário, para diagnóstico).
-    ftp.rename(temporary, name)
+    temporary = temporary_name(name, token)
+    ftp_call(
+        'STOR: gravar temporário', f'{name} (temporário: {temporary})',
+        ftp.storbinary, 'STOR ' + temporary, data, blocksize=256 * 1024,
+    )
+    ftp_call('TYPE I: conferir envio binário', name, ftp.voidcmd, 'TYPE I')
+    actual_size = ftp_call('SIZE: conferir tamanho do temporário', temporary, ftp.size, temporary)
+    if actual_size != size:
+        raise DeployError(
+            f'Tamanho divergente em {safe_detail(name)}: esperado {size}, recebido {actual_size}. '
+            'O arquivo definitivo não foi trocado; o temporário foi preservado para diagnóstico.'
+        )
+    # Se RNTO for recusado, não apaga o original e não usa STOR direto como fallback.
+    response = ftp_call('RNFR: selecionar temporário', temporary, ftp.sendcmd, 'RNFR ' + temporary)
+    if not response.startswith('350'):
+        raise DeployError(f'Resposta inesperada ao renomear {safe_detail(name)}: {safe_detail(response)}.')
+    ftp_call('RNTO: substituir arquivo definitivo', name, ftp.voidcmd, 'RNTO ' + name)
 
 
 def deploy(ftp: StrictFTP_TLS, assets: list[Asset], publish: bool, force: bool) -> tuple[int, int]:
@@ -252,22 +326,33 @@ def deploy(ftp: StrictFTP_TLS, assets: list[Asset], publish: bool, force: bool) 
     pending = [asset for asset in assets if needs_upload(ftp, asset, previous.get(asset.relative, {}), force)]
     removed = set(previous) - {asset.relative for asset in assets}
     total = sum(asset.size for asset in pending)
-    print(f'Permitidos: {len(assets)}; pendentes: {len(pending)}; volume: {total / (1024 ** 2):.2f} MiB.')
+    print(f'Permitidos: {len(assets)}; pendentes: {len(pending)}; volume: {total / (1024 ** 2):.2f} MiB.', flush=True)
     if removed:
-        print(f'{len(removed)} arquivo(s) antes gerenciado(s) não estão mais no repositório: serão PRESERVADOS no servidor.')
-    for asset in pending:
-        print(('ENVIAR ' if publish else 'PREVER ') + asset.relative)
+        print(f'{len(removed)} arquivo(s) antes gerenciado(s) não estão mais no repositório: serão PRESERVADOS no servidor.', flush=True)
     if not publish:
-        print('VERIFICAÇÃO concluída: nenhum arquivo ou diretório remoto foi criado, alterado ou apagado.')
+        for asset in pending:
+            print('PREVER ' + asset.relative, flush=True)
+        print('VERIFICAÇÃO concluída: nenhum arquivo ou diretório remoto foi criado, alterado ou apagado.', flush=True)
+        print('A verificação é somente de leitura: não testa escrita nem substituição de arquivos.', flush=True)
         return len(pending), 0
     made: set[str] = set()
     token = uuid.uuid4().hex[:16]
-    for asset in pending:
-        ensure_parent(ftp, asset.relative, made)
-        with asset.source.open('rb') as handle:
-            upload_atomic(ftp, asset.relative, handle, asset.size, token)
-    # Escreve o histórico só depois de todos os recursos terem sido enviados.
-    # Sem dados de usuário/senha. Não usa o histórico para remover nada.
+    completed = 0
+    try:
+        for index, asset in enumerate(pending, 1):
+            print(f'[{index}/{len(pending)}] INICIANDO {asset.relative}', flush=True)
+            ensure_parent(ftp, asset.relative, made)
+            with asset.source.open('rb') as handle:
+                upload_atomic(ftp, asset.relative, handle, asset.size, token)
+            completed += 1
+            print(f'[{index}/{len(pending)}] OK {asset.relative} ({asset.size} bytes)', flush=True)
+    except Exception:
+        print(
+            f'ENVIO INTERROMPIDO: {completed} de {len(pending)} arquivo(s) confirmados nesta execução. '
+            'Os confirmados já podem estar atualizados; não há reversão automática. '
+            'Nenhum arquivo foi removido por limpeza remota.', flush=True,
+        )
+        raise
     state = {
         'schema': 1, 'site': SITE_ID,
         'commit': os.environ.get('DEPLOY_COMMIT', ''),
@@ -275,12 +360,23 @@ def deploy(ftp: StrictFTP_TLS, assets: list[Asset], publish: bool, force: bool) 
         'files': {asset.relative: {'sha256': asset.digest, 'size': asset.size} for asset in assets},
     }
     body = (json.dumps(state, ensure_ascii=False, indent=2) + '\n').encode('utf-8')
-    upload_atomic(ftp, STATE_NAME, io.BytesIO(body), len(body), token)
-    print(f'PUBLICAÇÃO concluída: {len(pending)} arquivo(s) enviados. Nenhum arquivo remoto foi excluído.')
-    return len(pending), len(pending)
+    print('HISTÓRICO: gravando metadados dos arquivos públicos (sem credenciais).', flush=True)
+    try:
+        upload_atomic(ftp, STATE_NAME, io.BytesIO(body), len(body), token)
+    except Exception:
+        print(
+            f'Os {completed} arquivo(s) pendentes foram confirmados, mas o histórico não foi confirmado. '
+            'A execução ficará com erro e o próximo envio poderá repetir arquivos.', flush=True,
+        )
+        raise
+    print(f'PUBLICAÇÃO concluída: {completed} arquivo(s) enviados. Nenhum arquivo remoto foi excluído.', flush=True)
+    return len(pending), completed
 
 
 def main() -> int:
+    if hasattr(sys.stdout, 'reconfigure'):
+        sys.stdout.reconfigure(line_buffering=True)
+    print(f'Publicador RealPonto {SCRIPT_VERSION}', flush=True)
     mode = os.environ.get('DEPLOY_MODE', 'verificar')
     if mode not in {'verificar', 'publicar', 'local'}:
         raise DeployError('DEPLOY_MODE inválido.')
@@ -295,14 +391,14 @@ def main() -> int:
     context.minimum_version = ssl.TLSVersion.TLSv1_2
     ftp = StrictFTP_TLS(context=context, timeout=60)
     try:
-        ftp.connect(host, port)
+        ftp_call('CONNECT: conectar ao servidor', '', ftp.connect, host, port)
         # AUTH TLS acontece ANTES do envio da senha. Nenhum fallback para FTP simples.
-        ftp.auth()
-        ftp.login(user, password)
-        ftp.prot_p()
+        ftp_call('AUTH TLS: proteger a conexão', '', ftp.auth)
+        ftp_call('LOGIN: autenticar conta FTP', '', ftp.login, user, password)
+        ftp_call('PROT P: proteger a transferência', '', ftp.prot_p)
         ftp.set_pasv(True)
-        ftp.cwd(remote)
-        print('Conexão FTPS com certificado validado. Diretório remoto:', ftp.pwd())
+        ftp_call('CWD: acessar destino configurado', remote, ftp.cwd, remote)
+        print('Conexão FTPS com certificado validado. Diretório remoto:', safe_detail(ftp_call('PWD: conferir destino', remote, ftp.pwd)), flush=True)
         deploy(ftp, assets, mode == 'publicar', os.environ.get('FORCE_UPLOAD', '').lower() == 'true')
         return 0
     finally:
@@ -320,10 +416,10 @@ if __name__ == '__main__':
         sys.exit(1)
     except ftplib.error_perm as error:
         code = str(error)[:3]
-        print(f'ERRO FTP {code}: confira usuário/senha, destino e permissões no cPanel. Nenhuma limpeza remota será executada.', file=sys.stderr)
+        print(f'ERRO FTP {code}: {safe_detail(error)}. Nenhuma limpeza remota será executada.', file=sys.stderr, flush=True)
         sys.exit(1)
-    except (DeployError, OSError, ssl.SSLError, ftplib.Error) as error:
-        # Não imprime o objeto com credenciais ou detalhes brutos do servidor.
-        message = str(error) if isinstance(error, DeployError) else f'{type(error).__name__}: conexão ou operação interrompida; confira o FTPS e a rede.'
-        print('ERRO: ' + message, file=sys.stderr)
+    except (DeployError, OSError, EOFError, ssl.SSLError, ftplib.Error) as error:
+        # O detalhe mantém a resposta FTP, mas filtra credenciais e caracteres de controle.
+        message = safe_detail(error)
+        print('ERRO: ' + message, file=sys.stderr, flush=True)
         sys.exit(1)

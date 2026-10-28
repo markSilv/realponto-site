@@ -2701,3 +2701,44 @@ html[data-rp-theme="dark"] ::selection { color: #ffffff; background: #264f8b; }
 @media (prefers-reduced-motion: reduce) {
   .rp-theme-control .rp-theme-option { transition: none; }
 }
+
+/* =========================================================
+   REALPONTO — v14: SETAS DA LOCAÇÃO NO PADRÃO IDFACE
+   Somente no modo escuro: mesma borda branca, fundo e desenho
+   de .produto-carousel-arrow em paginas-relogios/idface.html.
+   Preserva posição, slides, indicadores e todo o modo claro.
+========================================================= */
+html[data-rp-theme="dark"] .locacao-carousel-arrow {
+  width: 46px;
+  height: 46px;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+  background: rgba(7, 28, 53, 0.8);
+  color: #ffffff;
+}
+
+html[data-rp-theme="dark"] .locacao-carousel-arrow::before {
+  width: 11px;
+  height: 11px;
+  border-top: 3px solid currentColor;
+  border-right: 3px solid currentColor;
+}
+
+html[data-rp-theme="dark"] .locacao-carousel-arrow:hover {
+  background: var(--rp, #25237b);
+  border-color: #ffffff;
+  color: #ffffff;
+}
+
+/* Mesmo indicador de foco por teclado usado no carrossel IDFace. */
+html[data-rp-theme="dark"] .locacao-carousel-arrow:focus-visible {
+  outline: 3px solid var(--rp-dark-link, #79c0ff);
+  outline-offset: 3px;
+}
+
+@media (max-width: 680px) {
+  html[data-rp-theme="dark"] .locacao-carousel-arrow {
+    width: 40px;
+    height: 40px;
+  }
+}
