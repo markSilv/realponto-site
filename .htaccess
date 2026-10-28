@@ -6,3 +6,42 @@ DirectoryIndex index.html
     Header always set X-Robots-Tag "noindex, nofollow, noarchive"
     Header always set Cache-Control "no-store"
 </IfModule>
+# BEGIN REALPONTO URLS LIMPAS - TESTE
+# Os arquivos continuam com .html. Nao renomear nem excluir index.html.
+# Escopo: paginas da raiz e paginas-relogios. Aplicacoes separadas nao mudam.
+# Redirecionamentos 302 enquanto validamos a hospedagem temporaria.
+# Na migracao definitiva, rever noindex, canonical, sitemap e usar 301.
+RewriteEngine On
+
+# 1) index.html (ou /index) solicitado pelo navegador -> raiz do site.
+# THE_REQUEST evita redirecionar a abertura interna de index.html.
+# A captura conserva o prefixo /~usuario/ do link temporario.
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{REQUEST_METHOD} ^(?:GET|HEAD)$
+RewriteCond %{THE_REQUEST} "\s/+((?:[A-Za-z0-9_~-]+/)*)index(?:\.html)?(?:[?\s])" [NC]
+RewriteRule ^index(?:\.html)?$ /%1 [R=302,L]
+
+# 2) Pagina .html existente -> endereco sem extensao.
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{REQUEST_METHOD} ^(?:GET|HEAD)$
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteCond %{THE_REQUEST} "\s/+((?:[A-Za-z0-9_~-]+/)*[A-Za-z0-9_-]+)\.html(?:[?\s])" [NC]
+RewriteRule ^(?:[A-Za-z0-9_-]+|paginas-relogios/[A-Za-z0-9_-]+)\.html$ /%1 [R=302,L]
+
+# 3) Retira barra final de uma rota de pagina (nao de diretorios reais).
+RewriteCond %{ENV:REDIRECT_STATUS} ^$
+RewriteCond %{REQUEST_METHOD} ^(?:GET|HEAD)$
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} ^(.+?)/?$
+RewriteCond %1.html -f
+RewriteCond %{THE_REQUEST} "\s/+((?:[A-Za-z0-9_~-]+/)*[A-Za-z0-9_-]+)/+(?:[?\s])"
+RewriteRule ^(?:[A-Za-z0-9_-]+|paginas-relogios/[A-Za-z0-9_-]+)/+$ /%1 [R=302,L]
+
+# 4) Entrega o HTML correspondente sem exibir a extensao no navegador.
+# Reescrita relativa: Apache 2.4.16+ infere a base de Alias e mod_userdir.
+# Nao usar RewriteBase / no endereco temporario /~usuario/.
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^([A-Za-z0-9_-]+|paginas-relogios/[A-Za-z0-9_-]+)$ $1.html [END]
+# END REALPONTO URLS LIMPAS - TESTE
