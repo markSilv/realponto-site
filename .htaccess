@@ -22,6 +22,43 @@ DirectoryIndex index.html
     # Nao interceptar as aplicacoes existentes em subdiretorios.
     RewriteRule ^(?:jornada|previa-cliente)(?:/|$) - [L]
 
+    # BEGIN REALPONTO LEGACY 301 - 2026-11-03
+    # URLs do site antigo -> paginas equivalentes do site novo.
+    # Antes da canonicalizacao: destino HTTPS + www + URL limpa em um salto.
+    # Parametros de consulta sao preservados; demais caminhos nao sao alterados.
+    # Categoria de relógios de ponto
+    RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br(?::[0-9]+)?$ [NC]
+    RewriteRule ^relogios-de-ponto-digital/?$ https://www.realponto.com.br/relogio-de-ponto [R=301,L,NC]
+
+    # Categoria de sistemas de ponto
+    RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br(?::[0-9]+)?$ [NC]
+    RewriteRule ^softwares/?$ https://www.realponto.com.br/sistemas-em-nuvem [R=301,L,NC]
+
+    # Controle de acesso consolidado em segurança eletrônica
+    RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br(?::[0-9]+)?$ [NC]
+    RewriteRule ^controles-de-acesso/?$ https://www.realponto.com.br/seguranca-eletronica [R=301,L,NC]
+
+    # Crachás e identificação visual
+    RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br(?::[0-9]+)?$ [NC]
+    RewriteRule ^crachas/?$ https://www.realponto.com.br/identidade-visual [R=301,L,NC]
+
+    # Suporte técnico RealPonto
+    RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br(?::[0-9]+)?$ [NC]
+    RewriteRule ^servicos/suporte-realponto/?$ https://www.realponto.com.br/suporte-tecnico [R=301,L,NC]
+
+    # Mesmo modelo: iDClass
+    RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br(?::[0-9]+)?$ [NC]
+    RewriteRule ^relogios-de-ponto-digital/relogio-control-id-idclass/?$ https://www.realponto.com.br/paginas-relogios/relogio-idclass [R=301,L,NC]
+
+    # Mesmo modelo: Inner REP Plus
+    RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br(?::[0-9]+)?$ [NC]
+    RewriteRule ^relogios-de-ponto-digital/relogio-inner-rep-plus/?$ https://www.realponto.com.br/paginas-relogios/relogio-inner-rep [R=301,L,NC]
+
+    # Mesmo modelo: Prisma SF ADV
+    RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br(?::[0-9]+)?$ [NC]
+    RewriteRule ^relogios-de-ponto-digital/relogio-prisma-sf-adv/?$ https://www.realponto.com.br/paginas-relogios/relogio-prisma-sf-adv [R=301,L,NC]
+    # END REALPONTO LEGACY 301
+
     # Redirecionar HTMLs diretos em um so passo para URL limpa e canonica.
     # THE_REQUEST evita loop depois de reescrita interna de /pagina para /pagina.html.
     RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br$ [NC]
