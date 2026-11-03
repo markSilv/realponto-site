@@ -1,50 +1,51 @@
-# SOMENTE NA PASTA DE HOMOLOGACAO. NUNCA USAR ESTE ARQUIVO EM PRODUCAO.
-# Usar tambem Privacidade de diretorio no cPanel para proteger o teste com senha.
+# REALPONTO INSTITUCIONAL - VALIDACAO ANTES DA TROCA DO DNS
+# Raiz: /home1/mar43964/public_html/.htaccess
+# Nao forca HTTPS ate existir certificado valido para o dominio e o www.
+# Nao usar como configuracao final apos a migracao.
 Options -Indexes -MultiViews
 DirectoryIndex index.html
+
+# Apenas os enderecos TEMPORARIOS de teste nao devem ser indexados.
+# O dominio real e seu www nao recebem X-Robots-Tag noindex.
+<IfModule mod_setenvif.c>
+    SetEnvIfNoCase Host "^(marcosferreira1793107271154\.1870170\.meusitehostgator\.com\.br|br232\.teste\.website)(:[0-9]+)?$" RP_TEMPORARIO=1
+</IfModule>
 <IfModule mod_headers.c>
-    Header always set X-Robots-Tag "noindex, nofollow, noarchive"
-    Header always set Cache-Control "no-store"
+    Header always set X-Robots-Tag "noindex, nofollow, noarchive" env=RP_TEMPORARIO
 </IfModule>
 
-# BEGIN REALPONTO URLS LIMPAS - TESTE
-# Revisao temporaria: br232.teste.website/~mar43964/
-# Aplicar somente em /home1/mar43964/public_html/.htaccess.
-# SUBSTITUIR o bloco anterior; nao acumular as duas versoes.
-# Arquivos continuam com .html. Nao usar este bloco no dominio definitivo.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
 
-Options -Indexes -MultiViews
-DirectoryIndex index.html
-RewriteEngine On
-RewriteBase /~mar43964/
+    # Renovacao AutoSSL: nao redirecionar o caminho de desafio HTTP.
+    RewriteRule ^\.well-known/(?:acme-challenge|pki-validation)(?:/|$) - [L]
 
-# Diagnostico inofensivo: /rp-teste-rotas deve voltar a inicial com ?rp_rotas=ok.
-RewriteRule ^rp-teste-rotas$ /~mar43964/?rp_rotas=ok [R=302,L]
+    # A Jornada e as outras aplicacoes independentes nao sao reescritas aqui.
+    RewriteRule ^(?:jornada|previa-cliente)(?:/|$) - [L]
 
-# Acesso direto a index.html ou index -> raiz do site temporario.
-# THE_REQUEST separa requisicoes do navegador de reescritas internas.
-RewriteCond %{REQUEST_METHOD} ^(?:GET|HEAD)$
-RewriteCond %{THE_REQUEST} "\s/+~mar43964/index(?:\.html)?/*(?:[?\s])" [NC]
-RewriteRule ^index(?:\.html)?/*$ /~mar43964/ [R=302,L]
+    # URLs institucionais: index(.html) -> raiz (apenas requisicao externa).
+    RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br$ [NC]
+    RewriteCond %{THE_REQUEST} "\s/+index(?:\.html)?(?:[?\s])" [NC]
+    RewriteRule ^index(?:\.html)?$ / [R=302,L]
 
-# Acesso direto a um HTML existente -> mesma pagina sem extensao.
-RewriteCond %{REQUEST_METHOD} ^(?:GET|HEAD)$
-RewriteCond %{THE_REQUEST} "\s/+~mar43964/(?:paginas-relogios/)?[A-Za-z0-9_-]+\.html(?:[?\s])" [NC]
-RewriteCond /home1/mar43964/public_html/$1.html -f
-RewriteRule ^((?:paginas-relogios/)?[A-Za-z0-9_-]+)\.html$ /~mar43964/$1 [R=302,L]
+    # HTML existente -> URL limpa (redirecionamento temporario para testar).
+    RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br$ [NC]
+    RewriteCond %{THE_REQUEST} "\s/+(?:paginas-relogios/)?[A-Za-z0-9_-]+\.html(?:[?\s])" [NC]
+    RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+    RewriteRule ^((?:paginas-relogios/)?[A-Za-z0-9_-]+)\.html$ /$1 [R=302,L]
 
-# Remove barra final so de rotas com HTML correspondente (nao de pastas).
-RewriteCond %{REQUEST_METHOD} ^(?:GET|HEAD)$
-RewriteCond /home1/mar43964/public_html/$1.html -f
-RewriteRule ^((?:paginas-relogios/)?[A-Za-z0-9_-]+)/+$ /~mar43964/$1 [R=302,L]
+    # Barra final de uma pagina HTML existente -> versao sem barra.
+    RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br$ [NC]
+    RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+    RewriteRule ^((?:paginas-relogios/)?[A-Za-z0-9_-]+)/+$ /$1 [R=302,L]
 
-# Nao altera imagens, estilos, scripts, downloads ou pastas reais.
-RewriteCond %{REQUEST_FILENAME} -f [OR]
-RewriteCond %{REQUEST_FILENAME} -d
-RewriteRule ^ - [L]
+    # Preserva arquivos e diretorios reais (img, css, js, downloads, jornada).
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
 
-# Rota sem extensao -> arquivo HTML, sem mudar o endereco do navegador.
-# Caminho fisico explicito: nao depende do DocumentRoot do servidor compartilhado.
-RewriteCond /home1/mar43964/public_html/$1.html -f
-RewriteRule ^((?:paginas-relogios/)?[A-Za-z0-9_-]+)$ $1.html [L]
-# END REALPONTO URLS LIMPAS - TESTE
+    # Caminho sem extensao entrega o HTML sem alterar a URL no navegador.
+    RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br$ [NC]
+    RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+    RewriteRule ^((?:paginas-relogios/)?[A-Za-z0-9_-]+)$ $1.html [L]
+</IfModule>
