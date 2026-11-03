@@ -1,12 +1,11 @@
-# REALPONTO INSTITUCIONAL - VALIDACAO ANTES DA TROCA DO DNS
+# REALPONTO INSTITUCIONAL - PRODUCAO
 # Raiz: /home1/mar43964/public_html/.htaccess
-# Nao forca HTTPS ate existir certificado valido para o dominio e o www.
-# Nao usar como configuracao final apos a migracao.
+# Usar SOMENTE apos HTTPS valido para realponto.com.br e www.realponto.com.br.
+# Host canonico: https://www.realponto.com.br (igual ao canonical do index.html).
 Options -Indexes -MultiViews
 DirectoryIndex index.html
 
-# Apenas os enderecos TEMPORARIOS de teste nao devem ser indexados.
-# O dominio real e seu www nao recebem X-Robots-Tag noindex.
+# Bloquear indexacao somente de hostnames temporarios, NAO do dominio oficial.
 <IfModule mod_setenvif.c>
     SetEnvIfNoCase Host "^(marcosferreira1793107271154\.1870170\.meusitehostgator\.com\.br|br232\.teste\.website)(:[0-9]+)?$" RP_TEMPORARIO=1
 </IfModule>
@@ -17,35 +16,44 @@ DirectoryIndex index.html
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Renovacao AutoSSL: nao redirecionar o caminho de desafio HTTP.
+    # Nao interceptar a renovacao AutoSSL por HTTP.
     RewriteRule ^\.well-known/(?:acme-challenge|pki-validation)(?:/|$) - [L]
 
-    # A Jornada e as outras aplicacoes independentes nao sao reescritas aqui.
+    # Nao interceptar as aplicacoes existentes em subdiretorios.
     RewriteRule ^(?:jornada|previa-cliente)(?:/|$) - [L]
 
-    # URLs institucionais: index(.html) -> raiz (apenas requisicao externa).
+    # Redirecionar HTMLs diretos em um so passo para URL limpa e canonica.
+    # THE_REQUEST evita loop depois de reescrita interna de /pagina para /pagina.html.
     RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br$ [NC]
     RewriteCond %{THE_REQUEST} "\s/+index(?:\.html)?(?:[?\s])" [NC]
-    RewriteRule ^index(?:\.html)?$ / [R=302,L]
+    RewriteRule ^index(?:\.html)?$ https://www.realponto.com.br/ [R=301,L,NE]
 
-    # HTML existente -> URL limpa (redirecionamento temporario para testar).
     RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br$ [NC]
     RewriteCond %{THE_REQUEST} "\s/+(?:paginas-relogios/)?[A-Za-z0-9_-]+\.html(?:[?\s])" [NC]
     RewriteCond %{DOCUMENT_ROOT}/$1.html -f
-    RewriteRule ^((?:paginas-relogios/)?[A-Za-z0-9_-]+)\.html$ /$1 [R=302,L]
+    RewriteRule ^((?:paginas-relogios/)?[A-Za-z0-9_-]+)\.html$ https://www.realponto.com.br/$1 [R=301,L,NE]
 
-    # Barra final de uma pagina HTML existente -> versao sem barra.
     RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br$ [NC]
     RewriteCond %{DOCUMENT_ROOT}/$1.html -f
-    RewriteRule ^((?:paginas-relogios/)?[A-Za-z0-9_-]+)/+$ /$1 [R=302,L]
+    RewriteRule ^((?:paginas-relogios/)?[A-Za-z0-9_-]+)/+$ https://www.realponto.com.br/$1 [R=301,L,NE]
 
-    # Preserva arquivos e diretorios reais (img, css, js, downloads, jornada).
+    # Dominio sem www -> www, mantendo caminho e query string.
+    RewriteCond %{HTTP_HOST} ^realponto\.com\.br$ [NC]
+    RewriteRule ^ https://www.realponto.com.br%{REQUEST_URI} [R=301,L,NE]
+
+    # Somente www em HTTP -> HTTPS. Nao altera a Jornada.
+    RewriteCond %{HTTP_HOST} ^www\.realponto\.com\.br$ [NC]
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^ https://www.realponto.com.br%{REQUEST_URI} [R=301,L,NE]
+
+    # Recursos reais mantem seus caminhos e diretorios, inclusive subaplicacoes.
     RewriteCond %{REQUEST_FILENAME} -f [OR]
     RewriteCond %{REQUEST_FILENAME} -d
     RewriteRule ^ - [L]
 
-    # Caminho sem extensao entrega o HTML sem alterar a URL no navegador.
-    RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br$ [NC]
-    RewriteCond %{DOCUMENT_ROOT}/$1.html -f
-    RewriteRule ^((?:paginas-relogios/)?[A-Za-z0-9_-]+)$ $1.html [L]
+    # Rotas institucionais sem extensao; arquivos HTML permanecem no disco.
+    # Funciona no dominio definitivo e no endereco temporario da HostGator.
+    # O link no menu continua SEM .html; somente o arquivo no disco tem extensao.
+    RewriteCond %{REQUEST_FILENAME}.html -f
+    RewriteRule ^((?:paginas-relogios/)?[A-Za-z0-9_-]+)$ $1.html [END]
 </IfModule>
