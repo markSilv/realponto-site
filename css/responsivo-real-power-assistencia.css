@@ -1,0 +1,173 @@
+/*
+ * RealPonto — ajustes responsivos específicos
+ * Páginas: real-power.html e assistencia-tecnica.html
+ * Carregado DEPOIS de style.css e visual-original.css.
+ * Não modifica o desktop nem o site institucional global.
+ */
+
+/* ===== REAL POWER: imagem participa do fluxo em tablets/celulares ===== */
+@media (max-width: 1020px) {
+  body.real-power-page .real-power-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: clamp(20px, 4vw, 36px);
+  }
+
+  body.real-power-page .real-power-grid > *,
+  body.real-power-page .real-power-copy {
+    min-width: 0;
+  }
+
+  body.real-power-page .real-power-visual {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    overflow: visible;
+  }
+
+  /* Corrige position:absolute e height:940px herdados do CSS desktop. */
+  body.real-power-page .real-power-product-image {
+    position: static;
+    inset: auto;
+    display: block;
+    width: min(100%, 480px);
+    max-width: 100%;
+    height: auto;
+    max-height: none;
+    padding: 0;
+    margin: 0 auto;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  /* Mantém a mensagem de reserva visível se a imagem não carregar. */
+  body.real-power-page .real-power-visual:not(.has-image) {
+    min-height: 220px;
+  }
+
+  body.real-power-page .real-power-highlights {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ===== ASSISTÊNCIA: evita cards espremidos em tablets pequenos ===== */
+@media (min-width: 721px) and (max-width: 1020px) {
+  body.assistencia-page .assistencia-tipos-grid {
+    gap: 20px;
+  }
+
+  body.assistencia-page .assistencia-tipo {
+    padding: 28px;
+  }
+}
+
+/* ===== TELAS PEQUENAS: leitura confortável e uma coluna ===== */
+@media (max-width: 720px) {
+  body.real-power-page .real-power-hero h1 {
+    font-size: clamp(1.85rem, 8vw, 2.5rem);
+    line-height: 1.12;
+  }
+
+  body.real-power-page .real-power-hero h2 {
+    font-size: clamp(1.45rem, 6vw, 2.05rem);
+    line-height: 1.2;
+    overflow-wrap: break-word;
+    text-wrap: balance;
+  }
+
+  body.real-power-page .real-power-overview {
+    padding-top: 36px;
+    padding-bottom: 42px;
+  }
+
+  body.real-power-page .real-power-product-image {
+    width: min(100%, 370px);
+  }
+
+  body.real-power-page .real-power-visual:not(.has-image) {
+    min-height: 180px;
+  }
+
+  body.real-power-page .real-power-grid {
+    gap: 22px;
+  }
+
+  body.real-power-page .real-power-highlights {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  body.real-power-page .real-power-highlights > div {
+    padding: 16px;
+  }
+
+  body.assistencia-page .assistencia-tipos-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  body.assistencia-page .assistencia-tipos-grid > * {
+    min-width: 0;
+  }
+
+  body.assistencia-page .assistencia-tipo {
+    width: 100%;
+    height: auto;
+    padding: 24px 22px;
+    border-radius: 20px;
+  }
+
+  body.assistencia-page .assistencia-tipo-label {
+    margin-bottom: 14px;
+  }
+
+  body.assistencia-page .assistencia-tipo h3 {
+    font-size: clamp(1.1rem, 5vw, 1.35rem);
+    line-height: 1.3;
+    overflow-wrap: break-word;
+  }
+
+  body.assistencia-page .assistencia-tipo p {
+    font-size: 0.96rem;
+    line-height: 1.65;
+  }
+
+  body.assistencia-page .assistencia-section-head {
+    max-width: 100%;
+    margin-bottom: 26px;
+  }
+
+  body.assistencia-page .assistencia-section-head h2 {
+    font-size: clamp(1.5rem, 6.5vw, 2.1rem);
+    line-height: 1.18;
+    text-wrap: balance;
+  }
+
+  /* Compensa o menu fixo quando uma seção é aberta por âncora. */
+  body.assistencia-page .assistencia-tipos,
+  body.assistencia-page .assistencia-processo,
+  body.real-power-page .real-power-overview {
+    scroll-margin-top: 88px;
+  }
+}
+
+@media (max-width: 360px) {
+  body.assistencia-page .assistencia-tipo {
+    padding: 22px 18px;
+  }
+
+  body.assistencia-page .assistencia-tipo h3 {
+    font-size: 1.1rem;
+  }
+
+  body.real-power-page .real-power-copy h2 {
+    overflow-wrap: break-word;
+  }
+}
