@@ -1,0 +1,175 @@
+/* RealPonto | Splash da campanha Jornada 2026
+ * CSS independente: altera somente elementos rp-splash.
+ * Para desativar a campanha, altere enabled em js/splash.js.
+ */
+.rp-splash-overlay[hidden] { display: none !important; }
+.rp-splash-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: max(12px, env(safe-area-inset-top)) 16px max(12px, env(safe-area-inset-bottom));
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: rgba(5, 9, 25, .83);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: opacity 260ms ease;
+}
+.rp-splash-overlay.rp-splash-open { opacity: 1; }
+.rp-splash-overlay *,
+.rp-splash-overlay *::before,
+.rp-splash-overlay *::after { box-sizing: border-box; }
+.rp-splash-dialog {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 1060px;
+  width: 100%;
+  max-width: 1060px;
+  max-height: calc(100dvh - 24px);
+  margin: auto;
+  overflow: auto;
+  border: 1px solid rgba(255,255,255,.24);
+  border-radius: 18px;
+  background: #101b39;
+  color: #fff;
+  box-shadow: 0 30px 100px rgba(0,0,0,.5);
+  transform: translateY(18px) scale(.97);
+  transition: transform 300ms cubic-bezier(.2,.8,.2,1);
+}
+.rp-splash-overlay.rp-splash-open .rp-splash-dialog {
+  transform: translateY(0) scale(1);
+}
+.rp-splash-close {
+  position: absolute;
+  z-index: 2;
+  right: 10px;
+  top: 10px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgba(255,255,255,.48);
+  border-radius: 50%;
+  background: rgba(4, 11, 34, .87);
+  color: #fff;
+  font: 500 28px/1 Arial,sans-serif;
+  cursor: pointer;
+  box-shadow: 0 3px 18px rgba(0,0,0,.3);
+}
+.rp-splash-close:hover { background: #d81028; }
+.rp-splash-banner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background: #061b91;
+  text-decoration: none;
+  overflow: hidden;
+}
+.rp-splash-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: min(69dvh, 720px);
+  object-fit: contain;
+  object-position: center;
+}
+.rp-splash-mobile-text { display: none; }
+.rp-splash-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 18px;
+  background: #10182f;
+}
+.rp-splash-footer p {
+  margin: 0;
+  color: #d3dffa;
+  font: 500 13px/1.4 Arial,sans-serif;
+}
+.rp-splash-action {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 18px;
+  border-radius: 100px;
+  background: #ed1429;
+  color: #fff !important;
+  text-decoration: none !important;
+  text-align: center;
+  font: 700 14px/1.25 Arial,sans-serif;
+  white-space: nowrap;
+  transition: background 160ms ease;
+}
+.rp-splash-action:hover { background: #c90620; }
+.rp-splash-overlay :is(a,button):focus-visible {
+  outline: 3px solid #55ddff;
+  outline-offset: 3px;
+}
+.rp-splash-visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0,0,0,0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+@media (max-width: 640px) {
+  .rp-splash-overlay {
+    padding: max(10px, env(safe-area-inset-top)) 10px max(10px, env(safe-area-inset-bottom));
+  }
+  .rp-splash-dialog {
+    max-width: 460px;
+    border-radius: 15px;
+  }
+  .rp-splash-banner img {
+    max-height: 43dvh;
+  }
+  .rp-splash-close { right: 7px; top: 7px; }
+  .rp-splash-mobile-text {
+    display: block;
+    padding: 14px 15px 8px;
+    background: #10182f;
+    color: #fff;
+  }
+  .rp-splash-mobile-text strong {
+    display: block;
+    margin: 0 0 4px;
+    font: 750 18px/1.25 Arial,sans-serif;
+  }
+  .rp-splash-mobile-text p {
+    margin: 0;
+    color: #d8e4ff;
+    font: 400 14px/1.48 Arial,sans-serif;
+  }
+  .rp-splash-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 8px 15px 15px;
+  }
+  .rp-splash-footer p { display: none; }
+  .rp-splash-action { width: 100%; white-space: normal; }
+}
+@media (max-width: 360px) {
+  .rp-splash-mobile-text { padding-top: 10px; }
+  .rp-splash-mobile-text strong { font-size: 16px; }
+  .rp-splash-mobile-text p { font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rp-splash-overlay, .rp-splash-dialog, .rp-splash-action { transition: none !important; }
+}
