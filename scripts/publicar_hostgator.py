@@ -26,13 +26,13 @@ from datetime import datetime, timezone
 from pathlib import Path, PurePosixPath
 from typing import Any
 
-SCRIPT_VERSION = '2026-10-28-r2'
+SCRIPT_VERSION = '2026-11-04-seo1'
 STATE_NAME = 'realponto-site-deploy-v1.json'
 LEGACY_STATE_NAME = '.realponto-site-deploy-v1.json'
 STATE_LIMIT = 4 * 1024 * 1024
 SITE_ID = 'realponto-site'
 PAGES = {
-    '404.html', 'index.html', 'assistencia-tecnica.html', 'identidade-visual.html',
+    'contato.html', 'servicos.html', '404.html', 'index.html', 'assistencia-tecnica.html', 'identidade-visual.html',
     'iponto-demo.html', 'locacao-de-equipamentos.html', 'modulos.html',
     'real-power.html', 'relogio-de-ponto.html', 'seguranca-eletronica.html',
     'sistema-rhid.html', 'sistema-secullum.html', 'sistemas-em-nuvem.html',

@@ -5,6 +5,9 @@
 Options -Indexes -MultiViews
 DirectoryIndex index.html
 
+# Pagina de erro real: preserva o status HTTP 404, sem redirecionar para a home.
+ErrorDocument 404 /404.html
+
 # Bloquear indexacao somente de hostnames temporarios, NAO do dominio oficial.
 <IfModule mod_setenvif.c>
     SetEnvIfNoCase Host "^(marcosferreira1793107271154\.1870170\.meusitehostgator\.com\.br|br232\.teste\.website)(:[0-9]+)?$" RP_TEMPORARIO=1
@@ -15,6 +18,10 @@ DirectoryIndex index.html
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
+
+    # Nao canonicalizar a sub-requisicao interna da pagina de erro.
+    RewriteCond %{ENV:REDIRECT_STATUS} =404
+    RewriteRule ^404\.html$ - [END]
 
     # Nao interceptar a renovacao AutoSSL por HTTP.
     RewriteRule ^\.well-known/(?:acme-challenge|pki-validation)(?:/|$) - [L]
@@ -58,6 +65,39 @@ DirectoryIndex index.html
     RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br(?::[0-9]+)?$ [NC]
     RewriteRule ^relogios-de-ponto-digital/relogio-prisma-sf-adv/?$ https://www.realponto.com.br/paginas-relogios/relogio-prisma-sf-adv [R=301,L,NC]
     # END REALPONTO LEGACY 301
+
+    # BEGIN REALPONTO LEGACY 301 - COMPLEMENTO 2026-11-04
+    # Mesmo módulo de comunicação
+    RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br(?::[0-9]+)?$ [NC]
+    RewriteRule ^modulo-online/?$ https://www.realponto.com.br/modulos [R=301,L,NC,NE]
+
+    # Mesmo módulo de comunicação
+    RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br(?::[0-9]+)?$ [NC]
+    RewriteRule ^servicos/modulo-realponto/?$ https://www.realponto.com.br/modulos [R=301,L,NC,NE]
+
+    # Mesmo modelo Henry Vega
+    RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br(?::[0-9]+)?$ [NC]
+    RewriteRule ^relogios-de-ponto-cartografico/relogio-henry-vega/?$ https://www.realponto.com.br/paginas-relogios/relogio-henry-vega [R=301,L,NC,NE]
+
+    # Categoria representada pelo relógio cartográfico
+    RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br(?::[0-9]+)?$ [NC]
+    RewriteRule ^relogios-de-ponto-cartografico/?$ https://www.realponto.com.br/relogio-de-ponto [R=301,L,NC,NE]
+
+    # Seção específica de cordões personalizados
+    RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br(?::[0-9]+)?$ [NC]
+    RewriteRule ^crachas/cordoes-personalizados/?$ https://www.realponto.com.br/identidade-visual [R=301,L,NC,NE]
+
+    # Seção específica de crachás personalizados
+    RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br(?::[0-9]+)?$ [NC]
+    RewriteRule ^crachas/crachas-personalizados/?$ https://www.realponto.com.br/identidade-visual [R=301,L,NC,NE]
+
+    # Seção sobre catracas e projeto de acesso
+    RewriteCond %{HTTP_HOST} ^(?:www\.)?realponto\.com\.br(?::[0-9]+)?$ [NC]
+    RewriteRule ^catracas/?$ https://www.realponto.com.br/seguranca-eletronica [R=301,L,NC,NE]
+
+    # /contato/ e /servicos/ usam as paginas novas e a regra generica de barra final.
+    # Artigos, modelos descontinuados e softwares antigos SEM equivalencia: nao redirecionar em massa.
+    # END REALPONTO LEGACY 301 - COMPLEMENTO
 
     # Redirecionar HTMLs diretos em um so passo para URL limpa e canonica.
     # THE_REQUEST evita loop depois de reescrita interna de /pagina para /pagina.html.
