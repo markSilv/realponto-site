@@ -64,6 +64,12 @@ No arquivo privado, configurar `mail_transport => 'smtp'` e o bloco `smtp`:
 fica exclusivamente em `smtp.password` ou na variável de ambiente correspondente.
 Nenhuma credencial vai para HTML, JavaScript, banco, Git ou respostas de erro.
 
+Não combinar porta 587 com `encryption => 'ssl'` em um serviço que utiliza
+STARTTLS. Essa incompatibilidade foi identificada no teste desta instalação;
+o ajuste para `587` com `'tls'` permitiu conexão criptografada e autenticação a
+partir do computador local, sem envio de mensagem. O arquivo privado corrigido
+precisa ser copiado à hospedagem para que a fila use os novos valores.
+
 Copiar servidor, porta e criptografia das configurações do provedor. Não deduzir
 o hostname pelo domínio do remetente. A validação de certificados TLS fica
 habilitada; não há fallback automático para envio sem criptografia ou para
@@ -125,6 +131,10 @@ guardar o protocolo sem reenviar a solicitação. `aceitas_pelo_transporte` indi
 somente aceitação pelo serviço de envio, sem comprovar entrega na caixa de
 entrada. Mudanças posteriores de `recipients` não alteram os destinatários já
 gravados na fila. O diagnóstico não reenvia nem modifica essas mensagens.
+Para tentar as mensagens pendentes cujo prazo já venceu, usar o comando
+`notificar` acima. Resultado `0 aceitas; 0 pendentes` nesse comando descreve apenas
+as tentativas daquela execução: consultar `fila` para distinguir ausência de
+mensagens prontas de uma fila que ainda está aguardando o prazo de retentativa.
 
 Agendar `notificar` a cada cinco minutos e `limpar` diariamente no cron do
 cPanel, com o caminho absoluto do PHP e do script. `verificar` valida o ambiente
@@ -233,7 +243,7 @@ Resultados locais:
   acesso e preservação do pedido com e-mail pendente na falha SMTP.
   A regressão HTTP incluiu as **26 páginas HTML** do checkout.
 - Validações JavaScript de CNPJ, máscaras, telefone e séries passaram.
-- **116 verificações SMTP passaram**: configuração de servidor/porta, SSL/TLS,
+- **172 verificações SMTP passaram**: configuração de servidor/porta, SSL/TLS,
   credenciais separadas de `secret`, validação de certificados, MIME UTF-8,
   ausência de segredos nos erros/mensagens, falha SMTP e recuperação da fila.
 - Sintaxe PHP/Python, declaração integral idêntica ao anexo, IDs únicos,
@@ -253,10 +263,12 @@ foram validados com transporte em arquivo privado, sem envio real. As regras
 Apache/HTTPS precisam ser verificadas na hospedagem; o teste HTTP usa roteador
 local equivalente para bloquear arquivos privados.
 
-**Publicação não realizada.** A cópia local privada de `config.php` foi criada
-com chave interna e campos SMTP. Faltam preenchimento e validação dos dados reais
-de servidor, porta, criptografia, usuário e senha SMTP, remetente/destinatários
-autorizados e envio da configuração privada à hospedagem; confirmação de PHP/extensões e pasta privada na
-HostGator; cron de notificações/limpeza; e validação da entrega real de e-mails.
-O comando de verificação sem configuração recusou o funcionamento, como esperado.
-Nenhum dado ou banco de produção foi alterado.
+**Estado atual na hospedagem:** o usuário publicou o projeto na HostGator,
+validou a configuração/armazenamento no terminal e registrou um pedido pelo
+formulário. A API pública também respondeu HTTP 200 na verificação de preparação.
+A ausência dos e-mails levou ao diagnóstico e à correção local da combinação
+porta/criptografia SMTP. Conexão TLS e autenticação foram confirmadas a partir do
+computador local, sem enviar mensagem. Falta copiar o arquivo privado corrigido
+à hospedagem, executar a fila e confirmar a entrega real dos e-mails, além de
+conferir o cron de notificações/limpeza. As correções do código devem seguir o
+processo de publicação do projeto.

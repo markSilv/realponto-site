@@ -21,7 +21,7 @@ function diagnosticarErroSmtp(\Throwable $erro, ?PHPMailer $mailer = null): arra
     $codigo = 'smtp_falha';
     if ($erro instanceof \Error && (str_contains($texto, 'require') || str_contains($texto, 'class'))) {
         $codigo = 'smtp_biblioteca';
-    } elseif (preg_match('/certificate|verify failed|crypto|starttls|ssl operation|tls connect/', $texto)) {
+    } elseif (preg_match('/certificate|verify failed|crypto|starttls|ssl operation|tls connect|wrong version number|unknown protocol|ssl routines|tls routines/', $texto)) {
         $codigo = 'smtp_tls';
     } elseif ($smtpCode === 535 || preg_match('/authenticat|authentication|credentials|username.*password/', $texto)) {
         $codigo = 'smtp_autenticacao';
