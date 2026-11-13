@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Publica só o site estático por FTPS explícito, sem remoções remotas.
+"""Publica o site e o endpoint de atestados por FTPS, sem remoções remotas.
 
 Python 3.10+; biblioteca padrão. Primeiro use DEPLOY_MODE=verificar.
-Não publica .htaccess, prévia-cliente, backups, credenciais ou o repositório.
+Não publica .htaccess raiz, prévia-cliente, backups, credenciais ou o repositório.
 O manifesto é auxiliar; arquivos não gerenciados permanecem na hospedagem.
 Revisão r2: temporários ASCII sem ponto inicial, histórico não oculto,
 progresso confirmado por arquivo e resposta FTP detalhada com segredos filtrados.
@@ -26,7 +26,7 @@ from datetime import datetime, timezone
 from pathlib import Path, PurePosixPath
 from typing import Any
 
-SCRIPT_VERSION = '2026-11-04-seo1'
+SCRIPT_VERSION = '2026-11-13-atestado1'
 STATE_NAME = 'realponto-site-deploy-v1.json'
 LEGACY_STATE_NAME = '.realponto-site-deploy-v1.json'
 STATE_LIMIT = 4 * 1024 * 1024
@@ -37,6 +37,13 @@ PAGES = {
     'real-power.html', 'relogio-de-ponto.html', 'seguranca-eletronica.html',
     'sistema-rhid.html', 'sistema-secullum.html', 'sistemas-em-nuvem.html',
     'suporte-tecnico.html', 'robots.txt', 'sitemap.xml',
+    'solicitar-atestado-tecnico.html', 'aviso-de-privacidade-atestados.html',
+}
+# Lista exata: nunca publicar configuração, banco, fotos, testes ou PHP arbitrário.
+BACKEND = {
+    'atestado/.htaccess', 'atestado/bootstrap.php', 'atestado/validacao.php',
+    'atestado/notificacoes.php', 'atestado/schema.sql',
+    'api/atestado-tecnico.php', 'scripts/atestado-manutencao.php',
 }
 TREE_TYPES = {
     'css': {'.css', '.woff', '.woff2', '.ttf', '.otf', '.eot'},
@@ -110,6 +117,8 @@ class StrictFTP_TLS(ftplib.FTP_TLS):
 
 
 def permitted(relative: str) -> bool:
+    if relative in BACKEND:
+        return True
     path = PurePosixPath(relative)
     if path.is_absolute() or any(part.startswith('.') for part in path.parts):
         return False
@@ -136,7 +145,7 @@ def collect(root: Path) -> list[Asset]:
             name for name in dirnames
             if not name.startswith('.')
             and not (directory / name).is_symlink()
-            and (directory != root or name in TREE_TYPES)
+            and (directory != root or name in TREE_TYPES or name in {'api', 'atestado', 'scripts'})
         )
         for name in sorted(filenames):
             file = directory / name
@@ -158,6 +167,8 @@ def collect(root: Path) -> list[Asset]:
             selected.append(Asset(relative, file, file.stat().st_size, digest.hexdigest()))
     # Recursos antes dos HTMLs; página inicial por último. Não é troca atômica do site inteiro.
     selected.sort(key=lambda asset: (
+        -2 if asset.relative == 'atestado/.htaccess' else
+        -1 if asset.relative.startswith('atestado/') else
         2 if asset.relative == 'index.html' else 1 if asset.relative.endswith('.html') else 0,
         asset.relative,
     ))
@@ -382,7 +393,7 @@ def main() -> int:
         raise DeployError('DEPLOY_MODE inválido.')
     root = Path(os.environ.get('SITE_LOCAL_DIR', '.'))
     assets = collect(root)
-    print(f'{len(assets)} arquivos públicos selecionados. .htaccess e aplicações separadas não participam do envio.')
+    print(f'{len(assets)} arquivos selecionados pela lista permitida. .htaccess raiz, configurações, dados privados e aplicações separadas não participam do envio.')
     if mode == 'local':
         print('Conferência local concluída, sem conexão com servidor.')
         return 0

@@ -1,0 +1,8 @@
+# Dados e configuração privada do recebimento de atestados.
+*.sqlite
+*.sqlite-*
+*.eml
+/atestado/config.php
+/atestado/dados/
+/realponto-atestados/
+__pycache__/

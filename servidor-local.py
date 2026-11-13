@@ -26,6 +26,7 @@ VERSION = '2026-10-28-local-1'
 BLOCKED_DIRS = {
     'scripts', 'node_modules', 'documentacao', 'auditoria', 'restaurar',
     'configuracao', '__pycache__', 'venv', 'env', 'tests', 'testes',
+    'atestado', 'api',
 }
 STATIC_TYPES = {
     '.html', '.htm', '.css', '.js', '.mjs', '.json', '.xml', '.webmanifest',
