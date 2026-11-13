@@ -32,6 +32,47 @@ putenv('RP_ATESTADO_CONFIG=' . $arquivoConfig);
 
 try {
     $config = configurar();
+    $cwdAnterior = getcwd();
+    $documentRootAnterior = $_SERVER['DOCUMENT_ROOT'] ?? null;
+    $documentRootExistia = array_key_exists('DOCUMENT_ROOT', $_SERVER);
+    try {
+        // Reproduz o Terminal do cPanel na home, com o storage privado dentro
+        // dessa home e o site em outra pasta. cwd nunca é a raiz pública.
+        chdir($pasta);
+        $_SERVER['DOCUMENT_ROOT'] = '';
+        conferir(configurar()['storage'] === realpath($pasta . '/dados'), 'CLI fora do site com DOCUMENT_ROOT vazio');
+        unset($_SERVER['DOCUMENT_ROOT']);
+        conferir(configurar()['storage'] === realpath($pasta . '/dados'), 'CLI fora do site sem DOCUMENT_ROOT');
+        $_SERVER['DOCUMENT_ROOT'] = '   ';
+        conferir(configurar()['storage'] === realpath($pasta . '/dados'), 'DOCUMENT_ROOT em branco usa raiz do site');
+        // Uma raiz pública real, quando informada pelo servidor, continua
+        // protegida, mesmo se for diferente da pasta do código.
+        $_SERVER['DOCUMENT_ROOT'] = $pasta;
+        try {
+            configurar();
+            throw new RuntimeException('Armazenamento dentro da raiz pública foi aceito.');
+        } catch (RuntimeException $erro) {
+            conferir($erro->getMessage() === 'O armazenamento precisa estar fora da raiz pública.', 'bloqueia armazenamento em DOCUMENT_ROOT real');
+        }
+        $_SERVER['DOCUMENT_ROOT'] = '';
+        $configPublica = $configTeste;
+        $configPublica['storage'] = dirname(__DIR__);
+        file_put_contents($arquivoConfig, '<?php return ' . var_export($configPublica, true) . ';');
+        try {
+            configurar();
+            throw new RuntimeException('Armazenamento dentro do site foi aceito.');
+        } catch (RuntimeException $erro) {
+            conferir($erro->getMessage() === 'O armazenamento precisa estar fora da raiz pública.', 'bloqueia armazenamento na pasta do site');
+        }
+    } finally {
+        chdir($cwdAnterior);
+        if ($documentRootExistia) {
+            $_SERVER['DOCUMENT_ROOT'] = $documentRootAnterior;
+        } else {
+            unset($_SERVER['DOCUMENT_ROOT']);
+        }
+        file_put_contents($arquivoConfig, '<?php return ' . var_export($configTeste, true) . ';');
+    }
     $db = banco($config);
     conferir((int)$db->query('PRAGMA user_version')->fetchColumn() === 1, 'migração v1');
     conferir(cnpjValido('12.ABC.345/01DE-35'), 'CNPJ alfanumérico oficial');

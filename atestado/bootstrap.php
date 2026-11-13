@@ -96,9 +96,19 @@ function configurar(): array
         throw new \RuntimeException('Não foi possível preparar o armazenamento.');
     }
     $config['storage'] = realpath($storage);
-    $raizWeb = realpath($_SERVER['DOCUMENT_ROOT'] ?? '') ?: realpath($raiz);
-    if (dentro($config['storage'], realpath($raiz)) || dentro($config['storage'], $raizWeb) || !is_writable($config['storage'])) {
-        throw new \RuntimeException('O armazenamento precisa estar fora da raiz pública e ser gravável.');
+    // No CLI, DOCUMENT_ROOT costuma ser vazio. realpath('') resolveria a pasta
+    // atual do terminal (por exemplo, toda a home da conta), não a raiz do site.
+    $documentRoot = $_SERVER['DOCUMENT_ROOT'] ?? '';
+    $raizWeb = is_string($documentRoot) && trim($documentRoot) !== '' ? realpath($documentRoot) : false;
+    $raizWeb = $raizWeb ?: realpath($raiz);
+    if ($config['storage'] === false) {
+        throw new \RuntimeException('Não foi possível resolver o caminho privado de armazenamento.');
+    }
+    if (dentro($config['storage'], realpath($raiz)) || dentro($config['storage'], $raizWeb)) {
+        throw new \RuntimeException('O armazenamento precisa estar fora da raiz pública.');
+    }
+    if (!is_writable($config['storage'])) {
+        throw new \RuntimeException('O armazenamento precisa ser gravável pelo usuário do PHP.');
     }
     foreach (['fotos','sessions','emails'] as $pasta) {
         $path = $config['storage'] . '/' . $pasta;

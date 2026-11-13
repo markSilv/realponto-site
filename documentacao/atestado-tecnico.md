@@ -108,6 +108,9 @@ php scripts/atestado-manutencao.php limpar
 Agendar `notificar` a cada cinco minutos e `limpar` diariamente no cron do
 cPanel, com o caminho absoluto do PHP e do script. `verificar` valida o ambiente
 e aplica a migração aditiva. Os comandos não recriam nem apagam outro banco.
+Com caminhos absolutos para o script, eles podem ser executados de qualquer
+pasta. Quando `DOCUMENT_ROOT` está vazio no terminal, a validação utiliza a raiz
+do código do site; a pasta atual do terminal não é considerada raiz pública.
 
 ## Dados e proteção
 
@@ -196,9 +199,11 @@ Nenhum menu ou painel administrativo foi criado nesta etapa.
 
 Resultados locais:
 
-- **55 verificações PHP passaram**: validação, fabricante individual/misto,
+- **60 verificações PHP passaram**: validação, fabricante individual/misto,
   até 20 equipamentos, aceite, persistência, protocolo, idempotência,
-  notificações, recuperação de falha de e-mail, limite e retenção.
+  notificações, recuperação de falha de e-mail, limite e retenção; execução CLI
+  fora do site com `DOCUMENT_ROOT` ausente/vazio/em branco e proteção de
+  armazenamento dentro de uma raiz pública real.
 - **12 cenários HTTP passaram**: fluxo completo, CNPJ alfanumérico,
   CSRF/origem/sessão, campos inválidos, spam, métodos, configuração ausente,
   imagens falsas/maiores que o limite, regravação segura de fotos e bloqueio de
