@@ -142,7 +142,7 @@
 
   async function carregarContexto() {
     enviar.disabled = true;
-    disponibilidade.textContent = 'Preparando o envio seguro…';
+    disponibilidade.textContent = 'Preparando o formulário…';
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15000);
     try {
@@ -151,7 +151,7 @@
       if (!response.ok || !dados.csrf || !dados.envio || dados.declaracao_versao !== form.dataset.declaracaoVersao || dados.privacidade_versao !== form.dataset.privacidadeVersao) throw new Error('indisponivel');
       contexto = dados;
       document.getElementById('retencao-dias').textContent = String(dados.retencao_dias);
-      disponibilidade.textContent = 'Envio seguro disponível. Campos com * são obrigatórios.';
+      disponibilidade.textContent = 'Formulário pronto para envio. Campos com * são obrigatórios.';
       disponibilidade.classList.remove('at-indisponivel');
       enviar.disabled = false;
     } catch (_) {

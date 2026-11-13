@@ -50,13 +50,18 @@ function configurar(): array
     if (PHP_VERSION_ID < 80200 || !extension_loaded('pdo_sqlite') || !extension_loaded('fileinfo') || !extension_loaded('gd')) {
         throw new \RuntimeException('PHP 8.2+, PDO_SQLite, Fileinfo e GD são necessários.');
     }
-    if (!is_string($config['secret'] ?? null) || strlen($config['secret']) < 32 || !filter_var($config['from'] ?? '', FILTER_VALIDATE_EMAIL)
-        || preg_match('/[\r\n]/', $config['from']) || empty($config['recipients']) || !is_array($config['recipients'])) {
-        throw new \RuntimeException('Configure o segredo, remetente e destinatários internos.');
+    if (!is_string($config['secret'] ?? null) || strlen($config['secret']) < 32) {
+        throw new \RuntimeException('Campo secret ausente ou inválido: use uma chave interna de pelo menos 32 caracteres.');
+    }
+    if (!is_string($config['from'] ?? null) || !filter_var($config['from'], FILTER_VALIDATE_EMAIL) || preg_match('/[\r\n]/', $config['from'])) {
+        throw new \RuntimeException('Campo from ausente ou inválido: informe o e-mail remetente autorizado.');
+    }
+    if (!is_array($config['recipients'] ?? null) || $config['recipients'] === []) {
+        throw new \RuntimeException('Campo recipients ausente ou vazio: informe uma lista com pelo menos um e-mail da equipe Realponto.');
     }
     foreach ($config['recipients'] as $email) {
         if (!is_string($email) || !filter_var($email, FILTER_VALIDATE_EMAIL) || preg_match('/[\r\n]/', $email)) {
-            throw new \RuntimeException('Destinatário interno inválido.');
+            throw new \RuntimeException('Campo recipients inválido: cada item da lista deve ser um endereço de e-mail válido.');
         }
     }
     $config['recipients'] = array_values(array_unique($config['recipients']));

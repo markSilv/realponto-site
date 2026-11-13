@@ -78,6 +78,25 @@ recebe no endereço preenchido no formulário. Conferir a entrega real antes de
 liberar a página ao público. Falhas permanecem na fila para nova tentativa;
 aceitação pelo servidor SMTP não comprova entrega na caixa do destinatário.
 
+### O que significa a disponibilidade do formulário
+
+Ao abrir a página, o JavaScript consulta `api/atestado-tecnico.php` por GET e
+aguarda até 15 segundos por uma resposta de sucesso em JSON com os tokens de
+segurança e as versões atuais da declaração/privacidade. O servidor verifica os
+campos de configuração, as extensões PHP, origem/HTTPS, armazenamento privado,
+banco, limites de acesso e sessão. A mensagem “Formulário pronto para envio”
+significa que essa preparação foi concluída.
+
+Essa etapa **não conecta nem autentica no servidor SMTP** e não testa entrega.
+A conexão SMTP acontece no processamento da fila após o registro de um pedido.
+Se ela falhar, o protocolo permanece salvo e a mensagem fica pendente.
+
+Qualquer falha na preparação mostra o aviso genérico de indisponibilidade ao
+cliente. Exemplos: `recipients` vazio (é obrigatória ao menos uma caixa interna),
+configuração privada ausente na hospedagem, domínio/origem diferente, permissão
+de escrita, endpoint ausente ou servidor local sem PHP. A prévia Python/BAT não
+executa PHP: preencher os dados SMTP não habilita o formulário nessa prévia.
+
 Executar no servidor, a partir da pasta do site:
 
 ```sh
