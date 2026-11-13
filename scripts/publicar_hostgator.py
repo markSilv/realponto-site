@@ -47,6 +47,7 @@ BACKEND = {
     'atestado/lib/PHPMailer/src/PHPMailer.php', 'atestado/lib/PHPMailer/src/SMTP.php',
     'atestado/lib/PHPMailer/LICENSE', 'atestado/lib/PHPMailer/VERSION.txt',
     'api/atestado-tecnico.php', 'scripts/atestado-manutencao.php',
+    'scripts/atestado-diagnostico.php',
 }
 TREE_TYPES = {
     'css': {'.css', '.woff', '.woff2', '.ttf', '.otf', '.eot'},

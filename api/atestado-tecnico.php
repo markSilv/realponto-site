@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use function Realponto\Atestado\{configurar,banco,limitar,validar,registrar,localizar,notificar};
+use function Realponto\Atestado\{configurar,banco,limitar,validar,registrar,localizar,notificar,estadoNotificacoes};
 use Realponto\Atestado\ErroPublico;
 use const Realponto\Atestado\{DECLARACAO_VERSAO,PRIVACIDADE_VERSAO};
 
@@ -91,7 +91,13 @@ try {
     } catch (\Throwable) {
         error_log('Realponto atestado: fila de notificações precisa de nova tentativa.');
     }
-    responder($existente ? 200 : 201, ['protocolo' => $registro['protocolo'], 'recebida_em' => $registro['recebida_em'], 'status' => 'recebida']);
+    $notificacoes = null;
+    try {
+        $notificacoes = estadoNotificacoes($db, $registro['id']);
+    } catch (\Throwable) {
+        error_log('Realponto atestado: não foi possível consultar o estado das notificações.');
+    }
+    responder($existente ? 200 : 201, ['protocolo' => $registro['protocolo'], 'recebida_em' => $registro['recebida_em'], 'status' => 'recebida', 'notificacoes' => $notificacoes]);
 } catch (ErroPublico $e) {
     if ($e->status === 429) {
         header('Retry-After: 3600');

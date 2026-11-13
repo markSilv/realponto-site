@@ -200,6 +200,17 @@
       }
       if (!/^RP-AT-\d{8}-[A-F0-9]{12}$/.test(resultado.protocolo || '')) throw new Error('resposta');
       document.getElementById('protocolo-recebido').textContent = resultado.protocolo;
+      const avisoEmail = document.getElementById('notificacao-recebimento');
+      if (avisoEmail) {
+        const estadoEmail = resultado.notificacoes?.estado;
+        if (estadoEmail === 'pendente') {
+          avisoEmail.textContent = 'Seu pedido está registrado. A confirmação por e-mail está pendente. Guarde o protocolo; não é necessário reenviar a solicitação.';
+        } else if (estadoEmail === 'aceitas_pelo_transporte') {
+          avisoEmail.textContent = 'Guarde seu protocolo. Confira a confirmação no seu e-mail, inclusive na pasta de spam. Nossa equipe entrará em contato pelo endereço cadastrado.';
+        } else {
+          avisoEmail.textContent = 'Guarde seu protocolo. Nossa equipe entrará em contato pelo e-mail cadastrado.';
+        }
+      }
       form.hidden = true;
       document.getElementById('atestado-orientacoes').hidden = true;
       const sucesso = document.getElementById('atestado-sucesso');

@@ -127,6 +127,7 @@ class AtHTTP(unittest.TestCase):
         self.assertRegex(result['protocolo'], r'^RP-AT-\d{8}-[A-F0-9]{12}$')
         self.assertIn('no-store', headers['Cache-Control'])
         self.assertEqual(result['status'], 'recebida')
+        self.assertEqual(result['notificacoes'], {'estado': 'aceitas_pelo_transporte', 'total': 2, 'aceitas': 2, 'pendentes': 0})
         with database(self.private / 'dados/solicitacoes.sqlite') as db:
             row = db.execute('SELECT id, status FROM solicitacoes WHERE protocolo = ?', (result['protocolo'],)).fetchone()
             self.assertEqual(row[1], 'recebida')

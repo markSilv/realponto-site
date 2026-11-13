@@ -5,6 +5,72 @@ namespace Realponto\Atestado;
 
 use PHPMailer\PHPMailer\PHPMailer;
 
+function diagnosticarErroSmtp(\Throwable $erro, ?PHPMailer $mailer = null): array
+{
+    // Respostas brutas podem conter endereços, caminhos ou credenciais. Somente
+    // códigos e mensagens fixas deixam esta função; nunca imprimir ErrorInfo.
+    $detalhes = $mailer ? $mailer->getSMTPInstance()->getError() : [];
+    $errosTls = '';
+    if (function_exists('openssl_error_string')) {
+        for ($i = 0; $i < 8 && ($erroTls = openssl_error_string()) !== false; $i++) {
+            $errosTls .= ' ' . $erroTls;
+        }
+    }
+    $texto = strtolower($erro->getMessage() . ' ' . ($mailer ? $mailer->ErrorInfo : '') . ' ' . ($detalhes['detail'] ?? '') . ' ' . ($detalhes['smtp_code_ex'] ?? '') . $errosTls);
+    $smtpCode = (int)($detalhes['smtp_code'] ?? 0);
+    $codigo = 'smtp_falha';
+    if ($erro instanceof \Error && (str_contains($texto, 'require') || str_contains($texto, 'class'))) {
+        $codigo = 'smtp_biblioteca';
+    } elseif (preg_match('/certificate|verify failed|crypto|starttls|ssl operation|tls connect/', $texto)) {
+        $codigo = 'smtp_tls';
+    } elseif ($smtpCode === 535 || preg_match('/authenticat|authentication|credentials|username.*password/', $texto)) {
+        $codigo = 'smtp_autenticacao';
+    } elseif (preg_match('/getaddrinfo|name or service|no such host|name resolution|network_getaddresses/', $texto)) {
+        $codigo = 'smtp_dns';
+    } elseif (in_array($smtpCode, [550,551,552,553,554], true)) {
+        $codigo = 'smtp_recusado';
+    } elseif (in_array($smtpCode, [421,450,451,452], true)) {
+        $codigo = 'smtp_temporario';
+    } elseif (preg_match('/connect|connection|timed out|timeout|refused|network is unreachable/', $texto)) {
+        $codigo = 'smtp_conexao';
+    } elseif (str_contains($texto, 'configure') || str_contains($texto, 'configura') || str_contains($texto, 'openssl')) {
+        $codigo = 'smtp_configuracao';
+    }
+    $mensagens = [
+        'smtp_biblioteca' => 'Biblioteca PHPMailer ausente ou incompleta na hospedagem.',
+        'smtp_tls' => 'A conexão criptografada falhou. Confira servidor, porta, modo SSL/TLS e certificado.',
+        'smtp_autenticacao' => 'O servidor recusou a autenticação. Confira usuário, senha e permissão SMTP da conta.',
+        'smtp_dns' => 'O nome do servidor SMTP não pôde ser resolvido.',
+        'smtp_recusado' => 'O servidor recusou a mensagem, o remetente ou o destinatário.',
+        'smtp_temporario' => 'O servidor SMTP informou uma falha temporária ou limite de envio.',
+        'smtp_conexao' => 'Não foi possível conectar ao SMTP. Confira servidor, porta e acesso de saída da hospedagem.',
+        'smtp_configuracao' => 'A configuração SMTP está incompleta ou não é suportada neste PHP.',
+        'smtp_falha' => 'Falha SMTP não classificada. Consulte os registros privados da hospedagem.',
+    ];
+    return ['ok' => false, 'codigo' => $codigo, 'mensagem' => $mensagens[$codigo]];
+}
+
+function testarConexaoSmtp(array $config): array
+{
+    $mailer = null;
+    try {
+        if (($config['mail_transport'] ?? '') !== 'smtp') {
+            return ['ok' => false, 'codigo' => 'transporte_nao_smtp', 'mensagem' => 'O transporte configurado não é SMTP.'];
+        }
+        $mailer = criarMailerSmtp($config);
+        if (!$mailer->smtpConnect()) {
+            throw new \RuntimeException($mailer->ErrorInfo);
+        }
+        return ['ok' => true, 'codigo' => 'smtp_ok', 'mensagem' => 'Conexão criptografada e autenticação SMTP confirmadas; nenhuma mensagem enviada.'];
+    } catch (\Throwable $erro) {
+        return diagnosticarErroSmtp($erro, $mailer);
+    } finally {
+        if ($mailer) {
+            $mailer->smtpClose();
+        }
+    }
+}
+
 function validarSmtp(array $config): array
 {
     $smtp = $config['smtp'] ?? [];

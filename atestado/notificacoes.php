@@ -3,6 +3,16 @@ declare(strict_types=1);
 
 namespace Realponto\Atestado;
 
+function estadoNotificacoes(\PDO $db, string $solicitacao): array
+{
+    $query = $db->prepare('SELECT COUNT(*) AS total, COALESCE(SUM(CASE WHEN enviada_em IS NOT NULL THEN 1 ELSE 0 END), 0) AS aceitas FROM notificacoes WHERE solicitacao_id = ?');
+    $query->execute([$solicitacao]);
+    $linha = $query->fetch();
+    $total = (int)$linha['total'];
+    $aceitas = (int)$linha['aceitas'];
+    return ['estado' => $total > 0 && $total === $aceitas ? 'aceitas_pelo_transporte' : 'pendente', 'total' => $total, 'aceitas' => $aceitas, 'pendentes' => $total - $aceitas];
+}
+
 function enfileirar(\PDO $db, array $config, array $dados, string $id, string $protocolo, string $recebida): void
 {
     $cliente = "SOLICITAÇÃO RECEBIDA COM SUCESSO!\n\nSua solicitação foi registrada no Grupo Realponto.\n\nProtocolo: $protocolo\n\nOs dados enviados serão verificados e encaminhados ao fabricante correspondente.\nVocê receberá atualizações pelo e-mail cadastrado.\n\nO recebimento da solicitação não representa a emissão automática do atestado.\nO documento é emitido e assinado pelo fabricante.\n\nGrupo Realponto";
@@ -41,6 +51,7 @@ function notificar(\PDO $db, array $config, ?string $solicitacao = null): array
         $dominio = parse_url($config['origin'], PHP_URL_HOST);
         $headers = ['From' => 'Grupo Realponto <' . $config['from'] . '>', 'Reply-To' => $config['from'], 'MIME-Version' => '1.0', 'Content-Type' => 'text/plain; charset=UTF-8', 'Content-Transfer-Encoding' => 'base64', 'Message-ID' => '<atestado.' . $mensagem['solicitacao_id'] . '.' . $mensagem['id'] . '@' . $dominio . '>'];
         $corpo = chunk_split(base64_encode($mensagem['corpo']), 76, "\r\n");
+        $motivo = 'transporte_falhou';
         try {
             if ($config['mail_transport'] === 'arquivo' && $config['environment'] === 'local') {
                 $raw = "To: {$mensagem['destinatario']}\r\nSubject: $assunto\r\n";
@@ -55,8 +66,11 @@ function notificar(\PDO $db, array $config, ?string $solicitacao = null): array
             } else {
                 throw new \RuntimeException('Transporte de e-mail inválido.');
             }
-        } catch (\Throwable) {
+        } catch (\Throwable $erro) {
             $ok = false;
+            if ($config['mail_transport'] === 'smtp') {
+                $motivo = diagnosticarErroSmtp($erro)['codigo'];
+            }
         }
         if ($ok) {
             $db->prepare('UPDATE notificacoes SET enviada_em = ? WHERE id = ?')->execute([gmdate('Y-m-d\TH:i:s\Z'), $mensagem['id']]);
@@ -65,7 +79,7 @@ function notificar(\PDO $db, array $config, ?string $solicitacao = null): array
             $espera = min(86400, 300 * (2 ** min(8, (int)$mensagem['tentativas'])));
             $db->prepare('UPDATE notificacoes SET proxima_tentativa = ? WHERE id = ?')->execute([time() + $espera, $mensagem['id']]);
             $falhas++;
-            error_log('Realponto atestado: notificação pendente; executar manutenção da fila.');
+            error_log('Realponto atestado: notificação pendente (' . $motivo . '); executar manutenção da fila.');
         }
     }
     return ['enviadas' => $enviadas, 'falhas' => $falhas];
