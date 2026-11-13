@@ -69,6 +69,9 @@ STARTTLS. Essa incompatibilidade foi identificada no teste desta instalação;
 o ajuste para `587` com `'tls'` permitiu conexão criptografada e autenticação a
 partir do computador local, sem envio de mensagem. O arquivo privado corrigido
 precisa ser copiado à hospedagem para que a fila use os novos valores.
+As validações apontam separadamente `smtp.host`, `smtp.port` e
+`smtp.encryption`. A criptografia aceita `tls` e `ssl`, normalizando espaços e
+maiúsculas; erros de digitação como `tsl` continuam sendo recusados.
 
 Copiar servidor, porta e criptografia das configurações do provedor. Não deduzir
 o hostname pelo domínio do remetente. A validação de certificados TLS fica
@@ -123,7 +126,10 @@ mostra transporte, presença da biblioteca, quantidades, tentativas e próxima
 tentativa em UTC. Não mostra destinatários, corpo nem dados da empresa. `smtp`
 testa conexão criptografada e autenticação, sem enviar e-mail. Retorna códigos
 seguros como `smtp_conexao`, `smtp_dns`, `smtp_tls`, `smtp_autenticacao` ou
-`smtp_biblioteca`; não imprime respostas brutas ou credenciais.
+`smtp_biblioteca`; não imprime respostas brutas ou credenciais. Falhas anteriores
+ao SMTP indicam o campo inválido ou a etapa/tipo do erro. Erros de sintaxe e
+textos sem aspas no arquivo privado mostram apenas o nome do arquivo e a linha,
+sem reproduzir tokens que possam conter uma senha.
 
 O sucesso da página confirma o registro do pedido. A API também informa o estado
 agregado das notificações; se houver mensagens pendentes, a página orienta a
@@ -243,12 +249,12 @@ Resultados locais:
   acesso e preservação do pedido com e-mail pendente na falha SMTP.
   A regressão HTTP incluiu as **26 páginas HTML** do checkout.
 - Validações JavaScript de CNPJ, máscaras, telefone e séries passaram.
-- **172 verificações SMTP passaram**: configuração de servidor/porta, SSL/TLS,
+- **189 verificações SMTP passaram**: configuração de servidor/porta, SSL/TLS,
   credenciais separadas de `secret`, validação de certificados, MIME UTF-8,
   ausência de segredos nos erros/mensagens, falha SMTP e recuperação da fila.
 - Sintaxe PHP/Python, declaração integral idêntica ao anexo, IDs únicos,
   recursos locais, XML do sitemap e lista/ordem de publicação foram conferidos.
-- Diagnóstico CLI: **45 verificações passaram**, incluindo leitura sem alterar
+- Diagnóstico CLI: **51 verificações passaram**, incluindo leitura sem alterar
   o SQLite, ausência de credenciais/dados pessoais, bloqueio HTTP e teste SMTP
   em loopback sem envio real.
 - Pacote local: **255 arquivos permitidos**, sem configuração nem dados privados.

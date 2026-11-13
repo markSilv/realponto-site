@@ -79,10 +79,15 @@ function validarSmtp(array $config): array
     }
     $host = is_string($smtp['host'] ?? null) ? trim($smtp['host']) : '';
     $porta = filter_var($smtp['port'] ?? null, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1, 'max_range' => 65535]]);
-    $criptografia = $smtp['encryption'] ?? '';
-    if ($host === '' || strlen($host) > 253 || (!filter_var($host, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME) && !filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4))
-        || $porta === false || !in_array($criptografia, ['tls','ssl'], true)) {
-        throw new \RuntimeException('Configure servidor SMTP, porta válida e criptografia tls ou ssl.');
+    $criptografia = is_string($smtp['encryption'] ?? null) ? strtolower(trim($smtp['encryption'])) : '';
+    if ($host === '' || strlen($host) > 253 || (!filter_var($host, FILTER_VALIDATE_DOMAIN, FILTER_FLAG_HOSTNAME) && !filter_var($host, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4))) {
+        throw new \RuntimeException('Configuração SMTP: campo smtp.host inválido. Informe apenas o nome do servidor, sem protocolo ou porta.');
+    }
+    if ($porta === false) {
+        throw new \RuntimeException('Configuração SMTP: campo smtp.port inválido. Informe um número entre 1 e 65535.');
+    }
+    if (!in_array($criptografia, ['tls','ssl'], true)) {
+        throw new \RuntimeException('Configuração SMTP: campo smtp.encryption inválido. Use tls para STARTTLS ou ssl para TLS implícito.');
     }
     if (!is_string($smtp['username'] ?? null) || trim($smtp['username']) === '' || !is_string($smtp['password'] ?? null) || $smtp['password'] === ''
         || preg_match('/[\x00\r\n]/', $smtp['username'] . $smtp['password'])) {

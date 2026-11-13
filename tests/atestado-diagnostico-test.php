@@ -94,6 +94,24 @@ try {
     conferirDiagnostico($resultado['status'] === 1 && str_contains($resultado['saida'],'diagnostico_indisponivel'),'erro seguro de configuração');
     conferirDiagnostico(!str_contains($resultado['saida'],'SEGREDO_NAO_EXIBIR_MESMO_EM_EXCECAO'),'exceção não expõe mensagem privada');
 
+    $configInvalida = $configDiagnostico;
+    $configInvalida['recipients'] = [];
+    file_put_contents($arquivoConfigDiagnostico, '<?php return ' . var_export($configInvalida, true) . ';');
+    $resultado = executarDiagnostico(['smtp']);
+    conferirDiagnostico($resultado['status'] === 1 && str_contains($resultado['saida'], 'configuracao_invalida') && str_contains($resultado['saida'], 'Campo recipients'), 'validação informa exatamente o campo ausente');
+    conferirDiagnostico(!str_contains($resultado['saida'], $configDiagnostico['secret']), 'mensagem específica não expõe a chave');
+
+    // O parser ou uma constante sem aspas pode incluir um trecho de senha
+    // na exceção. A saída deve mostrar apenas tipo/arquivo/linha, sem o token.
+    file_put_contents($arquivoConfigDiagnostico, '<?php return ["password"=>"privada" TOKEN_PRIVADO_NAO_EXIBIR];');
+    $resultado = executarDiagnostico(['smtp']);
+    conferirDiagnostico($resultado['status'] === 1 && str_contains($resultado['saida'], 'erro_sintaxe') && str_contains($resultado['saida'], 'arquivo=config.php; linha='), 'erro de sintaxe mostra localização segura');
+    conferirDiagnostico(!str_contains($resultado['saida'], 'TOKEN_PRIVADO_NAO_EXIBIR') && !str_contains($resultado['saida'], $pastaDiagnostico), 'erro de parser não expõe tokens nem caminho privado');
+    file_put_contents($arquivoConfigDiagnostico, '<?php return ["encryption"=>CONSTANTE_PRIVADA_NAO_EXIBIR];');
+    $resultado = executarDiagnostico(['smtp']);
+    conferirDiagnostico($resultado['status'] === 1 && str_contains($resultado['saida'], 'erro_execucao_config'), 'texto sem aspas aponta erro de execução da configuração');
+    conferirDiagnostico(!str_contains($resultado['saida'], 'CONSTANTE_PRIVADA_NAO_EXIBIR'), 'constante privada não aparece na saída');
+
     // Uma porta vinculada sem listen não aceita conexões SMTP nem permite que
     // outro servidor real a ocupe durante esta tentativa.
     $portaSmtpDiagnostico = stream_socket_server('tcp://127.0.0.1:0',$errno,$errstr,STREAM_SERVER_BIND);

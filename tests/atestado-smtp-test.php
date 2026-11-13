@@ -70,6 +70,10 @@ try {
     $espacos = validarSmtp($espacos);
     conferirSmtp($espacos['smtp']['host'] === 'smtp.example.invalid' && $espacos['smtp']['username'] === 'usuario@example.invalid', 'host e usuário normalizados');
     conferirSmtp($espacos['smtp']['password'] === ' senha-ficticia-smtp ', 'senha preservada exatamente');
+    foreach ([' TLS ' => 'tls', 'SsL' => 'ssl'] as $entrada => $esperado) {
+        $normalizar = $configSmtp; $normalizar['smtp']['encryption'] = $entrada;
+        conferirSmtp(validarSmtp($normalizar)['smtp']['encryption'] === $esperado, 'criptografia normalizada sem alterar a senha');
+    }
 
     foreach (['smtp://smtp.example.invalid', 'smtp.example.invalid;outro.example.invalid', "smtp.example.invalid\r\nHost: outro", ''] as $host) {
         $invalido = $configSmtp; $invalido['smtp']['host'] = $host;
@@ -79,7 +83,7 @@ try {
         $invalido = $configSmtp; $invalido['smtp']['port'] = $port;
         rejeitarSmtp($invalido);
     }
-    foreach (['', 'none', 'starttls'] as $encryption) {
+    foreach (['', 'none', 'starttls', 'tsl', null, []] as $encryption) {
         $invalido = $configSmtp; $invalido['smtp']['encryption'] = $encryption;
         rejeitarSmtp($invalido);
     }
