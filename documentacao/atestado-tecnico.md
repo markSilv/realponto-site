@@ -25,7 +25,7 @@ O status inicial é sempre `recebida`. O encaminhamento ao fabricante é manual.
 
 ## Hospedagem e configuração
 
-Requisitos: PHP **8.2+**, PDO_SQLite, Fileinfo e GD (JPEG, PNG e WebP), Apache
+Requisitos: PHP **8.2+**, PDO_SQLite, Fileinfo, GD (JPEG, PNG e WebP) e OpenSSL para SMTP, Apache
 com as regras atuais e `AllowOverride` habilitado. Ajustar no cPanel:
 `upload_max_filesize=5M`, `post_max_size=32M`, `max_file_uploads=20` e
 `memory_limit=256M`. Não há Composer, npm ou build de frontend.
@@ -39,14 +39,44 @@ ser informado em `RP_ATESTADO_CONFIG`. Nunca enviar a configuração ao Git/FTP.
 Também são aceitas as variáveis `RP_ATESTADO_STORAGE`, `RP_ATESTADO_FROM`,
 `RP_ATESTADO_RECIPIENTS` (separados por vírgula), `RP_ATESTADO_SECRET` (segredo
 aleatório de ao menos 32 caracteres), `RP_ATESTADO_ORIGIN` e
-`RP_ATESTADO_RETENTION_DAYS`. Variáveis prevalecem sobre o arquivo externo.
+`RP_ATESTADO_RETENTION_DAYS`. Para e-mail, também existem
+`RP_ATESTADO_MAIL_TRANSPORT`, `RP_ATESTADO_SMTP_HOST`, `RP_ATESTADO_SMTP_PORT`,
+`RP_ATESTADO_SMTP_ENCRYPTION`, `RP_ATESTADO_SMTP_USERNAME` e
+`RP_ATESTADO_SMTP_PASSWORD`. Variáveis prevalecem sobre o arquivo externo.
 
-O remetente deve ser uma caixa autorizada na hospedagem, com SPF/DKIM/DMARC
-configurados. O transporte usa o `mail()` da hospedagem; não foi encontrado um
-serviço prévio para reutilizar. Os destinatários internos são configuráveis
-nesse arquivo, sem endereço fixo no backend. Conferir a entrega real antes de
-liberar a página ao público. Falhas permanecem na fila para nova tentativa.
-Aceitação pelo transporte não comprova entrega na caixa do destinatário.
+O transporte padrão é **SMTP autenticado**, usando PHPMailer 7.2.0. A dependência
+oficial está fixada em `atestado/lib/PHPMailer`, com origem/commit em `VERSION.txt`
+e licença incluída; não exige instalação de Composer na hospedagem.
+
+No arquivo privado, configurar `mail_transport => 'smtp'` e o bloco `smtp`:
+
+```php
+'smtp' => [
+    'host' => '',       // Servidor SMTP informado pelo provedor.
+    'port' => 465,      // 465 para ssl; 587 para tls, conforme o provedor.
+    'encryption' => 'ssl', // ssl: TLS implícito; tls: STARTTLS obrigatório.
+    'username' => '',   // Usuário SMTP (normalmente o endereço completo).
+    'password' => '',   // Senha da caixa ou senha de aplicativo.
+],
+```
+
+**`secret` é a chave interna do formulário e não a senha do e-mail.** A senha SMTP
+fica exclusivamente em `smtp.password` ou na variável de ambiente correspondente.
+Nenhuma credencial vai para HTML, JavaScript, banco, Git ou respostas de erro.
+
+Copiar servidor, porta e criptografia das configurações do provedor. Não deduzir
+o hostname pelo domínio do remetente. A validação de certificados TLS fica
+habilitada; não há fallback automático para envio sem criptografia ou para
+`mail()`. `mail` continua disponível apenas como opção explicitamente configurada
+para instalações que já utilizam o serviço nativo da hospedagem. `arquivo` é
+exclusivo para testes locais e não envia mensagens reais.
+
+O remetente deve ser uma caixa autorizada no servidor SMTP, com SPF/DKIM/DMARC
+configurados conforme o provedor. `from` define esse remetente; `recipients`
+define as caixas internas da Realponto, sem endereço fixo no backend. O cliente
+recebe no endereço preenchido no formulário. Conferir a entrega real antes de
+liberar a página ao público. Falhas permanecem na fila para nova tentativa;
+aceitação pelo servidor SMTP não comprova entrega na caixa do destinatário.
 
 Executar no servidor, a partir da pasta do site:
 
@@ -91,11 +121,13 @@ de responsabilidade; não substitui a definição das bases legais aplicáveis.
 
 ## Validação e publicação
 
-Testes PHP: `php tests/atestado-test.php`. Integração HTTP e regressão:
+Testes PHP: `php tests/atestado-test.php` e `php tests/atestado-smtp-test.php`.
+Integração HTTP e regressão:
 `python tests/atestado-http-test.py --php CAMINHO_DO_PHP`.
 Validação JS: `node tests/atestado-validacao-test.cjs`.
-Os testes usam dados fictícios, pastas temporárias privadas e transporte local
-em arquivo; não enviam e-mails reais. O teste HTTP inicia seu próprio PHP local.
+Os testes usam dados fictícios, pastas temporárias privadas, transporte local
+em arquivo e uma porta loopback sem servidor para simular falha SMTP; não enviam
+e-mails reais. O teste HTTP inicia seu próprio PHP local.
 Para prévia interativa completa, usar o roteador local:
 
 ```sh
@@ -129,9 +161,10 @@ Arquivos novos:
 - `css/atestado-tecnico.css`, `js/atestado-tecnico.js` e
   `js/atestado-validacao.js`.
 - `api/atestado-tecnico.php`, `atestado/bootstrap.php`, `atestado/validacao.php`,
-  `atestado/notificacoes.php`, `atestado/schema.sql` e `atestado/.htaccess`.
+  `atestado/notificacoes.php`, `atestado/smtp.php`, `atestado/schema.sql`,
+  `atestado/.htaccess` e a dependência oficial PHPMailer em `atestado/lib/PHPMailer`.
 - `scripts/atestado-manutencao.php`, `documentacao/atestado-config.example.php`,
-  este guia, `.gitignore` e quatro arquivos de teste em `tests/`.
+  este guia, `.gitignore` e cinco arquivos de teste em `tests/`.
 
 Arquivos existentes alterados: menus/rodapés das páginas institucionais e de
 relógios para incluir o acesso ao formulário; chamada na página de suporte;
@@ -152,9 +185,12 @@ Resultados locais:
   imagens falsas/maiores que o limite, regravação segura de fotos e bloqueio de
   acesso. A regressão HTTP incluiu as **26 páginas HTML** do checkout.
 - Validações JavaScript de CNPJ, máscaras, telefone e séries passaram.
+- **116 verificações SMTP passaram**: configuração de servidor/porta, SSL/TLS,
+  credenciais separadas de `secret`, validação de certificados, MIME UTF-8,
+  ausência de segredos nos erros/mensagens, falha SMTP e recuperação da fila.
 - Sintaxe PHP/Python, declaração integral idêntica ao anexo, IDs únicos,
   recursos locais, XML do sitemap e lista/ordem de publicação foram conferidos.
-- Pacote local: **248 arquivos permitidos**, sem configuração nem dados privados.
+- Pacote local: **254 arquivos permitidos**, sem configuração nem dados privados.
 - Build: não existe etapa de compilação no projeto estático; as verificações de
   scripts e o empacotamento por lista permitida passaram.
 
@@ -166,8 +202,10 @@ foram validados com transporte em arquivo privado, sem envio real. As regras
 Apache/HTTPS precisam ser verificadas na hospedagem; o teste HTTP usa roteador
 local equivalente para bloquear arquivos privados.
 
-**Publicação não realizada.** Faltam configuração externa com segredo, remetente
-e destinatários autorizados; confirmação de PHP/extensões e pasta privada na
+**Publicação não realizada.** A cópia local privada de `config.php` foi criada
+com chave interna e campos SMTP. Faltam preenchimento e validação dos dados reais
+de servidor, porta, criptografia, usuário e senha SMTP, remetente/destinatários
+autorizados e envio da configuração privada à hospedagem; confirmação de PHP/extensões e pasta privada na
 HostGator; cron de notificações/limpeza; e validação da entrega real de e-mails.
 O comando de verificação sem configuração recusou o funcionamento, como esperado.
 Nenhum dado ou banco de produção foi alterado.

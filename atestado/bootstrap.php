@@ -5,6 +5,7 @@ namespace Realponto\Atestado;
 
 require_once __DIR__ . '/validacao.php';
 require_once __DIR__ . '/notificacoes.php';
+require_once __DIR__ . '/smtp.php';
 
 function dentro(string $caminho, string $raiz): bool
 {
@@ -27,7 +28,7 @@ function configurar(): array
             throw new \RuntimeException('Configuração inválida.');
         }
     }
-    foreach (['STORAGE' => 'storage', 'FROM' => 'from', 'SECRET' => 'secret', 'ORIGIN' => 'origin', 'RETENTION_DAYS' => 'retention_days', 'ENV' => 'environment'] as $env => $chave) {
+    foreach (['STORAGE' => 'storage', 'FROM' => 'from', 'SECRET' => 'secret', 'ORIGIN' => 'origin', 'RETENTION_DAYS' => 'retention_days', 'ENV' => 'environment', 'MAIL_TRANSPORT' => 'mail_transport'] as $env => $chave) {
         $valor = getenv('RP_ATESTADO_' . $env);
         if ($valor !== false && $valor !== '') {
             $config[$chave] = $valor;
@@ -36,7 +37,16 @@ function configurar(): array
     if (getenv('RP_ATESTADO_RECIPIENTS')) {
         $config['recipients'] = array_map('trim', explode(',', getenv('RP_ATESTADO_RECIPIENTS')));
     }
-    $config += ['storage' => dirname($raiz) . '/realponto-atestados/dados', 'origin' => 'https://www.realponto.com.br', 'environment' => 'production', 'mail_transport' => 'mail', 'retention_days' => 365];
+    foreach (['HOST' => 'host', 'PORT' => 'port', 'ENCRYPTION' => 'encryption', 'USERNAME' => 'username', 'PASSWORD' => 'password'] as $env => $chave) {
+        $valor = getenv('RP_ATESTADO_SMTP_' . $env);
+        if ($valor !== false && $valor !== '') {
+            if (isset($config['smtp']) && !is_array($config['smtp'])) {
+                throw new \RuntimeException('Configuração SMTP inválida.');
+            }
+            $config['smtp'][$chave] = $valor;
+        }
+    }
+    $config += ['storage' => dirname($raiz) . '/realponto-atestados/dados', 'origin' => 'https://www.realponto.com.br', 'environment' => 'production', 'mail_transport' => 'smtp', 'retention_days' => 365];
     if (PHP_VERSION_ID < 80200 || !extension_loaded('pdo_sqlite') || !extension_loaded('fileinfo') || !extension_loaded('gd')) {
         throw new \RuntimeException('PHP 8.2+, PDO_SQLite, Fileinfo e GD são necessários.');
     }
@@ -63,8 +73,11 @@ function configurar(): array
         || (!$local && $origem['scheme'] !== 'https')) {
         throw new \RuntimeException('Origem configurada inválida.');
     }
-    if (!in_array($config['mail_transport'], ['mail','arquivo'], true) || (!$local && $config['mail_transport'] !== 'mail')) {
+    if (!in_array($config['mail_transport'], ['smtp','mail','arquivo'], true) || (!$local && $config['mail_transport'] === 'arquivo')) {
         throw new \RuntimeException('Transporte de e-mail inválido.');
+    }
+    if ($config['mail_transport'] === 'smtp') {
+        $config = validarSmtp($config);
     }
     if ($config['mail_transport'] === 'mail' && !function_exists('mail')) {
         throw new \RuntimeException('Transporte de e-mail não disponível.');

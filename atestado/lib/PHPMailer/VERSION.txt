@@ -1,0 +1,5 @@
+PHPMailer v7.2.0
+Origem: https://github.com/PHPMailer/PHPMailer
+Commit: f5eb50148734d03bbbb81825c722c1889636d51a
+Licenca: LGPL-2.1 (ver LICENSE)
+Arquivos oficiais sem alteracoes; carregamento manual de Exception, PHPMailer e SMTP.

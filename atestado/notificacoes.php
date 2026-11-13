@@ -48,8 +48,12 @@ function notificar(\PDO $db, array $config, ?string $solicitacao = null): array
                     $raw .= "$chave: $valor\r\n";
                 }
                 $ok = file_put_contents($config['storage'] . '/emails/' . $mensagem['solicitacao_id'] . '-' . $mensagem['id'] . '.eml', $raw . "\r\n" . $corpo, LOCK_EX) !== false;
-            } else {
+            } elseif ($config['mail_transport'] === 'smtp') {
+                $ok = enviarSmtp($config, $mensagem);
+            } elseif ($config['mail_transport'] === 'mail') {
                 $ok = @mail($mensagem['destinatario'], $assunto, $corpo, $headers);
+            } else {
+                throw new \RuntimeException('Transporte de e-mail inválido.');
             }
         } catch (\Throwable) {
             $ok = false;

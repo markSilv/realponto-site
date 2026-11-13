@@ -43,6 +43,9 @@ PAGES = {
 BACKEND = {
     'atestado/.htaccess', 'atestado/bootstrap.php', 'atestado/validacao.php',
     'atestado/notificacoes.php', 'atestado/schema.sql',
+    'atestado/smtp.php', 'atestado/lib/PHPMailer/src/Exception.php',
+    'atestado/lib/PHPMailer/src/PHPMailer.php', 'atestado/lib/PHPMailer/src/SMTP.php',
+    'atestado/lib/PHPMailer/LICENSE', 'atestado/lib/PHPMailer/VERSION.txt',
     'api/atestado-tecnico.php', 'scripts/atestado-manutencao.php',
 }
 TREE_TYPES = {
