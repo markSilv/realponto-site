@@ -146,6 +146,33 @@ class AtHTTP(unittest.TestCase):
         fields = self.fields([dict(id=0, fabricante='henry', modelo='Prisma SF ADV', numero_serie='HENRY-001')])
         self.assertEqual(self.post(fields)[0], 201)
 
+    def test_pedido_preservado_com_email_pendente(self):
+        original = self.config.read_bytes()
+        # Porta local reservada, sem servidor: nenhuma conexão externa ou
+        # mensagem real pode ocorrer neste teste de falha de transporte.
+        with socket.socket() as closed_port:
+            closed_port.bind(('127.0.0.1', 0))
+            port = closed_port.getsockname()[1]
+            config = original.decode('utf-8').replace("'mail_transport'=>'arquivo'", "'mail_transport'=>'smtp'")
+            end = config.rfind('];')
+            self.assertGreater(end, 0)
+            config = config[:end] + f", 'smtp'=>['host'=>'127.0.0.1','port'=>{port},'encryption'=>'tls','username'=>'usuario@example.invalid','password'=>'SENHA_NAO_EXIBIR']" + config[end:]
+            try:
+                self.config.write_text(config, encoding='utf-8')
+                status, _, result = self.post()
+                self.assertEqual(status, 201, result)
+                self.assertRegex(result['protocolo'], r'^RP-AT-\d{8}-[A-F0-9]{12}$')
+                self.assertEqual(result['status'], 'recebida')
+                self.assertEqual(result['notificacoes'], {'estado': 'pendente', 'total': 2, 'aceitas': 0, 'pendentes': 2})
+                self.assertNotIn('SENHA_NAO_EXIBIR', json.dumps(result))
+                # Recuperar a resposta com a mesma chave não duplica pedidos.
+                repeat_status, _, repeat = self.post()
+                self.assertEqual(repeat_status, 200)
+                self.assertEqual(repeat['protocolo'], result['protocolo'])
+                self.assertEqual(repeat['notificacoes']['pendentes'], 2)
+            finally:
+                self.config.write_bytes(original)
+
     def test_configuracao_ausente_falha_segura(self):
         original = self.config.read_bytes()
         try:

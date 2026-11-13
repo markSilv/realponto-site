@@ -105,6 +105,27 @@ php scripts/atestado-manutencao.php notificar
 php scripts/atestado-manutencao.php limpar
 ```
 
+Para investigar notificações de um pedido sem reenviar mensagens:
+
+```sh
+php scripts/atestado-diagnostico.php fila RP-AT-AAAAMMDD-XXXXXXXXXXXX
+php scripts/atestado-diagnostico.php smtp
+```
+
+Substituir o protocolo pelo real. `fila` abre o SQLite somente para leitura e
+mostra transporte, presença da biblioteca, quantidades, tentativas e próxima
+tentativa em UTC. Não mostra destinatários, corpo nem dados da empresa. `smtp`
+testa conexão criptografada e autenticação, sem enviar e-mail. Retorna códigos
+seguros como `smtp_conexao`, `smtp_dns`, `smtp_tls`, `smtp_autenticacao` ou
+`smtp_biblioteca`; não imprime respostas brutas ou credenciais.
+
+O sucesso da página confirma o registro do pedido. A API também informa o estado
+agregado das notificações; se houver mensagens pendentes, a página orienta a
+guardar o protocolo sem reenviar a solicitação. `aceitas_pelo_transporte` indica
+somente aceitação pelo serviço de envio, sem comprovar entrega na caixa de
+entrada. Mudanças posteriores de `recipients` não alteram os destinatários já
+gravados na fila. O diagnóstico não reenvia nem modifica essas mensagens.
+
 Agendar `notificar` a cada cinco minutos e `limpar` diariamente no cron do
 cPanel, com o caminho absoluto do PHP e do script. `verificar` valida o ambiente
 e aplica a migração aditiva. Os comandos não recriam nem apagam outro banco.
@@ -143,7 +164,8 @@ de responsabilidade; não substitui a definição das bases legais aplicáveis.
 
 ## Validação e publicação
 
-Testes PHP: `php tests/atestado-test.php` e `php tests/atestado-smtp-test.php`.
+Testes PHP: `php tests/atestado-test.php`, `php tests/atestado-smtp-test.php` e
+`php tests/atestado-diagnostico-test.php`.
 Integração HTTP e regressão:
 `python tests/atestado-http-test.py --php CAMINHO_DO_PHP`.
 Validação JS: `node tests/atestado-validacao-test.cjs`.
@@ -186,7 +208,8 @@ Arquivos novos:
   `atestado/notificacoes.php`, `atestado/smtp.php`, `atestado/schema.sql`,
   `atestado/.htaccess` e a dependência oficial PHPMailer em `atestado/lib/PHPMailer`.
 - `scripts/atestado-manutencao.php`, `documentacao/atestado-config.example.php`,
-  este guia, `.gitignore` e cinco arquivos de teste em `tests/`.
+  `scripts/atestado-diagnostico.php`, este guia, `.gitignore` e seis arquivos
+  de teste em `tests/`.
 
 Arquivos existentes alterados: menus/rodapés das páginas institucionais e de
 relógios para incluir o acesso ao formulário; chamada na página de suporte;
@@ -204,17 +227,21 @@ Resultados locais:
   notificações, recuperação de falha de e-mail, limite e retenção; execução CLI
   fora do site com `DOCUMENT_ROOT` ausente/vazio/em branco e proteção de
   armazenamento dentro de uma raiz pública real.
-- **12 cenários HTTP passaram**: fluxo completo, CNPJ alfanumérico,
+- **13 cenários HTTP passaram**: fluxo completo, CNPJ alfanumérico,
   CSRF/origem/sessão, campos inválidos, spam, métodos, configuração ausente,
-  imagens falsas/maiores que o limite, regravação segura de fotos e bloqueio de
-  acesso. A regressão HTTP incluiu as **26 páginas HTML** do checkout.
+  imagens falsas/maiores que o limite, regravação segura de fotos, bloqueio de
+  acesso e preservação do pedido com e-mail pendente na falha SMTP.
+  A regressão HTTP incluiu as **26 páginas HTML** do checkout.
 - Validações JavaScript de CNPJ, máscaras, telefone e séries passaram.
 - **116 verificações SMTP passaram**: configuração de servidor/porta, SSL/TLS,
   credenciais separadas de `secret`, validação de certificados, MIME UTF-8,
   ausência de segredos nos erros/mensagens, falha SMTP e recuperação da fila.
 - Sintaxe PHP/Python, declaração integral idêntica ao anexo, IDs únicos,
   recursos locais, XML do sitemap e lista/ordem de publicação foram conferidos.
-- Pacote local: **254 arquivos permitidos**, sem configuração nem dados privados.
+- Diagnóstico CLI: **45 verificações passaram**, incluindo leitura sem alterar
+  o SQLite, ausência de credenciais/dados pessoais, bloqueio HTTP e teste SMTP
+  em loopback sem envio real.
+- Pacote local: **255 arquivos permitidos**, sem configuração nem dados privados.
 - Build: não existe etapa de compilação no projeto estático; as verificações de
   scripts e o empacotamento por lista permitida passaram.
 

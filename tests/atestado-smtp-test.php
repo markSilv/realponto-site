@@ -8,7 +8,7 @@ if (PHP_SAPI !== 'cli') {
 }
 require_once dirname(__DIR__) . '/atestado/bootstrap.php';
 
-use function Realponto\Atestado\{validarSmtp,criarMailerSmtp,banco,validar,registrar,notificar};
+use function Realponto\Atestado\{validarSmtp,criarMailerSmtp,banco,validar,registrar,notificar,estadoNotificacoes,diagnosticarErroSmtp};
 use const Realponto\Atestado\DECLARACAO_VERSAO;
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -122,6 +122,42 @@ try {
     conferirSmtp(count($partesSmtp) === 2 && rtrim((string)base64_decode($partesSmtp[1], true), "\r\n") === $corpoSmtp, 'acentos preservados sem dupla codificação');
     conferirSmtp(!str_contains($mimeSmtp, $configSmtp['smtp']['password']) && !str_contains($mimeSmtp, $configSmtp['secret']), 'segredos ausentes da mensagem');
 
+    // A classificação reconhece a categoria, mas devolve somente códigos e
+    // mensagens fixas, nunca o texto bruto recebido do servidor/biblioteca.
+    $marcadoresPrivadosSmtp = ['smtp.example.invalid', 'usuario@example.invalid', 'senha-ficticia-smtp', 'DADO_PRIVADO_NAO_EXIBIR'];
+    $privadoSmtp = implode(' ', $marcadoresPrivadosSmtp);
+    foreach ([
+        [new Error('Class inexistente ' . $privadoSmtp), 'smtp_biblioteca'],
+        [new RuntimeException('certificate verify failed ' . $privadoSmtp), 'smtp_tls'],
+        [new RuntimeException('Authentication failed ' . $privadoSmtp), 'smtp_autenticacao'],
+        [new RuntimeException('getaddrinfo failed ' . $privadoSmtp), 'smtp_dns'],
+        [new RuntimeException('Connection refused ' . $privadoSmtp), 'smtp_conexao'],
+        [new RuntimeException('Configure SMTP ' . $privadoSmtp), 'smtp_configuracao'],
+        [new RuntimeException('Falha sem classificação ' . $privadoSmtp), 'smtp_falha'],
+    ] as [$erroClassificadoSmtp, $codigoEsperadoSmtp]) {
+        $diagnosticoSmtp = diagnosticarErroSmtp($erroClassificadoSmtp);
+        conferirSmtp($diagnosticoSmtp['ok'] === false && $diagnosticoSmtp['codigo'] === $codigoEsperadoSmtp, 'classifica erro SMTP com código seguro');
+        foreach ($marcadoresPrivadosSmtp as $marcadorSmtp) {
+            conferirSmtp(!str_contains(json_encode($diagnosticoSmtp, JSON_THROW_ON_ERROR), $marcadorSmtp), 'classificação não divulga detalhes privados');
+        }
+    }
+    foreach ([550 => 'smtp_recusado', 421 => 'smtp_temporario', 535 => 'smtp_autenticacao'] as $codigoServidorSmtp => $codigoEsperadoSmtp) {
+        $mailerClassificacaoSmtp = criarMailerSmtp($configSmtp);
+        $mailerClassificacaoSmtp->ErrorInfo = $privadoSmtp;
+        $smtpClassificacaoSmtp = new class($codigoServidorSmtp, $privadoSmtp) extends \PHPMailer\PHPMailer\SMTP {
+            public function __construct(private int $codigoTeste, private string $privadoTeste) {}
+            public function getError() {
+                return ['error' => $this->privadoTeste, 'detail' => $this->privadoTeste, 'smtp_code' => (string)$this->codigoTeste, 'smtp_code_ex' => ''];
+            }
+        };
+        $mailerClassificacaoSmtp->setSMTPInstance($smtpClassificacaoSmtp);
+        $diagnosticoSmtp = diagnosticarErroSmtp(new RuntimeException($privadoSmtp), $mailerClassificacaoSmtp);
+        conferirSmtp($diagnosticoSmtp['codigo'] === $codigoEsperadoSmtp, 'classifica código numérico do servidor SMTP');
+        foreach ($marcadoresPrivadosSmtp as $marcadorSmtp) {
+            conferirSmtp(!str_contains(json_encode($diagnosticoSmtp, JSON_THROW_ON_ERROR), $marcadorSmtp), 'código numérico não expõe resposta bruta');
+        }
+    }
+
     // Reserva uma porta local SEM escutar: a conexão é recusada e nenhum
     // servidor de e-mail real pode ocupar essa porta durante a tentativa.
     $portaReservadaSmtp = stream_socket_server('tcp://127.0.0.1:0', $erroPorta, $textoPorta, STREAM_SERVER_BIND);
@@ -133,19 +169,29 @@ try {
     $configFalhaSmtp['smtp']['port'] = $portaFechadaSmtp;
     $configFalhaSmtp = validarSmtp($configFalhaSmtp);
     $dbSmtp = banco($configFalhaSmtp);
+    conferirSmtp(estadoNotificacoes($dbSmtp, 'pedido-inexistente') === ['estado' => 'pendente', 'total' => 0, 'aceitas' => 0, 'pendentes' => 0], 'fila vazia não afirma envio de e-mail');
     $dadosSmtp = validar(['razao_social' => 'Empresa de Teste SMTP Ltda', 'cnpj' => '11.222.333/0001-81', 'responsavel' => 'Responsável Fictício', 'email' => 'cliente@example.invalid', 'telefone' => '(11) 98765-4321', 'aceite' => '1', 'declaracao_versao' => DECLARACAO_VERSAO, 'equipamentos' => json_encode([['id' => 0, 'fabricante' => 'control-id', 'modelo' => 'Modelo teste', 'numero_serie' => 'SMTP-TESTE-1']], JSON_THROW_ON_ERROR)]);
     $registroSmtp = registrar($dbSmtp, $configFalhaSmtp, $dadosSmtp, [], bin2hex(random_bytes(24)), hash('sha256', 'sessao-teste-smtp'));
+    conferirSmtp(estadoNotificacoes($dbSmtp, $registroSmtp['id']) === ['estado' => 'pendente', 'total' => 2, 'aceitas' => 0, 'pendentes' => 2], 'pedido registrado informa confirmação por e-mail pendente');
     $resultadoFalhaSmtp = notificar($dbSmtp, $configFalhaSmtp, $registroSmtp['id']);
     conferirSmtp($resultadoFalhaSmtp === ['enviadas' => 0, 'falhas' => 2], 'falha SMTP mantém as duas notificações pendentes');
     conferirSmtp((int)$dbSmtp->query('SELECT COUNT(*) FROM solicitacoes')->fetchColumn() === 1, 'falha de e-mail preserva o pedido');
     conferirSmtp((int)$dbSmtp->query('SELECT COUNT(*) FROM notificacoes WHERE enviada_em IS NULL AND tentativas = 1 AND proxima_tentativa > 0')->fetchColumn() === 2, 'retentativa agendada');
     conferirSmtp(count(glob($configSmtp['storage'] . '/emails/*.eml') ?: []) === 0, 'SMTP não simula envio gravando arquivo');
+    $estadoAposFalhaSmtp = estadoNotificacoes($dbSmtp, $registroSmtp['id']);
+    conferirSmtp($estadoAposFalhaSmtp === ['estado' => 'pendente', 'total' => 2, 'aceitas' => 0, 'pendentes' => 2], 'falha SMTP não se torna confirmação de e-mail enviado');
+    conferirSmtp(!str_contains(json_encode($estadoAposFalhaSmtp, JSON_THROW_ON_ERROR), 'cliente@example.invalid') && !str_contains(json_encode($estadoAposFalhaSmtp, JSON_THROW_ON_ERROR), 'equipe@example.invalid'), 'estado agregado não divulga destinatários');
+    $primeiraNotificacaoSmtp = (int)$dbSmtp->query('SELECT MIN(id) FROM notificacoes')->fetchColumn();
+    $dbSmtp->prepare('UPDATE notificacoes SET enviada_em = ? WHERE id = ?')->execute(['2026-11-13T12:00:00Z', $primeiraNotificacaoSmtp]);
+    conferirSmtp(estadoNotificacoes($dbSmtp, $registroSmtp['id']) === ['estado' => 'pendente', 'total' => 2, 'aceitas' => 1, 'pendentes' => 1], 'aceitação parcial mantém aviso de pendência');
+    $dbSmtp->prepare('UPDATE notificacoes SET enviada_em = NULL WHERE id = ?')->execute([$primeiraNotificacaoSmtp]);
     $configRecuperacaoSmtp = $configSmtp;
     $configRecuperacaoSmtp['mail_transport'] = 'arquivo';
     $dbSmtp->exec('UPDATE notificacoes SET proxima_tentativa = 0 WHERE enviada_em IS NULL');
     conferirSmtp(notificar($dbSmtp, $configRecuperacaoSmtp, $registroSmtp['id']) === ['enviadas' => 2, 'falhas' => 0], 'fila recuperada com transporte local em arquivo');
     conferirSmtp((int)$dbSmtp->query('SELECT COUNT(*) FROM notificacoes WHERE enviada_em IS NOT NULL AND tentativas = 2')->fetchColumn() === 2, 'tentativas e sucesso registrados');
     conferirSmtp(count(glob($configSmtp['storage'] . '/emails/*.eml') ?: []) === 2, 'cliente e equipe receberam arquivos privados de teste');
+    conferirSmtp(estadoNotificacoes($dbSmtp, $registroSmtp['id']) === ['estado' => 'aceitas_pelo_transporte', 'total' => 2, 'aceitas' => 2, 'pendentes' => 0], 'recuperação confirma somente aceitação pelo transporte');
     conferirSmtp(notificar($dbSmtp, $configRecuperacaoSmtp, $registroSmtp['id']) === ['enviadas' => 0, 'falhas' => 0], 'mensagens concluídas não são repetidas');
 
     echo "OK: $verificacoesSmtp verificações de configuração, SSL/TLS, MIME, falha SMTP e recuperação de fila; sem envio externo.\n";
